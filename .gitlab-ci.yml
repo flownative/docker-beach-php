@@ -9,7 +9,10 @@ stages:
 before_script:
   - docker login -u _json_key -p "$CI_CONTAINER_REGISTRY_TOKEN" https://eu.gcr.io
 
-build70:
+variables:
+  DOCKER_HOST: 'tcp://localhost:2375'
+
+7-0-x:
   stage: build
   only:
     - '7-0'
