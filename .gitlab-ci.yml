@@ -1,0 +1,23 @@
+image: docker:git
+
+services:
+  - docker:dind
+
+stages:
+  - build
+
+before_script:
+  - docker login -u _json_key -p "$CI_CONTAINER_REGISTRY_TOKEN" https://eu.gcr.io
+
+build70:
+  stage: build
+  only:
+    - '7-0'
+  script:
+    - docker pull eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG} || true
+    - docker build -t eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID} .
+    - docker push eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID}
+    - docker tag eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID} eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
+    - docker push eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
+    - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID}
+    - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
