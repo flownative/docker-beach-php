@@ -6,7 +6,7 @@ RUN mkdir -p $PHP_INI_DIR/conf.d
 
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3 0BD78B5F97500D450838F95DFE857D9A90D90EC1
 
-ENV PHP_VERSION 7.0.15
+ENV PHP_VERSION 7.1.2
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 RUN buildDependencies=" \
@@ -89,17 +89,17 @@ RUN buildDependencies=" \
     "; \
     set -x \
     && apt-get update && apt-get install -y $buildDependencies --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-    && curl -SL "https://pecl.php.net/get/imagick-3.4.3RC1.tgz" -o imagick.tar.gz \
+    && curl -SL "https://pecl.php.net/get/imagick-3.4.3.tgz" -o imagick.tar.gz \
     && tar -xf imagick.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/imagick-3.4.3RC1 /usr/src/php/ext/imagick \
     && rm imagick.tar.gz \
-    && curl -SL "http://pecl.php.net/get/yaml-2.0.0RC8.tgz" -o yaml.tar.gz \
+    && curl -SL "http://pecl.php.net/get/yaml-2.0.0.tgz" -o yaml.tar.gz \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/yaml-2.0.0RC8 /usr/src/php/ext/yaml \
     && rm yaml.tar.gz \
-    && curl -SL "https://github.com/phpredis/phpredis/archive/3.0.0.tar.gz" -o phpredis.tar.gz \
+    && curl -SL "https://github.com/phpredis/phpredis/archive/3.1.1.tar.gz" -o phpredis.tar.gz \
     && tar -xf phpredis.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/phpredis-3.0.0 /usr/src/php/ext/phpredis \
+    && mv /usr/src/php/ext/phpredis-3.1.1 /usr/src/php/ext/phpredis \
     && rm phpredis.tar.gz \
     && docker-php-ext-install mcrypt \
     && docker-php-ext-install mbstring \
