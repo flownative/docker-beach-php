@@ -89,13 +89,13 @@ RUN buildDependencies=" \
     "; \
     set -x \
     && apt-get update && apt-get install -y $buildDependencies --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-    && curl -SL "https://pecl.php.net/get/imagick-3.4.3RC1.tgz" -o imagick.tar.gz \
+    && curl -SL "https://pecl.php.net/get/imagick-3.4.3.tgz" -o imagick.tar.gz \
     && tar -xf imagick.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/imagick-3.4.3RC1 /usr/src/php/ext/imagick \
+    && mv /usr/src/php/ext/imagick-3.4.3 /usr/src/php/ext/imagick \
     && rm imagick.tar.gz \
-    && curl -SL "http://pecl.php.net/get/yaml-2.0.0RC8.tgz" -o yaml.tar.gz \
+    && curl -SL "http://pecl.php.net/get/yaml-2.0.0.tgz" -o yaml.tar.gz \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/yaml-2.0.0RC8 /usr/src/php/ext/yaml \
+    && mv /usr/src/php/ext/yaml-2.0.0 /usr/src/php/ext/yaml \
     && rm yaml.tar.gz \
     && curl -SL "https://github.com/phpredis/phpredis/archive/3.0.0.tar.gz" -o phpredis.tar.gz \
     && tar -xf phpredis.tar.gz -C /usr/src/php/ext \
