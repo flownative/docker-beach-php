@@ -37,7 +37,7 @@ RUN buildDependencies=" \
         cmake \
     "; \
     set -x \
-    && apt-get update && apt-get install -y $buildDependencies --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+    && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
     && curl -SL "http://de1.php.net/get/php-$PHP_VERSION.tar.gz/from/this/mirror" -o php.tar.gz \
     && mkdir -p /usr/src/php \
     && tar -xf php.tar.gz -C /usr/src/php --strip-components=1 \
@@ -58,7 +58,7 @@ RUN buildDependencies=" \
     && make -j"$(nproc)" \
     && make install \
     && { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
-    && apt-get purge -y --auto-remove $buildDependencies \
+    && apt-get purge --yes --auto-remove $buildDependencies \
     && make clean
 
 COPY docker-php-ext-* /usr/local/bin/
@@ -74,7 +74,7 @@ RUN extensionDependencies=" \
         libcurl4-openssl-dev \
     "; \
     set -x \
-    && apt-get update && apt-get install -y $extensionDependencies --no-install-recommends && rm -rf /var/lib/apt/lists/*
+    && apt-get update && apt-get install --yes --no-install-recommends $extensionDependencies && rm -rf /var/lib/apt/lists/*
 
 RUN buildDependencies=" \
         build-essential \
@@ -88,7 +88,7 @@ RUN buildDependencies=" \
         libyaml-dev \
     "; \
     set -x \
-    && apt-get update && apt-get install -y $buildDependencies --no-install-recommends && rm -rf /var/lib/apt/lists/* \
+    && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
     && curl -SL "https://pecl.php.net/get/imagick-3.4.3.tgz" -o imagick.tar.gz \
     && tar -xf imagick.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/imagick-3.4.3 /usr/src/php/ext/imagick \
@@ -110,7 +110,7 @@ RUN buildDependencies=" \
     && docker-php-ext-install yaml \
     && docker-php-ext-configure phpredis \
     && docker-php-ext-install phpredis \
-    && apt-get purge -y --auto-remove $buildDependencies
+    && apt-get purge --yes --auto-remove $buildDependencies
 
 RUN mkdir -p /usr/local/etc/php \
     && chown -R www-data:www-data /usr/local/etc/php
