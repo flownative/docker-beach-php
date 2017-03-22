@@ -30,8 +30,7 @@ RUN buildDependencies=" \
         libfreetype6 \
         libfreetype6-dev \
         libreadline6-dev \
-        imagemagick \
-        libmagickwand-dev \
+        pkg-config \
         zlib1g-dev \
         libmysqlclient-dev \
         cmake \
