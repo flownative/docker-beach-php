@@ -68,6 +68,7 @@ RUN extensionDependencies=" \
         libfreetype6 \
         libjpeg-turbo8 \
         libmagickwand-6.q16-2 \
+        ghostscript \
         libsqlite3-0 \
         libyaml-0-2 \
         libcurl4-openssl-dev \
