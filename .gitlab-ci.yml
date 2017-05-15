@@ -24,6 +24,7 @@ variables:
     - docker push eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
     - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID}
     - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
+  when: manual
 
 7-1-x:
   stage: build
@@ -37,3 +38,4 @@ variables:
     - docker push eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
     - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID}
     - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
+  when: manual

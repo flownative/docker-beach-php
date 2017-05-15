@@ -57,8 +57,8 @@ RUN buildDependencies=" \
     && make -j"$(nproc)" \
     && make install \
     && { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
-    && apt-get purge --yes --auto-remove $buildDependencies \
-    && make clean
+    && make clean \
+    && apt-get purge --yes --auto-remove $buildDependencies
 
 COPY docker-php-ext-* /usr/local/bin/
 
