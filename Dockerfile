@@ -1,4 +1,4 @@
-FROM eu.gcr.io/flownative-beach/base:latest
+FROM eu.gcr.io/flownative-beach/base:0.9.22-1
 MAINTAINER Robert Lemke <robert@flownative.com>
 
 ENV PHP_INI_DIR /usr/local/etc/php
@@ -6,7 +6,7 @@ RUN mkdir -p $PHP_INI_DIR/conf.d
 
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3 0BD78B5F97500D450838F95DFE857D9A90D90EC1
 
-ENV PHP_VERSION 7.0.19
+ENV PHP_VERSION 7.0.20
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 RUN buildDependencies=" \
