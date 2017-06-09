@@ -11,31 +11,16 @@ before_script:
 
 variables:
   DOCKER_HOST: 'tcp://localhost:2375'
+  DOCKER_DRIVER: 'overlay'
 
 7-0-x:
   stage: build
   only:
     - '7-0'
-  script:
-    - docker pull eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG} || true
-    - docker build -t eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID} .
-    - docker push eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID}
-    - docker tag eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID} eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
-    - docker push eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
-    - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID}
-    - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
-  when: manual
-
-7-1-x:
-  stage: build
-  only:
     - '7-1'
+    - tags
   script:
-    - docker pull eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG} || true
-    - docker build -t eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID} .
-    - docker push eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID}
-    - docker tag eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID} eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
-    - docker push eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
-    - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}-${CI_BUILD_ID}
-    - docker rmi eu.gcr.io/flownative-beach/php:${CI_BUILD_REF_SLUG}
-  when: manual
+    - docker build -t eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG} .
+    - docker push eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG}
+    - docker push eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG}
+    - docker rmi eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG}
