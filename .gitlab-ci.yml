@@ -13,11 +13,9 @@ variables:
   DOCKER_HOST: 'tcp://localhost:2375'
   DOCKER_DRIVER: 'overlay'
 
-7-0-x:
+build-tagged:
   stage: build
   only:
-    - '7-0'
-    - '7-1'
     - tags
   script:
     - docker build -t eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG} .
