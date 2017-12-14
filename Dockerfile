@@ -6,7 +6,7 @@ RUN mkdir -p $PHP_INI_DIR/conf.d
 
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3 0BD78B5F97500D450838F95DFE857D9A90D90EC1
 
-ENV PHP_VERSION 7.1.11
+ENV PHP_VERSION 7.2.0
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 RUN buildDependencies=" \
@@ -63,7 +63,6 @@ RUN buildDependencies=" \
 COPY docker-php-ext-* /usr/local/bin/
 
 RUN extensionDependencies=" \
-        libmcrypt4 \
         libpng12-0 \
         libfreetype6 \
         libjpeg-turbo8 \
@@ -79,7 +78,6 @@ RUN extensionDependencies=" \
 RUN buildDependencies=" \
         build-essential \
         autoconf \
-        libmcrypt-dev \
         libpng12-dev \
         libfreetype6-dev \
         libjpeg-turbo8-dev \
@@ -101,11 +99,10 @@ RUN buildDependencies=" \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/yaml-2.0.2 /usr/src/php/ext/yaml \
     && rm yaml.tar.gz \
-    && curl -SL "https://github.com/phpredis/phpredis/archive/3.1.3.tar.gz" -o phpredis.tar.gz \
+    && curl -SL "https://github.com/phpredis/phpredis/archive/3.1.4.tar.gz" -o phpredis.tar.gz \
     && tar -xf phpredis.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/phpredis-3.1.3 /usr/src/php/ext/phpredis \
+    && mv /usr/src/php/ext/phpredis-3.1.4 /usr/src/php/ext/phpredis \
     && rm phpredis.tar.gz \
-    && docker-php-ext-install mcrypt \
     && docker-php-ext-install mbstring \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
