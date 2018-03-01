@@ -47,6 +47,7 @@ RUN buildDependencies=" \
         --with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
         $PHP_EXTRA_CONFIGURE_ARGS \
         --disable-cgi \
+        --enable-intl \
         --with-mysqli \
         --with-pdo-mysql \
         --with-curl \
@@ -95,15 +96,15 @@ RUN buildDependencies=" \
     && rm imagick.tar.gz \
     && curl -SL "https://pecl.php.net/get/zip-1.15.1.tgz" -o zip.tar.gz \
     && tar -xf zip.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/zip-1.15.1 /usr/src/php/ext/zip \
+    && mv /usr/src/php/ext/zip-1.15.2 /usr/src/php/ext/zip \
     && rm zip.tar.gz \
     && curl -SL "http://pecl.php.net/get/yaml-2.0.2.tgz" -o yaml.tar.gz \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/yaml-2.0.2 /usr/src/php/ext/yaml \
     && rm yaml.tar.gz \
-    && curl -SL "https://github.com/phpredis/phpredis/archive/3.1.3.tar.gz" -o phpredis.tar.gz \
+    && curl -SL "https://github.com/phpredis/phpredis/archive/3.1.6.tar.gz" -o phpredis.tar.gz \
     && tar -xf phpredis.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/phpredis-3.1.3 /usr/src/php/ext/phpredis \
+    && mv /usr/src/php/ext/phpredis-3.1.6 /usr/src/php/ext/phpredis \
     && rm phpredis.tar.gz \
     && docker-php-ext-install mcrypt \
     && docker-php-ext-install mbstring \
