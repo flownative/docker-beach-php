@@ -4,7 +4,8 @@ MAINTAINER Robert Lemke <robert@flownative.com>
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3 0BD78B5F97500D450838F95DFE857D9A90D90EC1
+# https://secure.php.net/gpg-keys.php#gpg-7.2
+RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 1729F83938DA44E27BA0F4D3DBDB397470D12172 B1B44D8F021E4E2D6021E995DC9FF8D3EE5AF27F
 
 ENV PHP_VERSION 7.2.5
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
