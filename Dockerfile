@@ -70,7 +70,9 @@ RUN extensionDependencies=" \
         libpng12-0 \
         libfreetype6 \
         libjpeg-turbo8 \
+        libtiff5 \
         libmagickwand-6.q16-2 \
+        libvips42 \
         ghostscript \
         libsqlite3-0 \
         libyaml-0-2 \
@@ -86,12 +88,21 @@ RUN buildDependencies=" \
         libpng12-dev \
         libfreetype6-dev \
         libjpeg-turbo8-dev \
+        libtiff5-dev \
+        libgsf-1-dev \
+        glib2.0-dev \
+        libexpat1-dev \
+        libvips-dev \
         libmagickwand-dev \
         libsqlite3-dev \
         libyaml-dev \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
+    && curl -SL "https://github.com/jcupitt/php-vips-ext/raw/master/vips-1.0.8.tgz" -o vips.tar.gz \
+    && tar -xf vips.tar.gz -C /usr/src/php/ext \
+    && mv /usr/src/php/ext/vips-1.0.8 /usr/src/php/ext/vips \
+    && rm vips.tar.gz \
     && curl -SL "https://pecl.php.net/get/imagick-3.4.3.tgz" -o imagick.tar.gz \
     && tar -xf imagick.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/imagick-3.4.3 /usr/src/php/ext/imagick \
@@ -112,6 +123,8 @@ RUN buildDependencies=" \
     && docker-php-ext-install mbstring \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install gd \
+    && docker-php-ext-configure vips \
+    && docker-php-ext-install vips \
     && docker-php-ext-configure imagick --with-quantum-depth=8 \
     && docker-php-ext-install imagick \
     && docker-php-ext-install zip \
