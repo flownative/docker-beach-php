@@ -12,13 +12,22 @@ before_script:
 variables:
   DOCKER_HOST: 'tcp://localhost:2375'
   DOCKER_DRIVER: 'overlay'
+  DOCKER_IMAGE_NAME: 'php'
 
 build-tagged:
   stage: build
   only:
     - tags
   script:
-    - docker build -t eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG} .
-    - docker push eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG}
-    - docker push eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG}
-    - docker rmi eu.gcr.io/flownative-beach/php:${CI_COMMIT_TAG}
+    - export MAJOR="$(echo $CI_COMMIT_TAG | cut -d'.' -f1)"
+    - export MINOR="$(echo $CI_COMMIT_TAG | cut -d'.' -f2)"
+
+    - docker build -t eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:build-${CI_JOB_ID} .
+    - docker push eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:build-${CI_JOB_ID}
+
+    - docker tag eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:build-${CI_JOB_ID} eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:${CI_COMMIT_TAG}
+    - docker push eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:${CI_COMMIT_TAG}
+    - docker tag eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:build-${CI_JOB_ID} eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:${MAJOR}
+    - docker push eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:${MAJOR}
+    - docker tag eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:build-${CI_JOB_ID} eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:${MAJOR}.${MINOR}
+    - docker push eu.gcr.io/flownative-beach/${DOCKER_IMAGE_NAME}:${MAJOR}.${MINOR}
