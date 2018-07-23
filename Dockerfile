@@ -9,7 +9,7 @@ RUN gpg --keyserver pool.sks-keyservers.net --recv-keys A917B1ECDA84AEC2B568FED6
  && gpg --keyserver pool.sks-keyservers.net --recv-keys 528995BFEDFBA7191D46839EF9BA0ADA31CBD89E \
  && gpg --keyserver pool.sks-keyservers.net --recv-keys 1729F83938DA44E27BA0F4D3DBDB397470D12172
 
-ENV PHP_VERSION 7.1.17
+ENV PHP_VERSION 7.1.20
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 RUN buildDependencies=" \
