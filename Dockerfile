@@ -1,4 +1,4 @@
-FROM eu.gcr.io/flownative-beach/base:0.10.1-1
+FROM eu.gcr.io/flownative-beach/base:0.10.2-1
 MAINTAINER Robert Lemke <robert@flownative.com>
 
 ENV PHP_INI_DIR /usr/local/etc/php
