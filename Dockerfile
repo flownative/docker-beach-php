@@ -8,7 +8,7 @@ RUN mkdir -p $PHP_INI_DIR/conf.d
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3 \
  && gpg --keyserver pool.sks-keyservers.net --recv-keys 0BD78B5F97500D450838F95DFE857D9A90D90EC1
 
-ENV PHP_VERSION 7.0.31
+ENV PHP_VERSION 7.0.32
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 RUN buildDependencies=" \
@@ -57,6 +57,7 @@ RUN buildDependencies=" \
         --with-readline \
         --with-zlib \
         --enable-pcntl \
+        --enable-calendar \
     && make -j"$(nproc)" \
     && make install \
     && { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
