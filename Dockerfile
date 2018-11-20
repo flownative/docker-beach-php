@@ -1,4 +1,4 @@
-FROM eu.gcr.io/flownative-beach/base:0.10.2-1
+FROM eu.gcr.io/flownative-beach/base:0.11.0-1
 MAINTAINER Robert Lemke <robert@flownative.com>
 
 ENV PHP_INI_DIR /usr/local/etc/php
@@ -21,7 +21,6 @@ RUN buildDependencies=" \
         libmcrypt-dev \
         libcurl4-openssl-dev \
         libltdl-dev \
-        libpng12-dev \
         libpspell-dev \
         libreadline-dev \
         libicu-dev \
