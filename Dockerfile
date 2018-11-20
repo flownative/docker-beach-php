@@ -1,4 +1,4 @@
-FROM eu.gcr.io/flownative-beach/base:0.10.2-1
+FROM eu.gcr.io/flownative-beach/base:0.11.0-1
 MAINTAINER Robert Lemke <robert@flownative.com>
 
 ENV PHP_INI_DIR /usr/local/etc/php
@@ -21,7 +21,6 @@ RUN buildDependencies=" \
         libmcrypt-dev \
         libcurl4-openssl-dev \
         libltdl-dev \
-        libpng12-dev \
         libpspell-dev \
         libreadline-dev \
         libicu-dev \
@@ -68,11 +67,11 @@ COPY docker-php-ext-* /usr/local/bin/
 
 RUN extensionDependencies=" \
         libmcrypt4 \
-        libpng12-0 \
+        libpng16-16 \
         libfreetype6 \
         libjpeg-turbo8 \
         libtiff5 \
-        libmagickwand-6.q16-2 \
+        libmagickwand-6.q16-3 \
         libvips42 \
         ghostscript \
         libsqlite3-0 \
@@ -86,7 +85,7 @@ RUN buildDependencies=" \
         build-essential \
         autoconf \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
         libfreetype6-dev \
         libjpeg-turbo8-dev \
         libtiff5-dev \
