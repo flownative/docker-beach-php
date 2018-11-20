@@ -62,11 +62,11 @@ RUN buildDependencies=" \
 COPY docker-php-ext-* /usr/local/bin/
 
 RUN extensionDependencies=" \
-        libpng16-6 \
+        libpng16-16 \
         libfreetype6 \
         libjpeg-turbo8 \
         libtiff5 \
-        libmagickwand-6.q16-2 \
+        libmagickwand-6.q16-3 \
         libvips42 \
         ghostscript \
         libsqlite3-0 \
