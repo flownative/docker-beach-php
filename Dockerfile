@@ -34,7 +34,7 @@ RUN buildDependencies=" \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
-    && curl -SL "https://php.net/get/php-$PHP_VERSION.tar.gz/from/this/mirror" -o php.tar.gz \
+    && curl -SL "https://downloads.php.net/~cmb/php-$PHP_VERSION.tar.gz" -o php.tar.gz \
     && mkdir -p /usr/src/php \
     && tar -xf php.tar.gz -C /usr/src/php --strip-components=1 \
     && rm php.tar.gz* \
