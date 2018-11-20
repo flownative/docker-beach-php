@@ -62,7 +62,7 @@ RUN buildDependencies=" \
 COPY docker-php-ext-* /usr/local/bin/
 
 RUN extensionDependencies=" \
-        libpng12-0 \
+        libpng16-6 \
         libfreetype6 \
         libjpeg-turbo8 \
         libtiff5 \
@@ -79,7 +79,7 @@ RUN extensionDependencies=" \
 RUN buildDependencies=" \
         build-essential \
         autoconf \
-        libpng12-dev \
+        libpng-dev \
         libfreetype6-dev \
         libjpeg-turbo8-dev \
         libtiff5-dev \
