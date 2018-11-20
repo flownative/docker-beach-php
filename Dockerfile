@@ -72,6 +72,7 @@ RUN extensionDependencies=" \
         libsqlite3-0 \
         libyaml-0-2 \
         libcurl4-openssl-dev \
+        libzip-dev \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $extensionDependencies && rm -rf /var/lib/apt/lists/*
@@ -105,9 +106,9 @@ RUN buildDependencies=" \
     && tar -xf zip.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/zip-1.15.1 /usr/src/php/ext/zip \
     && rm zip.tar.gz \
-    && curl -SL "http://pecl.php.net/get/yaml-2.0.2.tgz" -o yaml.tar.gz \
+    && curl -SL "http://pecl.php.net/get/yaml-2.0.3.tgz" -o yaml.tar.gz \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/yaml-2.0.2 /usr/src/php/ext/yaml \
+    && mv /usr/src/php/ext/yaml-2.0.3 /usr/src/php/ext/yaml \
     && rm yaml.tar.gz \
     && curl -SL "https://github.com/phpredis/phpredis/archive/3.1.6.tar.gz" -o phpredis.tar.gz \
     && tar -xf phpredis.tar.gz -C /usr/src/php/ext \
