@@ -17,7 +17,7 @@ before_script:
 - docker login -u _json_key -p "${CI_GOOGLE_CONTAINER_REGISTRY_TOKEN}" https://${CI_GOOGLE_CONTAINER_REGISTRY_HOST}
 - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
-build-master:
+build:
   stage: build
   except:
   - tags
