@@ -4,7 +4,7 @@ MAINTAINER Robert Lemke <robert@flownative.com>
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-ENV PHP_VERSION 7.3.0RC5
+ENV PHP_VERSION 7.3.0RC6
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 RUN buildDependencies=" \
