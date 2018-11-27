@@ -1,1 +1,3 @@
-include: https://gitlab.com/flownative/operations/build-tools/raw/master/gitlab-ci/docker.gitlab-ci.yml
+include:
+- https://gitlab.com/flownative/operations/build-tools/raw/master/gitlab-ci/docker.gitlab-ci.yml
+- https://gitlab.com/flownative/operations/build-tools/raw/master/gitlab-ci/docker.release-google.gitlab-ci.yml
