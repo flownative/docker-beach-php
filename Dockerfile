@@ -1,4 +1,4 @@
-FROM eu.gcr.io/flownative-beach/base:0.11.0-1
+FROM registry.gitlab.com/flownative/docker/base:1
 MAINTAINER Robert Lemke <robert@flownative.com>
 
 ENV PHP_INI_DIR /usr/local/etc/php
