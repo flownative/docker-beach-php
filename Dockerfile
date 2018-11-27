@@ -5,8 +5,8 @@ ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
 # https://secure.php.net/gpg-keys.php#gpg-7.0
-RUN gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys 1A4E8B7277C42E53DBA9C7B9BCAA30EA9C0D5763 \
- && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3
+#RUN gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys 1A4E8B7277C42E53DBA9C7B9BCAA30EA9C0D5763 \
+# && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3
 
 ENV PHP_VERSION 7.0.32
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
