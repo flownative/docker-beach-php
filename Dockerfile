@@ -134,7 +134,8 @@ RUN buildDependencies=" \
     && apt-get purge --yes --auto-remove $buildDependencies
 
 RUN mkdir -p /usr/local/etc/php \
-    && chown -R www-data:www-data /usr/local/etc/php
+    && chown -R www-data:www-data /usr/local/etc/php \
+    && ln -s /usr/local/bin/php /usr/bin/php
 
 COPY php.ini /usr/local/etc/php/php.ini
 
