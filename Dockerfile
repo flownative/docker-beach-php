@@ -143,4 +143,6 @@ RUN mkdir -p /home/beach \
 COPY ready.sh /ready.sh
 RUN chmod u=rwx /ready.sh
 
+COPY ImageMagick/policy.xml /etc/ImageMagick-6/policy.xml
+
 CMD ["/sbin/my_init"]
