@@ -4,8 +4,12 @@ MAINTAINER Robert Lemke <robert@flownative.com>
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-ENV PHP_VERSION 7.3.6
+ENV PHP_VERSION 7.4.0alpha1
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
+
+#ENV PHP_DOWNLOAD_BASE_URL https://www.php.net/distributions/
+# only for alpha phase
+ENV PHP_DOWNLOAD_BASE_URL https://downloads.php.net/~derick/
 
 RUN buildDependencies=" \
         build-essential \
@@ -31,10 +35,11 @@ RUN buildDependencies=" \
         zlib1g-dev \
         libmysqlclient-dev \
         cmake \
+        libsqlite3-dev \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
-    && curl -SL "https://www.php.net/distributions/php-$PHP_VERSION.tar.gz" -o php.tar.gz \
+    && curl -SL "${PHP_DOWNLOAD_BASE_URL}php-${PHP_VERSION}.tar.gz" -o php.tar.gz \
     && mkdir -p /usr/src/php \
     && tar -xf php.tar.gz -C /usr/src/php --strip-components=1 \
     && rm php.tar.gz* \
@@ -76,6 +81,7 @@ RUN extensionDependencies=" \
         libcurl4-openssl-dev \
         libzip-dev \
         libgmp10 \
+        libonig4 \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $extensionDependencies && rm -rf /var/lib/apt/lists/*
@@ -95,6 +101,7 @@ RUN buildDependencies=" \
         libsqlite3-dev \
         libyaml-dev \
         libgmp-dev \
+        libonig-dev \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
