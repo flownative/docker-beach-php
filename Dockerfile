@@ -75,6 +75,7 @@ RUN extensionDependencies=" \
         libsqlite3-0 \
         libyaml-0-2 \
         libcurl4-openssl-dev \
+        libgmp10 \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $extensionDependencies && rm -rf /var/lib/apt/lists/*
@@ -94,6 +95,7 @@ RUN buildDependencies=" \
         libmagickwand-dev \
         libsqlite3-dev \
         libyaml-dev \
+        libgmp-dev \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
@@ -127,6 +129,7 @@ RUN buildDependencies=" \
     && docker-php-ext-install imagick \
     && docker-php-ext-install zip \
     && docker-php-ext-install yaml \
+    && docker-php-ext-install gmp \
     && docker-php-ext-configure phpredis \
     && docker-php-ext-install phpredis \
     && apt-get purge --yes --auto-remove $buildDependencies
