@@ -99,9 +99,9 @@ RUN buildDependencies=" \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
-    && curl -SL "https://github.com/jcupitt/php-vips-ext/raw/master/vips-1.0.8.tgz" -o vips.tar.gz \
+    && curl -SL "https://github.com/jcupitt/php-vips-ext/raw/master/vips-1.0.9.tgz" -o vips.tar.gz \
     && tar -xf vips.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/vips-1.0.8 /usr/src/php/ext/vips \
+    && mv /usr/src/php/ext/vips-1.0.9 /usr/src/php/ext/vips \
     && rm vips.tar.gz \
     && curl -SL "https://pecl.php.net/get/imagick-3.4.3.tgz" -o imagick.tar.gz \
     && tar -xf imagick.tar.gz -C /usr/src/php/ext \
