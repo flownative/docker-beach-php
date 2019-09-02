@@ -1,5 +1,5 @@
 FROM registry.gitlab.com/flownative/docker/base:1
-MAINTAINER Robert Lemke <robert@flownative.com>
+LABEL maintainer="Robert Lemke <robert@flownative.com>"
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
