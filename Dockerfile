@@ -1,5 +1,5 @@
 FROM registry.gitlab.com/flownative/docker/base:1
-MAINTAINER Robert Lemke <robert@flownative.com>
+LABEL maintainer="Robert Lemke <robert@flownative.com>"
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
@@ -110,17 +110,17 @@ RUN buildDependencies=" \
     && tar -xf vips.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/vips-1.0.9 /usr/src/php/ext/vips \
     && rm vips.tar.gz \
-    && curl -SL "https://pecl.php.net/get/imagick-3.4.3.tgz" -o imagick.tar.gz \
+    && curl -SL "https://pecl.php.net/get/imagick-3.4.4.tgz" -o imagick.tar.gz \
     && tar -xf imagick.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/imagick-3.4.3 /usr/src/php/ext/imagick \
+    && mv /usr/src/php/ext/imagick-3.4.4 /usr/src/php/ext/imagick \
     && rm imagick.tar.gz \
-    && curl -SL "https://pecl.php.net/get/zip-1.15.1.tgz" -o zip.tar.gz \
+    && curl -SL "https://pecl.php.net/get/zip-1.15.4.tgz" -o zip.tar.gz \
     && tar -xf zip.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/zip-1.15.1 /usr/src/php/ext/zip \
+    && mv /usr/src/php/ext/zip-1.15.4 /usr/src/php/ext/zip \
     && rm zip.tar.gz \
-    && curl -SL "http://pecl.php.net/get/yaml-2.0.3.tgz" -o yaml.tar.gz \
+    && curl -SL "http://pecl.php.net/get/yaml-2.0.4.tgz" -o yaml.tar.gz \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/yaml-2.0.3 /usr/src/php/ext/yaml \
+    && mv /usr/src/php/ext/yaml-2.0.4 /usr/src/php/ext/yaml \
     && rm yaml.tar.gz \
     && curl -SL "https://github.com/phpredis/phpredis/archive/3.1.6.tar.gz" -o phpredis.tar.gz \
     && tar -xf phpredis.tar.gz -C /usr/src/php/ext \
