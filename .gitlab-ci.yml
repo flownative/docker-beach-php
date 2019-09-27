@@ -1,3 +1,11 @@
 include:
-- https://gitlab.com/flownative/operations/build-tools/raw/master/gitlab-ci/docker.gitlab-ci.yml
-- https://gitlab.com/flownative/operations/build-tools/raw/master/gitlab-ci/docker.release-google.gitlab-ci.yml
+  - project: 'flownative/infrastructure/build-tools'
+    file: '/gitlab-ci/docker.base.yaml'
+  - project: 'flownative/infrastructure/build-tools'
+    file: '/gitlab-ci/docker.build.yaml'
+  - project: 'flownative/infrastructure/build-tools'
+    file: '/gitlab-ci/docker.scan.yaml'
+  - project: 'flownative/infrastructure/build-tools'
+    file: '/gitlab-ci/docker.release.yaml'
+  - project: 'flownative/infrastructure/build-tools'
+    file: '/gitlab-ci/docker.release-google.yaml'
