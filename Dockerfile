@@ -8,7 +8,7 @@ RUN mkdir -p $PHP_INI_DIR/conf.d
 #RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B1B44D8F021E4E2D6021E995DC9FF8D3EE5AF27F \
 # && gpg --keyserver pool.sks-keyservers.net --recv-keys 1729F83938DA44E27BA0F4D3DBDB397470D12172
 
-ENV PHP_VERSION 7.2.22
+ENV PHP_VERSION 7.2.23
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 RUN buildDependencies=" \
