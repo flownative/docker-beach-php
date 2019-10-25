@@ -102,17 +102,17 @@ RUN buildDependencies=" \
     "; \
     set -x \
     && apt-get update && apt-get install --yes --no-install-recommends $buildDependencies && rm -rf /var/lib/apt/lists/* \
-    && curl -SL "https://github.com/jcupitt/php-vips-ext/raw/master/vips-1.0.9.tgz" -o vips.tar.gz \
+    && curl -SL "https://github.com/jcupitt/php-vips-ext/raw/master/vips-1.0.10.tgz" -o vips.tar.gz \
     && tar -xf vips.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/vips-1.0.9 /usr/src/php/ext/vips \
+    && mv /usr/src/php/ext/vips-1.0.10 /usr/src/php/ext/vips \
     && rm vips.tar.gz \
     && curl -SL "https://pecl.php.net/get/imagick-3.4.4.tgz" -o imagick.tar.gz \
     && tar -xf imagick.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/imagick-3.4.4 /usr/src/php/ext/imagick \
     && rm imagick.tar.gz \
-    && curl -SL "https://pecl.php.net/get/zip-1.15.4.tgz" -o zip.tar.gz \
+    && curl -SL "https://pecl.php.net/get/zip-1.15.5.tgz" -o zip.tar.gz \
     && tar -xf zip.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/zip-1.15.4 /usr/src/php/ext/zip \
+    && mv /usr/src/php/ext/zip-1.15.5 /usr/src/php/ext/zip \
     && rm zip.tar.gz \
     && curl -SL "http://pecl.php.net/get/yaml-2.0.4.tgz" -o yaml.tar.gz \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
