@@ -108,9 +108,9 @@ RUN buildDependencies=" \
     && tar -xf imagick.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/imagick-3.4.4 /usr/src/php/ext/imagick \
     && rm imagick.tar.gz \
-    && curl -SL "https://pecl.php.net/get/zip-1.15.4.tgz" -o zip.tar.gz \
+    && curl -SL "https://pecl.php.net/get/zip-1.15.5.tgz" -o zip.tar.gz \
     && tar -xf zip.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/zip-1.15.4 /usr/src/php/ext/zip \
+    && mv /usr/src/php/ext/zip-1.15.5 /usr/src/php/ext/zip \
     && rm zip.tar.gz \
     && curl -SL "http://pecl.php.net/get/yaml-2.0.4.tgz" -o yaml.tar.gz \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
