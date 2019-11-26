@@ -115,9 +115,9 @@ RUN buildDependencies=" \
     && tar -xf yaml.tar.gz -C /usr/src/php/ext \
     && mv /usr/src/php/ext/yaml-2.0.4 /usr/src/php/ext/yaml \
     && rm yaml.tar.gz \
-    && curl -SL "https://github.com/phpredis/phpredis/archive/5.0.2.tar.gz" -o phpredis.tar.gz \
+    && curl -SL "https://github.com/phpredis/phpredis/archive/5.1.1.tar.gz" -o phpredis.tar.gz \
     && tar -xf phpredis.tar.gz -C /usr/src/php/ext \
-    && mv /usr/src/php/ext/phpredis-5.0.2 /usr/src/php/ext/phpredis \
+    && mv /usr/src/php/ext/phpredis-5.1.1 /usr/src/php/ext/phpredis \
     && rm phpredis.tar.gz \
     && docker-php-ext-install mbstring \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
