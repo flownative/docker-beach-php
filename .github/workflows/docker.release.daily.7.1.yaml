@@ -4,13 +4,69 @@ on:
     - cron: '30 0,12 * * *'
 
 jobs:
-  build:
+  release-daily-7.1:
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@v2
         with:
           ref: '7-1'
+          fetch-depth: 100
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Build Docker image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          image_name: flownative/docker-beach-php/beach-php
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
+
+  release-daily-7.2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '7-2'
+          fetch-depth: 100
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Build Docker image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          image_name: flownative/docker-beach-php/beach-php
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
+
+  release-daily-7.3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '7-3'
+          fetch-depth: 100
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Build Docker image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          image_name: flownative/docker-beach-php/beach-php
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
+
+  release-daily-7.4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '7-4'
           fetch-depth: 100
 
       - name: Determine latest released version
