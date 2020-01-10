@@ -1,0 +1,20 @@
+name: Build and release Docker images
+on:
+  push:
+    branches-ignore:
+      - '**'
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Docker image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ github.ref }}
+          image_name: flownative/docker-beach-php/beach-php
+          registry_password: ${{ secrets.GITHUB_TOKEN }}

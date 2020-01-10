@@ -1,0 +1,25 @@
+name: Automatic rebuild of latest release
+on:
+  schedule:
+    - cron: '30 0,12 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          ref: '7-1'
+          fetch-depth: 100
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Build Docker image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          image_name: flownative/docker-beach-php/beach-php
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
