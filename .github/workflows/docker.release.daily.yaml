@@ -1,4 +1,4 @@
-name: Automatic rebuild of latest release
+name: Daily Releases
 on:
   schedule:
     - cron: '30 0,12 * * *'

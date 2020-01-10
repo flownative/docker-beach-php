@@ -1,4 +1,4 @@
-name: Build and release Docker images
+name: Build Docker Image
 on:
   push:
     branches-ignore:
