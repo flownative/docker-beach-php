@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: '7-1'
+          ref: '7.1'
           fetch-depth: 100
 
       - name: Determine latest released version
@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: '7-2'
+          ref: '7.2'
           fetch-depth: 100
 
       - name: Determine latest released version
@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: '7-3'
+          ref: '7.3'
           fetch-depth: 100
 
       - name: Determine latest released version
@@ -66,7 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: '7-4'
+          ref: '7.4'
           fetch-depth: 100
 
       - name: Determine latest released version
