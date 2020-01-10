@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/flownative/docker/base:1
+FROM flownative/base:1
 LABEL maintainer="Robert Lemke <robert@flownative.com>"
 
 ENV PHP_INI_DIR /usr/local/etc/php
