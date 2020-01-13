@@ -4,7 +4,7 @@ on:
     - cron: '30 0,12 * * *'
 
 jobs:
-  release-daily-7.1:
+  release-daily-7_1:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,7 +23,7 @@ jobs:
           image_name: flownative/docker-beach-php/beach-php
           registry_password: ${{ secrets.GITHUB_TOKEN }}
 
-  release-daily-7.2:
+  release-daily-7_2:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
           image_name: flownative/docker-beach-php/beach-php
           registry_password: ${{ secrets.GITHUB_TOKEN }}
 
-  release-daily-7.3:
+  release-daily-7_3:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -61,7 +61,7 @@ jobs:
           image_name: flownative/docker-beach-php/beach-php
           registry_password: ${{ secrets.GITHUB_TOKEN }}
 
-  release-daily-7.4:
+  release-daily-7_4:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
