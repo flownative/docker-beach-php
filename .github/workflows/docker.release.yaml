@@ -29,7 +29,7 @@ jobs:
         uses: flownative/action-docker-publish-semver@master
         with:
           tag_ref: ${{ steps.latest_version.outputs.tag }}
-          tag_latest: 'no'
+          tag_latest: 'yes'
 
           source_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           source_registry_username: github
