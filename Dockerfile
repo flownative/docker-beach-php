@@ -2,7 +2,7 @@ FROM docker.pkg.github.com/flownative/docker-base/base:1
 LABEL maintainer="Robert Lemke <robert@flownative.com>"
 
 LABEL org.label-schema.name="Beach PHP"
-LABEL org.label-schema.description="Docker image providingPHP for Beach instances"
+LABEL org.label-schema.description="Docker image providing PHP for Beach instances"
 LABEL org.label-schema.vendor="Flownative GmbH"
 
 ENV PHP_INI_DIR /usr/local/etc/php
