@@ -13,8 +13,30 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build Docker image
-        uses: flownative/action-docker-build@v1
+        uses: flownative/action-docker-build@master
         with:
           tag_ref: ${{ github.ref }}
+          git_repository_url: https://github.com/${{ github.repository }}
+          git_sha: ${{ github.sha }}
           image_name: flownative/docker-beach-php/beach-php
-          registry_password: ${{ secrets.GITHUB_TOKEN }}
+          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Tag semver releases
+        uses: flownative/action-docker-publish-semver@master
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          tag_latest: 'no'
+
+          source_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
+          source_registry_username: github
+          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_endpoint: https://docker.pkg.github.com/v2/
+
+          target_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
+          target_registry_username: github
+          target_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          target_registry_endpoint: https://docker.pkg.github.com/v2/
