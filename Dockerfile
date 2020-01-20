@@ -1,5 +1,9 @@
-FROM flownative/base:1
+FROM docker.pkg.github.com/flownative/docker-base/base:1
 LABEL maintainer="Robert Lemke <robert@flownative.com>"
+
+LABEL com.flownative.name="Beach PHP"
+LABEL com.flownative.description="Docker image providingPHP for Beach instances"
+LABEL com.flownative.vendor="Flownative GmbH"
 
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
