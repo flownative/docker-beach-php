@@ -8,7 +8,7 @@ LABEL org.label-schema.vendor="Flownative GmbH"
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-ENV PHP_VERSION 7.4.1
+ENV PHP_VERSION 7.4.2
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 ENV PHP_DOWNLOAD_BASE_URL https://www.php.net/distributions/
