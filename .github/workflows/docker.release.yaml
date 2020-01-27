@@ -1,42 +1,60 @@
-name: Build Docker Image
+name: Release to Docker Registries
 on:
-  push:
-    branches-ignore:
-      - '**'
-    tags:
-      - 'v*.*.*'
+  repository_dispatch:
+    types: [image-built]
 
 jobs:
-  build:
+  release-github:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Build Docker image
-        uses: flownative/action-docker-build@master
-        with:
-          tag_ref: ${{ github.ref }}
-          git_repository_url: https://github.com/${{ github.repository }}
-          git_sha: ${{ github.sha }}
-          image_name: flownative/docker-beach-php/beach-php
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
-
-      - name: Determine latest released version
-        id: latest_version
-        uses: flownative/action-git-latest-release@master
-
       - name: Tag semver releases
-        uses: flownative/action-docker-publish-semver@master
+        uses: flownative/action-docker-publish-semver@v1
         with:
-          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          tag_ref: ${{ github.event.client_payload.image_tag }}
           tag_latest: 'no'
 
-          source_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
+          source_image_name: ${{ github.event.client_payload.image_name }}
           source_registry_username: github
           source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
-          target_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
+          target_image_name: ${{ github.event.client_payload.image_name }}
           target_registry_username: github
-          target_registry_password: ${{ secrets.GITHUB_TOKEN }}
+          target_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
           target_registry_endpoint: https://docker.pkg.github.com/v2/
+
+  release-google:
+    runs-on: ubuntu-latest
+    needs: release-github
+    steps:
+      - name: Publish release to gcr.io (beach-core)
+        uses: flownative/action-docker-publish-semver@v1
+        with:
+          tag_ref: ${{ github.event.client_payload.image_tag }}
+          tag_latest: 'no'
+
+          source_image_name: ${{ github.event.client_payload.image_name }}
+          source_registry_username: github
+          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_endpoint: https://docker.pkg.github.com/v2/
+
+          target_image_name: eu.gcr.io/flownative-beach/beach-php
+          target_registry_username: '_json_key'
+          target_registry_password: ${{ secrets.GOOGLE_REGISTRY_PASSWORD }}
+          target_registry_endpoint: https://eu.gcr.io/v2/
+
+      - name: Publish release to gcr.io (beach-a7c8b2)
+        uses: flownative/action-docker-publish-semver@v1
+        with:
+          tag_ref: ${{ github.event.client_payload.image_tag }}
+          tag_latest: 'no'
+
+          source_image_name: ${{ github.event.client_payload.image_name }}
+          source_registry_username: github
+          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_endpoint: https://docker.pkg.github.com/v2/
+
+          target_image_name: eu.gcr.io/flownative-beach-a7c8b2/beach-php
+          target_registry_username: '_json_key'
+          target_registry_password: ${{ secrets.GOOGLE_REGISTRY_PASSWORD_A7C8B2 }}
+          target_registry_endpoint: https://eu.gcr.io/v2/
