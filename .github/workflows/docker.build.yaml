@@ -1,0 +1,30 @@
+name: Build Docker Image
+on:
+  push:
+    branches-ignore:
+      - '**'
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Docker image
+        id: build_image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ github.ref }}
+          git_repository_url: https://github.com/${{ github.repository }}
+          git_sha: ${{ github.sha }}
+          image_name: flownative/docker-beach-php/beach-php
+          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+
+      - name: Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          event-type: image-built
+          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}"}'

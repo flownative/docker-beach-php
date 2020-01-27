@@ -1,0 +1,121 @@
+name: Nightly Builds
+on:
+  schedule:
+    - cron: '30 0 * * *'
+
+jobs:
+  build-7_1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '7.1'
+          fetch-depth: 100
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Build Docker image
+        id: build_image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          image_name: flownative/docker-beach-php/beach-php
+          git_repository_url: https://github.com/${{ github.repository }}
+          git_sha: ${{ github.sha }}
+          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+
+      - name: Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          event-type: image-built
+          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}"}'
+
+  build-7_2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '7.2'
+          fetch-depth: 100
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Build Docker image
+        id: build_image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          image_name: flownative/docker-beach-php/beach-php
+          git_repository_url: https://github.com/${{ github.repository }}
+          git_sha: ${{ github.sha }}
+          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+
+      - name: Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          event-type: image-built
+          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}"}'
+
+  build-7_3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '7.3'
+          fetch-depth: 100
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Build Docker image
+        id: build_image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          image_name: flownative/docker-beach-php/beach-php
+          git_repository_url: https://github.com/${{ github.repository }}
+          git_sha: ${{ github.sha }}
+          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+
+      - name: Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          event-type: image-built
+          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}"}'
+
+  build-7_4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '7.4'
+          fetch-depth: 100
+
+      - name: Determine latest released version
+        id: latest_version
+        uses: flownative/action-git-latest-release@master
+
+      - name: Build Docker image
+        id: build_image
+        uses: flownative/action-docker-build@v1
+        with:
+          tag_ref: ${{ steps.latest_version.outputs.tag }}
+          image_name: flownative/docker-beach-php/beach-php
+          git_repository_url: https://github.com/${{ github.repository }}
+          git_sha: ${{ github.sha }}
+          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+
+      - name: Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          event-type: image-built
+          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}"}'
