@@ -8,7 +8,7 @@ LABEL org.label-schema.vendor="Flownative GmbH"
 ENV PHP_INI_DIR /usr/local/etc/php
 RUN mkdir -p $PHP_INI_DIR/conf.d
 
-ENV PHP_VERSION 7.3.13
+ENV PHP_VERSION 7.3.14
 ENV PHP_EXTRA_CONFIGURE_ARGS --enable-fpm --with-fpm-user=beach --with-fpm-group=beach
 
 RUN buildDependencies=" \
