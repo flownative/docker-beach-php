@@ -102,28 +102,29 @@ build_compile_php() {
         --prefix=${PHP_BASE_PATH} \
         --with-config-file-path="${PHP_BASE_PATH}/etc" \
         --with-config-file-scan-dir="${PHP_BASE_PATH}/etc/conf.d" \
-        --enable-fpm \
         --disable-cgi \
+        --enable-fpm \
+        --enable-pcntl \
+        --enable-calendar \
+        --enable-exif \
+        --enable-ftp \
+        --enable-mbstring \
+        --enable-zip \
         --enable-intl \
-        --with-mysqli \
-        --with-pdo-mysql \
         --with-curl \
-        --with-openssl \
-        --with-system-ciphers \
-        --with-readline \
-        --with-gmp \
-        --with-gd \
         --with-freetype-dir=/usr/include \
         --with-jpeg-dir=/usr/include \
+        --with-gd \
+        --with-gmp \
+        --with-mysqli \
+        --with-openssl \
+        --with-pdo-mysql \
         --with-png-dir=/usr/include \
+        --with-readline \
+        --with-system-ciphers \
         --with-webp-dir=/usr/include \
         --with-zlib \
         --without-pear \
-        --enable-pcntl \
-        --enable-calendar \
-        --enable-ftp \
-        --enable-exif \
-        --enable-zip \
         > $(debug_device)
 
     info "🛠 Compiling PHP ..."
