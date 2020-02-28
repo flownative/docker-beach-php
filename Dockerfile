@@ -19,7 +19,8 @@ ENV FLOWNATIVE_LIB_PATH="/opt/flownative/lib" \
 
 COPY --from=docker.pkg.github.com/flownative/bash-library/bash-library:1 /lib $FLOWNATIVE_LIB_PATH
 
-COPY root-files /
+COPY root-files/opt /opt
+COPY root-files/build.sh /
 
 RUN /build.sh init
 RUN /build.sh prepare
@@ -32,11 +33,15 @@ RUN /build.sh build_extension imagick
 RUN /build.sh build_extension yaml
 RUN /build.sh build_extension phpredis
 
-# USER 1000
-# ENTRYPOINT [ "/entrypoint.sh" ]
-# CMD [ "/run.sh" ]
+# Migrate this to further up:
 
-#COPY ready.sh /ready.sh
-#RUN chmod u=rwx /ready.sh
-#
-#CMD ["/sbin/my_init"]
+COPY root-files/entrypoint.sh /
+COPY more-root-files/opt /opt
+
+RUN rm -rf ${PHP_BASE_PATH}/src
+RUN /build.sh clean
+
+USER 1000
+EXPOSE 9000 9001
+ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "run" ]

@@ -5,6 +5,7 @@
 
 # Load helper libraries
 
+. "${FLOWNATIVE_LIB_PATH}/banner.sh"
 . "${FLOWNATIVE_LIB_PATH}/log.sh"
 . "${FLOWNATIVE_LIB_PATH}/packages.sh"
 
@@ -248,10 +249,23 @@ build_php_extension() {
 }
 
 # ---------------------------------------------------------------------------------------
+# build_adjust_permissions() - Adjust permissions for a few paths and files
+#
+# @global PHP_BASE_PATH
+# @return void
+#
+build_adjust_permissions() {
+    chown -R root:root "${PHP_BASE_PATH}"
+    chmod -R g+rwX "${PHP_BASE_PATH}"
+    chmod 777 "${PHP_BASE_PATH}"/etc
+}
+
+# ---------------------------------------------------------------------------------------
 # Main routine
 
 case $1 in
     init)
+        banner_flownative
         build_create_directories
         exit
         ;;
@@ -266,6 +280,7 @@ case $1 in
         build_php_extension $2
         ;;
     clean)
+        build_adjust_permissions
         packages_remove_docs_and_caches
         ;;
 esac

@@ -1,20 +1,29 @@
 #!/bin/bash
+# shellcheck disable=SC1090
 
 set -o errexit
 set -o nounset
 set -o pipefail
 
 # Load lib
-. "${FLOWNATIVE_LIB_PATH}/nginx.sh"
-. "${FLOWNATIVE_LIB_PATH}/nginx-legacy.sh"
+. "${FLOWNATIVE_LIB_PATH}/banner.sh"
+. "${FLOWNATIVE_LIB_PATH}/php-fpm.sh"
+. "${FLOWNATIVE_LIB_PATH}/beach.sh"
 
-eval "$(nginx_env)"
-eval "$(nginx_legacy_env)"
+eval "$(beach_env)"
+eval "$(php_fpm_env)"
 
-if [[ "$*" = *"/run.sh"* ]]; then
-    nginx_initialize
-    nginx_legacy_initialize
+banner_flownative
 
-    trap nginx_stop EXIT
+beach_initialize
+beach_prepare
+
+if [[ "$*" = *"run"* ]]; then
+    php_fpm_initialize
+    php_fpm_start
+
+    wait "$(php_fpm_get_pid)"
+    # This line will never be reached
+else
+    "$@"
 fi
-exec "$@"
