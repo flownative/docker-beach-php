@@ -35,6 +35,7 @@ RUN /build.sh build_extension phpredis
 
 # Migrate this to further up:
 
+ENV LOG_DEBUG=true
 COPY root-files/entrypoint.sh /
 COPY more-root-files/opt /opt
 

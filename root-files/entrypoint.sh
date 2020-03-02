@@ -23,7 +23,7 @@ if [[ "$*" = *"run"* ]]; then
     php_fpm_start
 
     wait "$(php_fpm_get_pid)"
-    # This line will never be reached
+    # This line will not be reached, because a trap handles termination
 else
     "$@"
 fi

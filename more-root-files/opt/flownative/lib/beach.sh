@@ -41,7 +41,99 @@ export BEACH_DATABASE_NAME=${BEACH_DATABASE_NAME:-}
 export BEACH_DATABASE_USERNAME=${BEACH_DATABASE_USERNAME:-}
 export BEACH_DATABASE_PASSWORD=${BEACH_DATABASE_PASSWORD:-}
 
+export BEACH_ENVIRONMENT_VARIABLES_WHITELIST=${BEACH_ENVIRONMENT_VARIABLES_WHITELIST:-}
+
 EOF
+}
+
+# ---------------------------------------------------------------------------------------
+# beach_env_unset_by_whitelist() - Unsets all env variables except for given whitelist
+#
+# @global BEACH_* The BEACH_ evnironment variables
+# @return void
+#
+beach_env_unset_by_whitelist() {
+    local environmentVariableNames
+    local systemVariableNames
+    local allowedVariableNames
+
+    environmentVariableNames=$(env | cut -f1 -d=)
+    whitelistedVariableNames=$(base64 -d <<< "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}")
+    systemVariableNames=(
+        BASH
+        BASHOPTS
+        BASH_ALIASES
+        BASH_ARGC
+        BASH_ARGV
+        BASH_CMDS
+        BASH_LINENO
+        BASH_SOURCE
+        BASH_VERSINFO
+        BASH_VERSION
+        BEACH_APPLICATION_PATH
+        BEACH_INSTANCE_IMAGE_NAME
+        BEACH_PHP_FPM_ENABLE
+        BEACH_PHP_FPM_PORT
+        BEACH_PHP_FPM_MAX_CHILDREN
+        DEBIAN_FRONTEND
+        DIRSTACK
+        EUID
+        FLOWNATIVE_LIB_PATH
+        GROUPS
+        HOME
+        HOSTNAME
+        HOSTTYPE
+        IFS
+        LANG
+        LANGUAGE
+        LC_ALL
+        LESSCLOSE
+        LESSOPEN
+        LOG_DEBUG
+        LS_COLORS
+        MACHTYPE
+        MICRO_VERSION
+        OPTERR
+        OPTIND
+        OSTYPE
+        PATH
+        PHP_BASE_PATH
+        PHP_CONF_PATH
+        PHP_FPM_GROUP
+        PHP_FPM_USER
+        PHP_FPM_PORT
+        PHP_FPM_MAX_CHILDREN
+        PHP_LOG_PATH
+        PHP_TMP_PATH
+        PHP_VERSION
+        PPID
+        PS4
+        PWD
+        SHELL
+        SHELLOPTS
+        SHLVL
+        TERM
+        UID
+        _
+    );
+
+    allowedVariableNames=("${whitelistedVariableNames[@]}" "${systemVariableNames[@]}");
+    # shellcheck disable=SC2068
+    for variableName in ${environmentVariableNames[@]}
+    do
+        variableAllowed=false
+        for allowedVariableName in ${allowedVariableNames[@]}
+        do
+        if [[ ${allowedVariableName} == "${variableName}" ]]; then
+            variableAllowed=true
+            break
+            fi
+        done
+        if [[ ${variableAllowed} != true ]]; then
+            debug "Beach: Unsetting environment variable ${variableName}"
+            unset "${variableName}"
+        fi
+    done
 }
 
 # ---------------------------------------------------------------------------------------
@@ -53,6 +145,11 @@ EOF
 beach_initialize() {
     info "Beach: Initializing configuration"
     info "Beach: Flow is going to run in context '${BEACH_FLOW_CONTEXT}'"
+
+    if [ -n "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}" ]; then
+        info "Beach: Unsetting environment variables according to given whitelist"
+        beach_env_unset_by_whitelist
+    fi
 }
 
 # ---------------------------------------------------------------------------------------
@@ -78,4 +175,7 @@ beach_prepare() {
 
     info "Beach: Warming up caches"
     "${BEACH_APPLICATION_PATH}/flow" cache:warmup > >(sed 's/^/Beach: (flow) /' | output)
+
+    debug "Beach: Writing .warmupdone flag"
+    touch /application/.warmupdone
 }
