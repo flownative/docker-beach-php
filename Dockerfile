@@ -15,6 +15,7 @@ ENV PHP_VERSION ${PHP_VERSION}
 ENV FLOWNATIVE_LIB_PATH="/opt/flownative/lib" \
     PHP_BASE_PATH="/opt/flownative/php" \
     PATH="/opt/flownative/php/bin:$PATH" \
+    BEACH_APPLICATION_PATH=/application \
     LOG_DEBUG=false
 
 COPY --from=docker.pkg.github.com/flownative/bash-library/bash-library:1 /lib $FLOWNATIVE_LIB_PATH

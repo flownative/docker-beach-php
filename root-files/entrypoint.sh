@@ -15,6 +15,11 @@ eval "$(php_fpm_env)"
 
 banner_flownative
 
+if is_boolean_yes "$BEACH_WAIT_FOR_SYNC"; then
+    info "Beach: Waiting for sync to get ready ..."
+    while [ ! -f "${BEACH_APPLICATION_PATH}/.sync.ready" ]; do sleep 1; done
+fi
+
 beach_initialize
 beach_prepare
 
