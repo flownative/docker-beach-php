@@ -138,6 +138,61 @@ beach_env_unset_by_whitelist() {
 }
 
 # ---------------------------------------------------------------------------------------
+# beach_run_doctrine_migrate() - Run doctrine:migrate
+#
+# @global BEACH_* The BEACH_* environment variables
+# @return void
+#
+beach_run_doctrine_migrate() {
+    if [ -n "${BEACH_DATABASE_HOST}" ] || [ -n "${BEACH_DATABASE_SOCKET}" ]; then
+        set +e
+        info "Beach: Running doctrine:migrate on host ${BEACH_DATABASE_HOST}:${BEACH_DATABASE_PORT} for database '${BEACH_DATABASE_NAME}' as database user '${BEACH_DATABASE_USERNAME}'"
+        "${BEACH_APPLICATION_PATH}/flow" doctrine:migrate 2>&1 | (sed 's/^/Beach: (flow) /' | output)
+    else
+        info "Beach: Skipping doctrine:migrate, because no database credentials are set"
+    fi
+}
+
+# ---------------------------------------------------------------------------------------
+# beach_run_resource_publish() - Run resource:publish
+#
+# @global BEACH_* The BEACH_* environment variables
+# @return void
+#
+beach_run_resource_publish() {
+    info "Beach: Running resource:publish --collection static"
+    "${BEACH_APPLICATION_PATH}/flow" resource:publish --collection static 2>&1 | (sed 's/^/Beach: (flow) /' | output)
+}
+
+# ---------------------------------------------------------------------------------------
+# beach_run_cache_warmup() - Run cache:warmup
+#
+# @global BEACH_* The BEACH_* environment variables
+# @return void
+#
+beach_run_cache_warmup() {
+    info "Beach: Warming up caches"
+    "${BEACH_APPLICATION_PATH}/flow" cache:warmup 2>&1 | (sed 's/^/Beach: (flow) /' | output)
+}
+
+# ---------------------------------------------------------------------------------------
+# beach_custom_startup() - Invoke a custom startup script, if one exists
+#
+# @global BEACH_* The BEACH_* environment variables
+# @return void
+#
+beach_custom_startup() {
+    if [ ! -f "${BEACH_APPLICATION_PATH}/beach-startup.sh" ]; then
+        info "Beach: No custom startup script found"
+        return
+    fi
+
+    info "Beach: Running custom startup script ..."
+    chmod +x "${BEACH_APPLICATION_PATH}/beach-startup.sh"
+    "${BEACH_APPLICATION_PATH}/beach-startup.sh" 2>&1 | (sed 's/^/Beach: (flow) /' | output)
+}
+
+# ---------------------------------------------------------------------------------------
 # beach_initialize() - Set up configuration
 #
 # @global BEACH_* The BEACH_* environment variables
@@ -165,17 +220,11 @@ beach_prepare() {
         return
     fi
 
-    if [ -n "${BEACH_DATABASE_HOST}" ] || [ -n "${BEACH_DATABASE_SOCKET}" ]; then
-        set +e
-        info "Beach: Running doctrine:migrate on host ${BEACH_DATABASE_HOST}:${BEACH_DATABASE_PORT} for database '${BEACH_DATABASE_NAME}' as database user '${BEACH_DATABASE_USERNAME}'"
-        "${BEACH_APPLICATION_PATH}/flow" doctrine:migrate > >(sed 's/^/Beach: (flow) /' | output)
-    fi
+    beach_run_doctrine_migrate
+    beach_run_resource_publish
+    beach_run_cache_warmup
 
-    info "Beach: Running resource:publish --collection static"
-    "${BEACH_APPLICATION_PATH}/flow" resource:publish --collection static > >(sed 's/^/Beach: (flow) /' | output)
-
-    info "Beach: Warming up caches"
-    "${BEACH_APPLICATION_PATH}/flow" cache:warmup > >(sed 's/^/Beach: (flow) /' | output)
+    beach_custom_startup
 
     debug "Beach: Writing .warmupdone flag"
     touch /application/.warmupdone

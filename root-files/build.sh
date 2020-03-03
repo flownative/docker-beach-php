@@ -17,6 +17,7 @@ set -o pipefail
 # build_create_directories() - Create directories and set access rights accordingly
 #
 # @global PHP_BASE_PATH
+# @global BEACH_APPLICATION_PATH
 # @return void
 #
 build_create_directories() {
@@ -25,10 +26,10 @@ build_create_directories() {
         "${PHP_BASE_PATH}/etc/conf.d" \
         "${PHP_BASE_PATH}/ext" \
         "${PHP_BASE_PATH}/tmp" \
-        "${PHP_BASE_PATH}/log"
+        "${PHP_BASE_PATH}/log" \
+        "${BEACH_APPLICATION_PATH}/Data"
 
-    chown -R root:root "${PHP_BASE_PATH}"
-    chmod -R g+rwX "${PHP_BASE_PATH}"
+    chown -R 1000 "${BEACH_APPLICATION_PATH}"
 
     # Forward error log to Docker log collector
     ln -sf /dev/stderr "${PHP_BASE_PATH}/log/error.log"
@@ -50,6 +51,7 @@ build_get_build_packages() {
         pkg-config
         re2c
         file
+        gettext
 
         libxml2-dev
         libssl-dev
@@ -263,7 +265,6 @@ case $1 in
     init)
         banner_flownative
         build_create_directories
-        exit
         ;;
     prepare)
         packages_install $(build_get_build_packages) 1>$(debug_device)
