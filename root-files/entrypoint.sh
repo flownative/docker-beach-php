@@ -13,7 +13,7 @@ set -o pipefail
 eval "$(beach_env)"
 eval "$(php_fpm_env)"
 
-banner_flownative
+banner_flownative PHP
 
 if is_boolean_yes "$BEACH_WAIT_FOR_SYNC"; then
     info "Beach: Waiting for sync to get ready ..."

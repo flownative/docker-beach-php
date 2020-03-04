@@ -263,7 +263,7 @@ build_adjust_permissions() {
 
 case $1 in
     init)
-        banner_flownative
+        banner_flownative PHP
         build_create_directories
         ;;
     prepare)
