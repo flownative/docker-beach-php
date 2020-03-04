@@ -51,11 +51,9 @@ build_get_build_packages() {
         pkg-config
         re2c
         file
-        gettext
 
         libxml2-dev
         libssl-dev
-        libssl1.1
         libcurl4-openssl-dev
         libreadline6-dev
         libmcrypt-dev
@@ -74,6 +72,21 @@ build_get_build_packages() {
 
         libmariadb-dev
         libsqlite3-dev
+   "
+    echo $packages
+}
+
+# ---------------------------------------------------------------------------------------
+# build_get_runtime_packages() - Returns a list of packages which are needed during runtime
+#
+# @global PHP_BASE_PATH
+# @return List of packages
+#
+build_get_runtime_packages() {
+    local packages="
+        gettext
+
+        libssl1.1
    "
     echo $packages
 }
@@ -129,8 +142,6 @@ build_compile_php() {
     info "🛠 Compiling PHP ..."
     make -j"$(nproc)" > $(debug_device)
     make install > $(debug_device)
-
-    ln -s /usr/local/bin/php /usr/bin/php
 
     info "🛠 Cleaning up ..."
     make clean > $(debug_device)
@@ -259,6 +270,19 @@ build_adjust_permissions() {
 }
 
 # ---------------------------------------------------------------------------------------
+# build_clean() - Clean up obsolete building artifacts and temporary files
+#
+# @global PHP_BASE_PATH
+# @return void
+#
+build_clean() {
+    rm -rf \
+        /var/cache/* \
+        /var/log/* \
+        "${PHP_BASE_PATH}/src"
+}
+
+# ---------------------------------------------------------------------------------------
 # Main routine
 
 case $1 in
@@ -267,8 +291,8 @@ case $1 in
         build_create_directories
         ;;
     prepare)
+        packages_install $(build_get_runtime_packages) 1>$(debug_device)
         packages_install $(build_get_build_packages) 1>$(debug_device)
-        packages_remove_docs_and_caches 1>$(debug_device)
         ;;
     build)
         build_compile_php
@@ -278,6 +302,9 @@ case $1 in
         ;;
     clean)
         build_adjust_permissions
-        packages_remove_docs_and_caches
+
+        packages_remove $(build_get_build_packages) 1>$(debug_device)
+        packages_remove_docs_and_caches 1>$(debug_device)
+        build_clean
         ;;
 esac
