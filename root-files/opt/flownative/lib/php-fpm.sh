@@ -29,7 +29,7 @@ export PHP_LOG_PATH="${PHP_LOG_PATH:-${PHP_BASE_PATH}/log}"
 export PHP_FPM_USER="${PHP_FPM_USER:-1000}"
 export PHP_FPM_GROUP="${PHP_FPM_GROUP:-1000}"
 export PHP_FPM_PORT="${PHP_FPM_PORT:-9000}"
-export PHP_FPM_MAX_CHILDREN="${PHP_FPM_MAX_CHILDREN:-5}"
+export PHP_FPM_MAX_CHILDREN="${PHP_FPM_MAX_CHILDREN:-20}"
 EOF
 }
 
@@ -62,7 +62,7 @@ php_fpm_start() {
     trap 'php_fpm_stop' SIGINT SIGTERM
 
     info "PHP-FPM: Starting ..."
-    "${PHP_BASE_PATH}/sbin/php-fpm" >/dev/null 2>/dev/null &
+    "${PHP_BASE_PATH}/sbin/php-fpm" 2>&1 | (sed 's/^/PHP-FPM: /' | output) &
     pid="$!"
     echo "${pid}" > "${PHP_TMP_PATH}/php-fpm.pid"
 
