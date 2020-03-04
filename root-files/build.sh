@@ -33,6 +33,11 @@ build_create_directories() {
 
     # Forward error log to Docker log collector
     ln -sf /dev/stderr "${PHP_BASE_PATH}/log/error.log"
+
+    # Activate freetype-config-workaround (see freetype-config.sh):
+    if [ ! -f /usr/local/bin/freetype-config ]; then
+        ln -s ${PHP_BASE_PATH}/bin/freetype-config.sh /usr/local/bin/freetype-config;
+    fi
 }
 
 # ---------------------------------------------------------------------------------------
