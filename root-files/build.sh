@@ -68,7 +68,6 @@ build_get_build_packages() {
         libmcrypt-dev
         libgmp-dev
         libzip-dev
-        libonig-dev
 
         libjpeg62-turbo-dev
         libpng-dev
@@ -76,7 +75,6 @@ build_get_build_packages() {
         libwebp-dev
 
         libmariadb-dev
-        libsqlite3-dev
    "
     echo $packages
 }
@@ -122,24 +120,25 @@ build_compile_php() {
         --with-config-file-scan-dir="${PHP_BASE_PATH}/etc/conf.d" \
         --disable-cgi \
         --enable-fpm \
-        --enable-gd \
         --enable-pcntl \
         --enable-calendar \
         --enable-exif \
         --enable-ftp \
         --enable-mbstring \
+        --enable-zip \
         --enable-intl \
         --with-curl \
-        --with-freetype \
-        --with-jpeg \
+        --with-freetype-dir=/usr/include \
+        --with-jpeg-dir=/usr/include \
+        --with-gd \
         --with-gmp \
         --with-mysqli \
         --with-openssl \
         --with-pdo-mysql \
+        --with-png-dir=/usr/include \
         --with-readline \
         --with-system-ciphers \
-        --with-webp \
-        --with-zip \
+        --with-webp-dir=/usr/include \
         --with-zlib \
         --without-pear \
         > $(debug_device)
