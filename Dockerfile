@@ -24,7 +24,8 @@ COPY root-files/opt /opt
 COPY root-files/build.sh /
 COPY extensions $PHP_BASE_PATH/build/extensions
 
-RUN /build.sh init \
+RUN set -o errexit && set -o pipefail \
+    && /build.sh init \
     && /build.sh prepare \
     && /build.sh build \
     && /build.sh build_extension vips \
