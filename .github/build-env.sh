@@ -1,0 +1,1 @@
+export BUILD_ARG_PHP_VERSION=7.3.15
