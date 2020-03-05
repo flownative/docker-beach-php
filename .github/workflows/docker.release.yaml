@@ -38,7 +38,7 @@ jobs:
           source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
-          target_image_name: eu.gcr.io/flownative-beach/beach-php
+          target_image_name: eu.gcr.io/flownative-beach/php
           target_registry_username: '_json_key'
           target_registry_password: ${{ secrets.GOOGLE_REGISTRY_PASSWORD }}
           target_registry_endpoint: https://eu.gcr.io/v2/
@@ -54,7 +54,7 @@ jobs:
           source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
-          target_image_name: eu.gcr.io/flownative-beach-a7c8b2/beach-php
+          target_image_name: eu.gcr.io/flownative-beach-a7c8b2/php
           target_registry_username: '_json_key'
           target_registry_password: ${{ secrets.GOOGLE_REGISTRY_PASSWORD_A7C8B2 }}
           target_registry_endpoint: https://eu.gcr.io/v2/
