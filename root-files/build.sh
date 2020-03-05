@@ -98,9 +98,12 @@ build_get_runtime_packages() {
 # @return void
 #
 build_compile_php() {
-    info "🛠 Downloading source code for PHP ${PHP_VERSION} ..."
+    local php_source_url
 
-    curl -sSL "https://www.php.net/distributions/php-$PHP_VERSION.tar.gz" -o php.tar.gz
+    php_source_url="https://www.php.net/distributions/php-${PHP_VERSION}.tar.gz"
+    info "🛠 Downloading source code for PHP ${PHP_VERSION} from ${php_source_url} ..."
+    with_backoff "curl -sSL ${php_source_url} -o php.tar.gz" || (error "Failed downloading PHP source from ${php_source_url}"; exit 1)
+
     mkdir -p "${PHP_BASE_PATH}/src"
     tar -xf php.tar.gz -C "${PHP_BASE_PATH}/src" --strip-components=1
     rm php.tar.gz*
