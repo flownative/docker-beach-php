@@ -20,9 +20,8 @@ ENV FLOWNATIVE_LIB_PATH="/opt/flownative/lib" \
 
 COPY --from=docker.pkg.github.com/flownative/bash-library/bash-library:1 /lib $FLOWNATIVE_LIB_PATH
 
-COPY root-files/opt /opt
-COPY root-files/build.sh /
-COPY extensions $PHP_BASE_PATH/build/extensions
+COPY root-files /
+COPY root-files/opt/flownative/php/build $PHP_BASE_PATH/build/extensions
 
 RUN /build.sh init \
     && /build.sh prepare \
@@ -30,10 +29,16 @@ RUN /build.sh init \
     && /build.sh build_extension vips \
     && /build.sh build_extension imagick \
     && /build.sh build_extension yaml \
-    && /build.sh build_extension phpredis
+    && /build.sh build_extension phpredis \
+    && /build.sh clean
 
 COPY more-root-files/opt /opt
-#RUN /build.sh clean
+COPY more-root-files/build.sh /build.sh
+
+ENV SSHD_BASE_PATH="/opt/flownative/sshd" \
+    SSHD_ENABLE="true"
+
+RUN /build.sh sshd
 
 RUN        chown -R root:root "${PHP_BASE_PATH}" \
         && chmod -R g+rwX "${PHP_BASE_PATH}"\
