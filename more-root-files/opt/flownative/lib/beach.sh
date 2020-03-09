@@ -113,6 +113,9 @@ beach_env_unset_by_whitelist() {
         SHELL
         SHELLOPTS
         SHLVL
+        SSHD_BASE_PATH
+        SSHD_HOST_KEYS_PATH
+        SSHD_ENABLE
         TERM
         UID
         _

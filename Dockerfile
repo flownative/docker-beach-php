@@ -15,8 +15,10 @@ ENV PHP_VERSION ${PHP_VERSION}
 ENV FLOWNATIVE_LIB_PATH="/opt/flownative/lib" \
     PHP_BASE_PATH="/opt/flownative/php" \
     PATH="/opt/flownative/php/bin:$PATH" \
-    BEACH_APPLICATION_PATH=/application \
-    LOG_DEBUG=true
+    BEACH_APPLICATION_PATH="/application" \
+    SSHD_BASE_PATH="/opt/flownative/sshd" \
+    SSHD_ENABLE="false" \
+    LOG_DEBUG="true"
 
 COPY --from=docker.pkg.github.com/flownative/bash-library/bash-library:1 /lib $FLOWNATIVE_LIB_PATH
 
@@ -34,24 +36,15 @@ RUN /build.sh init \
 
 COPY more-root-files/opt /opt
 COPY more-root-files/build.sh /build.sh
+COPY more-root-files/entrypoint.sh /entrypoint.sh
 
-ENV SSHD_BASE_PATH="/opt/flownative/sshd" \
-    SSHD_ENABLE="true"
+RUN /build.sh sshd \
+    && /build.sh clean
 
-RUN /build.sh sshd
-
-RUN        chown -R root:root "${PHP_BASE_PATH}" \
-        && chmod -R g+rwX "${PHP_BASE_PATH}"\
-        && chmod 777 "${PHP_BASE_PATH}"/etc\
-        && rm -rf \
-            /var/cache/* \
-            /var/log/* \
-            "${PHP_BASE_PATH}/src"
-
-COPY root-files/entrypoint.sh /
+COPY more-root-files/entrypoint.sh /
 
 USER 1000
-EXPOSE 9000 9001
+EXPOSE 2022 9000 9001
 
 WORKDIR $BEACH_APPLICATION_PATH
 ENTRYPOINT [ "/entrypoint.sh" ]

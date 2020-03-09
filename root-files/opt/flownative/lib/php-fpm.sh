@@ -36,7 +36,7 @@ EOF
 # ---------------------------------------------------------------------------------------
 # php_fpm_get_pid() - Return the php process id
 #
-# @global PHP_* The PHP_ evnironment variables
+# @global PHP_* The PHP_ environment variables
 # @return Returns the PHP process id, if it is running, otherwise 0
 #
 php_fpm_get_pid() {
@@ -51,20 +51,32 @@ php_fpm_get_pid() {
 }
 
 # ---------------------------------------------------------------------------------------
+# php_fpm_has_pid() - Checks if a PID file exists
+#
+# @global PHP_* The PHP_ environment variables
+# @return Returns false if no PID file exists
+#
+php_fpm_has_pid() {
+    if [[ ! -f "${PHP_TMP_PATH}/php-fpm.pid" ]]; then
+        false
+    fi
+}
+
+# ---------------------------------------------------------------------------------------
 # php_fpm_start() - Start PHP
 #
-# @global PHP_* The PHP_ evnironment variables
+# @global PHP_* The PHP_ environment variables
 # @return void
 #
 php_fpm_start() {
     local pid
 
-    trap 'php_fpm_stop' SIGINT SIGTERM
-
     info "PHP-FPM: Starting ..."
     "${PHP_BASE_PATH}/sbin/php-fpm" 2>&1 | (sed 's/^/PHP-FPM: /' | output) &
-    pid="$!"
-    echo "${pid}" > "${PHP_TMP_PATH}/php-fpm.pid"
+    sleep 1
+
+    with_backoff "php_fpm_has_pid" || (error "PHP-FPM: Could not retrieve PID of the PHP-FPM process, maybe it failed during start-up?"; exit 1)
+    pid=$(php_fpm_get_pid)
 
     info "PHP-FPM: Running as process #${pid}"
 }
@@ -77,8 +89,8 @@ php_fpm_start() {
 #
 php_fpm_stop() {
     local pid
-    pid=$(php_fpm_get_pid)
 
+    pid=$(php_fpm_get_pid)
     is_process_running "${pid}" || (info "PHP-FPM: Could not stop, because the process was not running (detected pid: ${pid})" && return);
     info "PHP-FPM: Stopping ..."
 

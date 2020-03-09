@@ -1,6 +1,10 @@
 [global]
 
 error_log = /proc/self/fd/2
+pid = ${PHP_TMP_PATH}/php-fpm.pid
+
+; don't daemonize, because we want to start PHP as a child process of
+; the shell running php-fpm.sh, so we can wait for it with "wait":
 daemonize = no
 
 [www]

@@ -1,0 +1,83 @@
+# Customized sshd_config for the Flownative Beach SSH Remote
+
+# Listen to a non-privileged port
+Port 2022
+
+# Listen to any ip address
+ListenAddress ::
+ListenAddress 0.0.0.0
+
+PidFile ${SSHD_BASE_PATH}/tmp/sshd.pid
+
+Protocol 2
+
+# HostKeys for protocol version 2
+HostKey ${SSHD_BASE_PATH}/etc/ssh_host_rsa_key
+HostKey ${SSHD_BASE_PATH}/etc/ssh_host_dsa_key
+HostKey ${SSHD_BASE_PATH}/etc/ssh_host_ecdsa_key
+HostKey ${SSHD_BASE_PATH}/etc/ssh_host_ed25519_key
+
+# Logging
+#SyslogFacility AUTH
+LogLevel VERBOSE
+
+# Timeout for the connection while trying to authenticate:
+LoginGraceTime 120
+
+# Don't allow root login
+PermitRootLogin no
+
+# Check file permissions
+StrictModes yes
+
+# Allow public key authentication
+PubkeyAuthentication yes
+
+AuthorizedKeysFile ${SSHD_BASE_PATH}/etc/authorized_keys
+
+# Don't read the user's ~/.rhosts and ~/.shosts files
+IgnoreRhosts yes
+
+# similar for protocol version 2
+HostbasedAuthentication no
+
+# We don't allow authentication with password
+PasswordAuthentication no
+
+# We don't allow empty passwords
+PermitEmptyPasswords no
+
+# We don't want challenge-response passwords
+ChallengeResponseAuthentication no
+
+# We must not allow X11 forwarding
+X11Forwarding no
+
+# We need to allow TCP forwarding
+AllowTcpForwarding no
+
+# Show a MOTD:
+PrintMotd yes
+
+# Don't display last login date:
+PrintLastLog no
+
+TCPKeepAlive yes
+#UseLogin no
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+# We don't want that user environment variables are processed from ~/.ssh/environment
+PermitUserEnvironment no
+
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# We don't support PAM
+UsePAM no
+
+# Agent forwarding is generally a bad thing, so we disallow it
+AllowAgentForwarding no
+
+# Only allow logins for Beach users
+AllowUsers beach
