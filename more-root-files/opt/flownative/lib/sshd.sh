@@ -23,6 +23,7 @@ sshd_env() {
 export SSHD_BASE_PATH="${SSHD_BASE_PATH}"
 export SSHD_HOST_KEYS_PATH="${SSHD_HOST_KEYS_PATH:-${SSHD_BASE_PATH}/etc}"
 export SSHD_ENABLE=${SSHD_ENABLE:-false}
+export SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT="${SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT:-http://beach-controlpanel.beach-system.svc.cluster.local/api/v1}"
 EOF
 }
 
@@ -114,7 +115,8 @@ sshd_start() {
     with_backoff "sshd_has_pid" || (error "SSHD: Could not retrieve PID of the SSHD process, maybe it failed during start-up?"; exit 1)
     pid=$(sshd_get_pid)
 
-    info "SSHD: Running as process #${pid}"
+    info "SSHD: Using ${SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT} as authorized keys service endpoint"
+    info "SSHD: Running as process #${pid} on host $(hostname)"
 }
 
 # ---------------------------------------------------------------------------------------

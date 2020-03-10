@@ -57,7 +57,7 @@ X11Forwarding no
 AllowTcpForwarding no
 
 # Show a MOTD:
-PrintMotd yes
+PrintMotd no
 
 # Don't display last login date:
 PrintLastLog no
@@ -81,3 +81,9 @@ AllowAgentForwarding no
 
 # Only allow logins for Beach users
 AllowUsers beach
+
+# Use our custom script for determining authorized keys for a given user:
+AuthorizedKeysCommand ${SSHD_BASE_PATH}/sbin/authorized-keys.sh %u %f ${SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT}
+
+# The user to use for running the AuthorizedKeysCommand:
+AuthorizedKeysCommandUser beach

@@ -47,7 +47,6 @@ build_get_build_packages() {
         bison
         build-essential
         cmake
-        curl
         pkg-config
         re2c
         file
@@ -90,6 +89,8 @@ build_get_runtime_packages() {
         libzip4
 
         libsqlite3-0
+
+        curl
    "
     echo $packages
 }
@@ -308,7 +309,7 @@ build_php_extension() {
 # @return void
 #
 build_sshd() {
-    packages_install openssh-server
+    packages_install openssh-server curl
 
     # Clean up a few directories / files we don't need:
     rm -rf \

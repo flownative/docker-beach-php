@@ -80,6 +80,7 @@ beach_env_unset_by_whitelist() {
         DIRSTACK
         EUID
         FLOWNATIVE_LIB_PATH
+        FLOW_CONTEXT
         GROUPS
         HOME
         HOSTNAME
@@ -113,9 +114,10 @@ beach_env_unset_by_whitelist() {
         SHELL
         SHELLOPTS
         SHLVL
+        SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT
         SSHD_BASE_PATH
-        SSHD_HOST_KEYS_PATH
         SSHD_ENABLE
+        SSHD_HOST_KEYS_PATH
         TERM
         UID
         _
