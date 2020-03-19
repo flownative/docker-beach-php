@@ -8,6 +8,9 @@ other PHP images, this one is tailored to run without root privileges.
 All processes use an unprivileged user (uid 1000). And much work has
 been put into providing proper console output and meaningful messages.
 
+![Screenshot with example log output](docs/beach-php-log-example.png
+"Example log output")
+
 ## tl;dr
 
 ```bash

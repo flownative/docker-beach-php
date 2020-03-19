@@ -16,7 +16,7 @@ eval "$(beach_env)"
 eval "$(php_fpm_env)"
 eval "$(sshd_env)"
 
-banner_flownative PHP
+banner_flownative 'Beach PHP'
 
 if is_boolean_yes "$BEACH_WAIT_FOR_SYNC"; then
     info "Beach: Waiting for sync to get ready ..."
