@@ -1,7 +1,6 @@
 name: Build Docker images
 on:
-  schedule:
-    - cron: '30 0 * * *'
+  repository_dispatch:
   push:
     branches-ignore:
       - '**'
