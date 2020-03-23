@@ -1,5 +1,7 @@
 name: Build Docker images
 on:
+  repository_dispatch:
+    types: [image-released]
   push:
     branches-ignore:
       - '**'
