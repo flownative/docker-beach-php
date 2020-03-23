@@ -28,7 +28,7 @@ jobs:
         uses: flownative/action-docker-build@v1
         with:
           tag_ref: ${{ steps.latest_version.outputs.tag }}
-          image_name: flownative/docker-php/php
+          image_name: flownative/docker-beach-php/beach-php
           image_tag: v7.1
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
@@ -60,7 +60,7 @@ jobs:
         uses: flownative/action-docker-build@v1
         with:
           tag_ref: ${{ steps.latest_version.outputs.tag }}
-          image_name: flownative/docker-php/php
+          image_name: flownative/docker-beach-php/beach-php
           image_tag: v7.2
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
@@ -92,7 +92,7 @@ jobs:
         uses: flownative/action-docker-build@v1
         with:
           tag_ref: ${{ steps.latest_version.outputs.tag }}
-          image_name: flownative/docker-php/php
+          image_name: flownative/docker-beach-php/beach-php
           image_tag: v7.3
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
@@ -124,7 +124,7 @@ jobs:
         uses: flownative/action-docker-build@v1
         with:
           tag_ref: ${{ steps.latest_version.outputs.tag }}
-          image_name: flownative/docker-php/php
+          image_name: flownative/docker-beach-php/beach-php
           image_tag: v7.4
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
