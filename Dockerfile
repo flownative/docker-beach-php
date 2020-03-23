@@ -7,6 +7,8 @@ LABEL org.label-schema.name="Beach PHP"
 LABEL org.label-schema.description="Docker image providing PHP for Beach and Local Beach"
 LABEL org.label-schema.vendor="Flownative GmbH"
 
+COPY --from=docker.pkg.github.com/flownative/bash-library/bash-library:1 /lib $FLOWNATIVE_LIB_PATH
+
 ENV FLOWNATIVE_LIB_PATH="/opt/flownative/lib" \
     BEACH_APPLICATION_PATH="/application" \
     SSHD_BASE_PATH="/opt/flownative/sshd" \
@@ -15,13 +17,10 @@ ENV FLOWNATIVE_LIB_PATH="/opt/flownative/lib" \
 
 USER root
 
-COPY --from=docker.pkg.github.com/flownative/bash-library/bash-library:1 /lib $FLOWNATIVE_LIB_PATH
-
 COPY root-files /
 RUN /build.sh init \
     && /build.sh build \
     && /build.sh clean
-
 
 USER 1000
 
