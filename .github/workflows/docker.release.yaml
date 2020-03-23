@@ -1,7 +1,7 @@
 name: Release to Docker Registries
-#on:
-#  repository_dispatch:
-#    types: [image-built]
+on:
+  repository_dispatch:
+    types: [image-built]
 
 jobs:
   release-github:
