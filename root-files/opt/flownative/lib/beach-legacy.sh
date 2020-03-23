@@ -15,13 +15,12 @@
 # ---------------------------------------------------------------------------------------
 # beach_legacy_env() - Load global environment variables for configuring PHP
 #
-# @global BEACH_* The BEACH_ evnironment variables
+# @global BEACH_* The BEACH_ environment variables
 # @return "export" statements which can be passed to eval()
 #
-beach_env() {
+beach_legacy_env() {
     cat <<"EOF"
-export BEACH_ENVIRONMENT_VARIABLES_WHITELIST=${BEACH_REMOTE_ENVIRONMENT_VARIABLE_NAMES:-}
-
-
+export PHP_DATE_TIMEZONE=${BEACH_PHP_TIMEZONE:-}
+export PHP_MEMORY_LIMIT=${BEACH_PHP_MEMORY_LIMIT:-}
 EOF
 }

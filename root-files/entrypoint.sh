@@ -9,9 +9,11 @@ set -o pipefail
 . "${FLOWNATIVE_LIB_PATH}/banner.sh"
 . "${FLOWNATIVE_LIB_PATH}/validation.sh"
 . "${FLOWNATIVE_LIB_PATH}/php-fpm.sh"
+. "${FLOWNATIVE_LIB_PATH}/beach-legacy.sh"
 . "${FLOWNATIVE_LIB_PATH}/beach.sh"
 . "${FLOWNATIVE_LIB_PATH}/sshd.sh"
 
+eval "$(beach_legacy_env)"
 eval "$(beach_env)"
 eval "$(php_fpm_env)"
 eval "$(sshd_env)"
