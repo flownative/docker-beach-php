@@ -61,8 +61,8 @@ beach_env_unset_by_whitelist() {
     environmentVariableNames=$(env | cut -f1 -d=)
     whitelistedVariableNames=$(base64 -d <<< "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}")
     systemVariableNames=(
+        _
         BASH
-        BASHOPTS
         BASH_ALIASES
         BASH_ARGC
         BASH_ARGV
@@ -71,16 +71,30 @@ beach_env_unset_by_whitelist() {
         BASH_SOURCE
         BASH_VERSINFO
         BASH_VERSION
+        BASHOPTS
+        BEACH_ADDON_BLACKFIRE_AGENT_HOST
+        BEACH_ADDON_BLACKFIRE_AGENT_PORT
+        BEACH_ADDON_BLACKFIRE_ENABLE
         BEACH_APPLICATION_PATH
+        BEACH_DATABASE_HOST
+        BEACH_DATABASE_NAME
+        BEACH_DATABASE_PASSWORD
+        BEACH_DATABASE_PORT
+        BEACH_DATABASE_USERNAME
         BEACH_INSTANCE_IMAGE_NAME
         BEACH_PHP_FPM_ENABLE
-        BEACH_PHP_FPM_PORT
         BEACH_PHP_FPM_MAX_CHILDREN
+        BEACH_PHP_FPM_PORT
+        BEACH_PHP_MEMORY_LIMIT
+        BEACH_PHP_TIMEZONE
+        BEACH_REDIS_HOST
+        BEACH_REDIS_PASSWORD
+        BEACH_REDIS_PORT
         DEBIAN_FRONTEND
         DIRSTACK
         EUID
-        FLOWNATIVE_LIB_PATH
         FLOW_CONTEXT
+        FLOWNATIVE_LIB_PATH
         GROUPS
         HOME
         HOSTNAME
@@ -101,11 +115,13 @@ beach_env_unset_by_whitelist() {
         PATH
         PHP_BASE_PATH
         PHP_CONF_PATH
+        PHP_DATE_TIMEZONE
         PHP_FPM_GROUP
-        PHP_FPM_USER
-        PHP_FPM_PORT
         PHP_FPM_MAX_CHILDREN
+        PHP_FPM_PORT
+        PHP_FPM_USER
         PHP_LOG_PATH
+        PHP_MEMORY_LIMIT
         PHP_TMP_PATH
         PHP_VERSION
         PPID
@@ -120,7 +136,6 @@ beach_env_unset_by_whitelist() {
         SSHD_HOST_KEYS_PATH
         TERM
         UID
-        _
     );
 
     allowedVariableNames=("${whitelistedVariableNames[@]}" "${systemVariableNames[@]}");

@@ -30,11 +30,12 @@ By default, the PHP logs are written to STDOUT / STDERR. That way, you
 can follow logs by watching container logs with `docker logs` or using a
 similar mechanism in Kubernetes or your actual platform.
 
-### Environment variables
+## Environment variables
+
+### Flow
 
 | Variable Name                         | Type    | Default                   | Description                   |
 |:--------------------------------------|:--------|:--------------------------|:------------------------------|
-| PHP_BASE_PATH                         | string  | /opt/flownative/php       | Base path for PHP (read-only) |
 | BEACH_WAIT_FOR_SYNC                   | boolean | false                     |                               |
 | BEACH_APPLICATION_USER_SERVICE_ENABLE | boolean | false                     |                               |
 | BEACH_FLOW_BASE_CONTEXT               | string  | Production                |                               |
@@ -43,7 +44,16 @@ similar mechanism in Kubernetes or your actual platform.
 | BEACH_FLOW_CONTEXT                    | string  | Production/Beach/Instance | (read-only)                   |
 | BEACH_ENVIRONMENT_VARIABLES_WHITELIST | string  |                           |                               |
 
-### Environment Variables (Legacy)
+### SSHD
+
+| Variable Name                         | Type    | Default                                                         | Description                                           |
+|:--------------------------------------|:--------|:----------------------------------------------------------------|:------------------------------------------------------|
+| SSHD_ENABLE                           | boolean | false                                                           | If the SSH daemon should be enabled                   |
+| SSHD_BASE_PATH                        | string  | /opt/flownative/sshd                                            | Base path of SSHD (read-only)                         |
+| SSHD_HOST_KEYS_PATH                   | string  | /opt/flownative/sshd/etc                                        | Path where to store SSH host keys                     |
+| SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT | string  | http://beach-controlpanel.beach-system.svc.cluster.local/api/v1 | URL of the Beach SSH authorized keys service endpoint |
+
+### Deprecated
 
 | Variable Name          | Type   | Default | Description            |
 |:-----------------------|:-------|:--------|:-----------------------|

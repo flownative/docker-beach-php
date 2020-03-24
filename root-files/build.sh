@@ -55,8 +55,9 @@ build_sshd() {
         "${SSHD_BASE_PATH}/etc" \
         "${SSHD_BASE_PATH}/tmp"
 
-    info "🛠 SSHD: Creating user beach (1000)"
-    useradd --home-dir /application --no-create-home --no-user-group --shell /bin/bash --uid 1000 beach 1>$(debug_device)
+    info "🛠 SSHD: Creating user and group beach (1000)"
+    groupadd --gid 1000 beach
+    useradd --home-dir /application --no-create-home --shell /bin/bash --gid beach --uid 1000 beach 1>$(debug_device)
 }
 
 # ---------------------------------------------------------------------------------------
