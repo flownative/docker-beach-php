@@ -32,9 +32,23 @@ similar mechanism in Kubernetes or your actual platform.
 
 ### Environment variables
 
-| Variable Name                  | Type    | Default                               | Description                                                        |
-|:-------------------------------|:--------|:--------------------------------------|:-------------------------------------------------------------------|
-| PHP_BASE_PATH                  | string  | /opt/flownative/php                   | Base path for PHP (read-only)                                      |
+| Variable Name                         | Type    | Default                   | Description                   |
+|:--------------------------------------|:--------|:--------------------------|:------------------------------|
+| PHP_BASE_PATH                         | string  | /opt/flownative/php       | Base path for PHP (read-only) |
+| BEACH_WAIT_FOR_SYNC                   | boolean | false                     |                               |
+| BEACH_APPLICATION_USER_SERVICE_ENABLE | boolean | false                     |                               |
+| BEACH_FLOW_BASE_CONTEXT               | string  | Production                |                               |
+| BEACH_FLOW_BASE_CONTEXT               | string  | Production                |                               |
+| BEACH_FLOW_SUB_CONTEXT                | string  | Instance                  |                               |
+| BEACH_FLOW_CONTEXT                    | string  | Production/Beach/Instance | (read-only)                   |
+| BEACH_ENVIRONMENT_VARIABLES_WHITELIST | string  |                           |                               |
+
+### Environment Variables (Legacy)
+
+| Variable Name          | Type   | Default | Description            |
+|:-----------------------|:-------|:--------|:-----------------------|
+| BEACH_PHP_TIMEZONE     | string |         | Sets PHP_DATE_TIMEZONE |
+| BEACH_PHP_MEMORY_LIMIT | string |         | Sets PHP_MEMORY_LIMIT  |
 
 ## Security aspects
 
