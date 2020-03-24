@@ -26,7 +26,7 @@ if is_boolean_yes "$BEACH_WAIT_FOR_SYNC"; then
 fi
 
 beach_initialize
-beach_prepare
+beach_prepare_flow
 
 if [[ "$*" = *"run"* ]]; then
     php_fpm_initialize

@@ -25,6 +25,34 @@ build_create_directories() {
 }
 
 # ---------------------------------------------------------------------------------------
+# build_create_user() - Create the beach user and group
+#
+# @global BEACH_APPLICATION_PATH
+# @return void
+#
+build_create_user() {
+    info "🛠 Beach: Creating user and group beach (1000)"
+    groupadd --gid 1000 beach
+    useradd --home-dir /home/beach --shell /bin/bash --gid beach --uid 1000 beach 1>$(debug_device)
+
+    chown beach:beach /home/beach
+    chmod 775 /home/beach
+
+    chmod 644 /home/beach/.profile
+    chown beach:beach /home/beach/.profile
+}
+
+# ---------------------------------------------------------------------------------------
+# build_tools() - Install tools to be used by Beach users via SSH
+#
+# @return void
+#
+build_tools() {
+    packages_install netcat vim
+
+}
+
+# ---------------------------------------------------------------------------------------
 # build_sshd() - Install and configure the SSH daemon
 #
 # @global SSHD_BASE_PATH
@@ -54,10 +82,6 @@ build_sshd() {
     chown -R 1000 \
         "${SSHD_BASE_PATH}/etc" \
         "${SSHD_BASE_PATH}/tmp"
-
-    info "🛠 SSHD: Creating user and group beach (1000)"
-    groupadd --gid 1000 beach
-    useradd --home-dir /application --no-create-home --shell /bin/bash --gid beach --uid 1000 beach 1>$(debug_device)
 }
 
 # ---------------------------------------------------------------------------------------
@@ -79,8 +103,10 @@ case $1 in
 init)
     banner_flownative 'Beach PHP'
     build_create_directories
+    build_create_user
     ;;
 build)
+    build_tools
     build_sshd
     ;;
 clean)

@@ -26,6 +26,9 @@ export BEACH_APPLICATION_USER_SERVICE_ENABLE=${BEACH_APPLICATION_USER_SERVICE_EN
 export BEACH_APPLICATION_USER_SERVICE_USERNAME=${BEACH_APPLICATION_USER_SERVICE_USERNAME:-beach}
 export BEACH_APPLICATION_STARTUP_SCRIPT_USERNAME=${BEACH_APPLICATION_STARTUP_SCRIPT_USERNAME:-beach}
 
+export BEACH_INSTANCE_IDENTIFIER=${BEACH_INSTANCE_IDENTIFIER:-}
+export BEACH_INSTANCE_NAME=${BEACH_INSTANCE_NAME:-}
+
 export BEACH_FLOW_BASE_CONTEXT=${BEACH_FLOW_BASE_CONTEXT:-Production}
 export BEACH_FLOW_SUB_CONTEXT=${BEACH_FLOW_SUB_CONTEXT:-}
 if [ -z ${BEACH_FLOW_SUB_CONTEXT} ]; then
@@ -81,6 +84,8 @@ beach_env_unset_by_whitelist() {
         BEACH_DATABASE_PASSWORD
         BEACH_DATABASE_PORT
         BEACH_DATABASE_USERNAME
+        BEACH_INSTANCE_NAME
+        BEACH_INSTANCE_IDENTIFIER
         BEACH_INSTANCE_IMAGE_NAME
         BEACH_PHP_FPM_ENABLE
         BEACH_PHP_FPM_MAX_CHILDREN
@@ -158,6 +163,27 @@ beach_env_unset_by_whitelist() {
 }
 
 # ---------------------------------------------------------------------------------------
+# beach_setup_user_profile() - Run doctrine:migrate
+#
+# @global BEACH_* The BEACH_* environment variables
+# @return void
+#
+beach_setup_user_profile() {
+    info "Beach: Setting up user profile for user beach ..."
+    cat > /home/beach/.my.cnf <<- EOM
+[client]
+port                  = 3306
+default-character-set = utf8
+host                  = ${BEACH_DATABASE_HOST}
+user                  = ${BEACH_DATABASE_USERNAME}
+password              = ${BEACH_DATABASE_PASSWORD}
+database              = ${BEACH_DATABASE_NAME}
+EOM
+
+    chown beach:beach /home/beach/.my.cnf
+}
+
+# ---------------------------------------------------------------------------------------
 # beach_run_doctrine_migrate() - Run doctrine:migrate
 #
 # @global BEACH_* The BEACH_* environment variables
@@ -226,6 +252,8 @@ beach_initialize() {
         info "Beach: Unsetting environment variables according to given whitelist"
         beach_env_unset_by_whitelist
     fi
+
+    beach_setup_user_profile
 }
 
 # ---------------------------------------------------------------------------------------
@@ -234,7 +262,7 @@ beach_initialize() {
 # @global BEACH_* The BEACH_* environment variables
 # @return void
 #
-beach_prepare() {
+beach_prepare_flow() {
     if [ ! -f "${BEACH_APPLICATION_PATH}"/flow ]; then
         warn "Beach: No Flow application detected, skipping preparations"
         return
