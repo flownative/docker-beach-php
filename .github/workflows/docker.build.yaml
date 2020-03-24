@@ -19,9 +19,16 @@ jobs:
           ref: 'master'
           fetch-depth: 100
 
-      - name: Determine latest released version
+      - name: Determine latest beach-php version
         id: latest_version
         uses: flownative/action-git-latest-release@master
+
+      - name: Determine latest built PHP 7.1 version
+        id: latest_php_version
+        uses: flownative/action-docker-get-label@master
+        with:
+          image: docker.pkg.github.com/flownative/docker-php/php:7.1
+          label: org.label-schema.version
 
       - name: Build Docker image
         id: build_image
@@ -29,7 +36,7 @@ jobs:
         with:
           tag_ref: ${{ steps.latest_version.outputs.tag }}
           image_name: flownative/docker-beach-php/beach-php
-          image_tag: 7.1
+          image_tag: ${{ steps.latest_php_version.outputs.value }}
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
           registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
@@ -41,98 +48,98 @@ jobs:
           event-type: image-built
           client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.1"}'
 
-  build-7_2:
-    runs-on: ubuntu-latest
-    env:
-      PHP_BASE_IMAGE: docker.pkg.github.com/flownative/docker-php/php:7.2
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: 'master'
-          fetch-depth: 100
-
-      - name: Determine latest released version
-        id: latest_version
-        uses: flownative/action-git-latest-release@master
-
-      - name: Build Docker image
-        id: build_image
-        uses: flownative/action-docker-build@v1
-        with:
-          tag_ref: ${{ steps.latest_version.outputs.tag }}
-          image_name: flownative/docker-beach-php/beach-php
-          image_tag: 7.2
-          git_repository_url: https://github.com/${{ github.repository }}
-          git_sha: ${{ github.sha }}
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
-
-      - name: Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.GITHUB_BOT_TOKEN }}
-          event-type: image-built
-          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.2"}'
-
-  build-7_3:
-    runs-on: ubuntu-latest
-    env:
-      PHP_BASE_IMAGE: docker.pkg.github.com/flownative/docker-php/php:7.3
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: 'master'
-          fetch-depth: 100
-
-      - name: Determine latest released version
-        id: latest_version
-        uses: flownative/action-git-latest-release@master
-
-      - name: Build Docker image
-        id: build_image
-        uses: flownative/action-docker-build@v1
-        with:
-          tag_ref: ${{ steps.latest_version.outputs.tag }}
-          image_name: flownative/docker-beach-php/beach-php
-          image_tag: 7.3
-          git_repository_url: https://github.com/${{ github.repository }}
-          git_sha: ${{ github.sha }}
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
-
-      - name: Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.GITHUB_BOT_TOKEN }}
-          event-type: image-built
-          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.3"}'
-
-  build-7_4:
-    runs-on: ubuntu-latest
-    env:
-      PHP_BASE_IMAGE: docker.pkg.github.com/flownative/docker-php/php:7.4
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: 'master'
-          fetch-depth: 100
-
-      - name: Determine latest released version
-        id: latest_version
-        uses: flownative/action-git-latest-release@master
-
-      - name: Build Docker image
-        id: build_image
-        uses: flownative/action-docker-build@v1
-        with:
-          tag_ref: ${{ steps.latest_version.outputs.tag }}
-          image_name: flownative/docker-beach-php/beach-php
-          image_tag: 7.4
-          git_repository_url: https://github.com/${{ github.repository }}
-          git_sha: ${{ github.sha }}
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
-
-      - name: Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.GITHUB_BOT_TOKEN }}
-          event-type: image-built
-          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.4"}'
+#  build-7_2:
+#    runs-on: ubuntu-latest
+#    env:
+#      PHP_BASE_IMAGE: docker.pkg.github.com/flownative/docker-php/php:7.2
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          ref: 'master'
+#          fetch-depth: 100
+#
+#      - name: Determine latest released version
+#        id: latest_version
+#        uses: flownative/action-git-latest-release@master
+#
+#      - name: Build Docker image
+#        id: build_image
+#        uses: flownative/action-docker-build@v1
+#        with:
+#          tag_ref: ${{ steps.latest_version.outputs.tag }}
+#          image_name: flownative/docker-beach-php/beach-php
+#          image_tag: 7.2
+#          git_repository_url: https://github.com/${{ github.repository }}
+#          git_sha: ${{ github.sha }}
+#          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+#
+#      - name: Dispatch
+#        uses: peter-evans/repository-dispatch@v1
+#        with:
+#          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+#          event-type: image-built
+#          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.2"}'
+#
+#  build-7_3:
+#    runs-on: ubuntu-latest
+#    env:
+#      PHP_BASE_IMAGE: docker.pkg.github.com/flownative/docker-php/php:7.3
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          ref: 'master'
+#          fetch-depth: 100
+#
+#      - name: Determine latest released version
+#        id: latest_version
+#        uses: flownative/action-git-latest-release@master
+#
+#      - name: Build Docker image
+#        id: build_image
+#        uses: flownative/action-docker-build@v1
+#        with:
+#          tag_ref: ${{ steps.latest_version.outputs.tag }}
+#          image_name: flownative/docker-beach-php/beach-php
+#          image_tag: 7.3
+#          git_repository_url: https://github.com/${{ github.repository }}
+#          git_sha: ${{ github.sha }}
+#          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+#
+#      - name: Dispatch
+#        uses: peter-evans/repository-dispatch@v1
+#        with:
+#          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+#          event-type: image-built
+#          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.3"}'
+#
+#  build-7_4:
+#    runs-on: ubuntu-latest
+#    env:
+#      PHP_BASE_IMAGE: docker.pkg.github.com/flownative/docker-php/php:7.4
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          ref: 'master'
+#          fetch-depth: 100
+#
+#      - name: Determine latest released version
+#        id: latest_version
+#        uses: flownative/action-git-latest-release@master
+#
+#      - name: Build Docker image
+#        id: build_image
+#        uses: flownative/action-docker-build@v1
+#        with:
+#          tag_ref: ${{ steps.latest_version.outputs.tag }}
+#          image_name: flownative/docker-beach-php/beach-php
+#          image_tag: 7.4
+#          git_repository_url: https://github.com/${{ github.repository }}
+#          git_sha: ${{ github.sha }}
+#          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+#
+#      - name: Dispatch
+#        uses: peter-evans/repository-dispatch@v1
+#        with:
+#          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+#          event-type: image-built
+#          client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.4"}'
