@@ -60,6 +60,20 @@ similar mechanism in Kubernetes or your actual platform.
 | BEACH_PHP_TIMEZONE     | string |         | Sets PHP_DATE_TIMEZONE |
 | BEACH_PHP_MEMORY_LIMIT | string |         | Sets PHP_MEMORY_LIMIT  |
 
+## Included tools
+
+This image provides a few tools to SSH user, so they have an easier time
+debugging typical issues, such as connection problems or
+misconfiguration.
+
+The included tools are:
+
+| Name   | Command  | Description                                   |
+|:-------|:---------|:----------------------------------------------|
+| vim    | vi / vim | Text editor                                   |
+| cURL   | curl     | Data transfer agent for HTTP(S), FTP and more |
+| Netcat | nc       | Universal TCP and UDP tool                    |
+
 ## Security aspects
 
 This image is designed to run as a non-root container. Using an

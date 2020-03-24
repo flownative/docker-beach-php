@@ -48,7 +48,7 @@ build_create_user() {
 # @return void
 #
 build_tools() {
-    packages_install netcat vim
+    packages_install netcat vim curl
 
 }
 
