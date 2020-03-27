@@ -10,6 +10,7 @@
 # Load helper lib
 
 . "${FLOWNATIVE_LIB_PATH}/log.sh"
+. "${FLOWNATIVE_LIB_PATH}/validation.sh"
 
 # ---------------------------------------------------------------------------------------
 # beach_env() - Load global environment variables for configuring PHP
@@ -97,8 +98,7 @@ beach_write_env() {
 
     # shellcheck disable=SC2068
     for variableName in ${allowedVariableNames[@]}; do
-        # shellcheck disable=SC2154
-        echo "${variableName}=$(printenv "${variableName}")" >> /home/beach/.env
+        echo "export ${variableName}='${!variableName//\'/\'\\\'\'}'" >> /home/beach/.env
     done
 }
 
@@ -162,12 +162,12 @@ beach_run_cache_warmup() {
 }
 
 # ---------------------------------------------------------------------------------------
-# beach_custom_startup() - Invoke a custom startup script, if one exists
+# beach_run_custom_startup() - Invoke a custom startup script, if one exists
 #
 # @global BEACH_* The BEACH_* environment variables
 # @return void
 #
-beach_custom_startup() {
+beach_run_custom_startup() {
     if [ ! -f "${BEACH_APPLICATION_PATH}/beach-startup.sh" ]; then
         info "Beach: No custom startup script found"
         return
@@ -176,6 +176,49 @@ beach_custom_startup() {
     info "Beach: Running custom startup script ..."
     chmod +x "${BEACH_APPLICATION_PATH}/beach-startup.sh"
     "${BEACH_APPLICATION_PATH}/beach-startup.sh" 2>&1 | (sed 's/^/Beach: (flow) /' | output)
+}
+
+# ---------------------------------------------------------------------------------------
+# beach_enable_user_services() - Set up user services for Supervisor
+#
+# @global BEACH_*
+# @global SUPERVISOR_BASE_PATH
+# @return void
+#
+beach_enable_user_services() {
+    if is_boolean_no "$BEACH_APPLICATION_USER_SERVICE_ENABLE"; then
+        info "Beach: User-defined services are disabled"
+        return
+    fi
+
+    serviceNumber=1
+    servicePathsAndFilenames=$(find "${BEACH_APPLICATION_PATH}" -maxdepth 1 -name "beach-service*.sh")
+    for servicePathAndFilename in ${servicePathsAndFilenames}
+    do
+        if [ -f "${servicePathAndFilename}" ]; then
+            cat > "${SUPERVISOR_BASE_PATH}/etc/conf.d/beach-user-${serviceNumber}.conf" <<- EOM
+[program:beach-user-${serviceNumber}]
+process_name=%(program_name)s
+command=${servicePathAndFilename}
+autostart=true
+autorestart=true
+numprocs=1
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+redirect_stderr=true
+EOM
+            chmod 644 "${SUPERVISOR_BASE_PATH}/etc/conf.d/beach-user-${serviceNumber}.conf"
+
+            info "Beach: Enabled ${servicePathAndFilename} as user-defined service script"
+        fi
+        (( serviceNumber++ ))
+    done
+
+    if [[ $serviceNumber == 1 ]]; then
+        info "Beach: No user-defined services found"
+        return
+    fi
+
 }
 
 # ---------------------------------------------------------------------------------------
@@ -207,8 +250,9 @@ beach_prepare_flow() {
     beach_run_doctrine_migrate
     beach_run_resource_publish
     beach_run_cache_warmup
+    beach_run_custom_startup
 
-    beach_custom_startup
+    beach_enable_user_services
 
     debug "Beach: Writing .warmupdone flag"
     touch /application/.warmupdone

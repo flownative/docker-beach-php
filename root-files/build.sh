@@ -35,8 +35,8 @@ build_create_user() {
     groupadd --gid 1000 beach
     useradd --home-dir /home/beach --shell /bin/bash --gid beach --uid 1000 beach 1>$(debug_device)
 
-    chown beach:beach /home/beach
-    chmod 775 /home/beach
+    chown beach:beach /home/beach ${SUPERVISOR_BASE_PATH}/etc/conf.d
+    chmod 775 /home/beach ${SUPERVISOR_BASE_PATH}/etc/conf.d
 
     chmod 644 /home/beach/.profile /home/beach/.bashrc /home/beach/.env
     chown beach:beach /home/beach/.profile /home/beach/.bashrc /home/beach/.env

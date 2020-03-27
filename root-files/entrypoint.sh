@@ -44,6 +44,8 @@ fi
 
 if [[ "$*" = *"run"* ]]; then
     supervisor_pid=$(supervisor_get_pid)
+
+    supervisorctl status
     info "Entrypoint: Start up complete"
     # We can't use "wait" because supervisord is not a direct child of this shell:
     while [ -e "/proc/${supervisor_pid}" ]; do sleep 1.1; done
