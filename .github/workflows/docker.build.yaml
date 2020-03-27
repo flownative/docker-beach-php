@@ -1,7 +1,7 @@
 name: Build Docker images
 on:
   repository_dispatch:
-    types: [image-released]
+    types: [php-images-built]
   push:
     branches-ignore:
       - '**'
