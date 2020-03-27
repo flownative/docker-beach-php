@@ -39,13 +39,14 @@ trap 'supervisor_stop' SIGINT SIGTERM
 
 if is_boolean_yes "$SSHD_ENABLE"; then
     sshd_initialize
-    supervisorctl start sshd
+    supervisorctl start sshd 2>&1 | (sed 's/^/Supervisor: /' | output)
 fi
 
 if [[ "$*" = *"run"* ]]; then
     supervisor_pid=$(supervisor_get_pid)
 
-    supervisorctl status
+    sleep 1
+    supervisorctl status 2>&1 | (sed 's/^/Supervisor: /' | output)
     info "Entrypoint: Start up complete"
     # We can't use "wait" because supervisord is not a direct child of this shell:
     while [ -e "/proc/${supervisor_pid}" ]; do sleep 1.1; done
