@@ -1,5 +1,6 @@
 #!/bin/bash
 # shellcheck disable=SC1090
+# shellcheck disable=SC2046
 
 # =======================================================================================
 # LIBRARY: SSHD
@@ -15,7 +16,7 @@
 # ---------------------------------------------------------------------------------------
 # sshd_env() - Load global environment variables for configuring SSHD
 #
-# @global BEACH_* The BEACH_ environment variables
+# @global SSHD_* The SSHD_ environment variables
 # @return "export" statements which can be passed to eval()
 #
 sshd_env() {
@@ -109,11 +110,9 @@ sshd_start() {
     local pid
 
     info "SSHD: Starting ..."
-    "${SSHD_BASE_PATH}/sbin/sshd" -f "${SSHD_BASE_PATH}/etc/sshd_config" 2>&1 | (sed 's/^/SSHD: /' | output) &
-    sleep 1
 
-    with_backoff "sshd_has_pid" || (error "SSHD: Could not retrieve PID of the SSHD process, maybe it failed during start-up?"; exit 1)
-    pid=$(sshd_get_pid)
+    supervisorctl start sshd 1>$(debug_device)
+    pid=$(supervisorctl pid sshd)
 
     info "SSHD: Using ${SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT} as authorized keys service endpoint"
     info "SSHD: Running as process #${pid} on host $(hostname)"
