@@ -38,8 +38,8 @@ build_create_user() {
     chown beach:beach /home/beach
     chmod 775 /home/beach
 
-    chmod 644 /home/beach/.profile
-    chown beach:beach /home/beach/.profile
+    chmod 644 /home/beach/.profile /home/beach/.bashrc /home/beach/.env
+    chown beach:beach /home/beach/.profile /home/beach/.bashrc /home/beach/.env
 }
 
 # ---------------------------------------------------------------------------------------

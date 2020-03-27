@@ -51,72 +51,28 @@ EOF
 }
 
 # ---------------------------------------------------------------------------------------
-# beach_env_unset_by_whitelist() - Unsets all env variables except for given whitelist
+# beach_write_env() - Writes environment variables into ~/.env for SSH users
 #
 # @global BEACH_* The BEACH_ evnironment variables
 # @return void
 #
-beach_env_unset_by_whitelist() {
-    local environmentVariableNames
+beach_write_env() {
     local systemVariableNames
     local allowedVariableNames
 
-    environmentVariableNames=$(env | cut -f1 -d=)
-    whitelistedVariableNames=$(base64 -d <<< "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}")
+    if [ -z "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}" ]; then
+        info "Beach: No whitelist defined for environment variables, exporting all variables to user profile ..."
+        env >> /home/beach/.env
+        return
+    fi
+
+    whitelistedVariableNames=$(base64 -d <<<"${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}")
     systemVariableNames=(
-        _
-        BASH
-        BASH_ALIASES
-        BASH_ARGC
-        BASH_ARGV
-        BASH_CMDS
-        BASH_LINENO
-        BASH_SOURCE
-        BASH_VERSINFO
-        BASH_VERSION
-        BASHOPTS
-        BEACH_ADDON_BLACKFIRE_AGENT_HOST
-        BEACH_ADDON_BLACKFIRE_AGENT_PORT
-        BEACH_ADDON_BLACKFIRE_ENABLE
-        BEACH_APPLICATION_PATH
-        BEACH_DATABASE_HOST
-        BEACH_DATABASE_NAME
-        BEACH_DATABASE_PASSWORD
-        BEACH_DATABASE_PORT
-        BEACH_DATABASE_USERNAME
         BEACH_INSTANCE_NAME
         BEACH_INSTANCE_IDENTIFIER
         BEACH_INSTANCE_IMAGE_NAME
-        BEACH_PHP_FPM_ENABLE
-        BEACH_PHP_FPM_MAX_CHILDREN
-        BEACH_PHP_FPM_PORT
-        BEACH_PHP_MEMORY_LIMIT
-        BEACH_PHP_TIMEZONE
-        BEACH_REDIS_HOST
-        BEACH_REDIS_PASSWORD
-        BEACH_REDIS_PORT
-        DEBIAN_FRONTEND
-        DIRSTACK
-        EUID
         FLOW_CONTEXT
         FLOWNATIVE_LIB_PATH
-        GROUPS
-        HOME
-        HOSTNAME
-        HOSTTYPE
-        IFS
-        LANG
-        LANGUAGE
-        LC_ALL
-        LESSCLOSE
-        LESSOPEN
-        LOG_DEBUG
-        LS_COLORS
-        MACHTYPE
-        MICRO_VERSION
-        OPTERR
-        OPTIND
-        OSTYPE
         PATH
         PHP_BASE_PATH
         PHP_CONF_PATH
@@ -129,36 +85,20 @@ beach_env_unset_by_whitelist() {
         PHP_MEMORY_LIMIT
         PHP_TMP_PATH
         PHP_VERSION
-        PPID
-        PS4
-        PWD
-        SHELL
-        SHELLOPTS
-        SHLVL
         SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT
         SSHD_BASE_PATH
         SSHD_ENABLE
         SSHD_HOST_KEYS_PATH
-        TERM
-        UID
-    );
+        SUPERVISOR_BASE_PATH
+    )
+    allowedVariableNames=("${whitelistedVariableNames[@]}" "${systemVariableNames[@]}")
 
-    allowedVariableNames=("${whitelistedVariableNames[@]}" "${systemVariableNames[@]}");
+    info "Beach: Exporting ${#allowedVariableNames[@]} variables to user profile according to the specified whitelist ..."
+
     # shellcheck disable=SC2068
-    for variableName in ${environmentVariableNames[@]}
-    do
-        variableAllowed=false
-        for allowedVariableName in ${allowedVariableNames[@]}
-        do
-        if [[ ${allowedVariableName} == "${variableName}" ]]; then
-            variableAllowed=true
-            break
-            fi
-        done
-        if [[ ${variableAllowed} != true ]]; then
-            debug "Beach: Unsetting environment variable ${variableName}"
-            unset "${variableName}"
-        fi
+    for variableName in ${allowedVariableNames[@]}; do
+        # shellcheck disable=SC2154
+        echo "${variableName}=$(printenv "${variableName}")" >> /home/beach/.env
     done
 }
 
@@ -170,7 +110,7 @@ beach_env_unset_by_whitelist() {
 #
 beach_setup_user_profile() {
     info "Beach: Setting up user profile for user beach ..."
-    cat > /home/beach/.my.cnf <<- EOM
+    cat >/home/beach/.my.cnf <<-EOM
 [client]
 port                  = 3306
 default-character-set = utf8
@@ -248,11 +188,7 @@ beach_initialize() {
     info "Beach: Initializing configuration"
     info "Beach: Flow is going to run in context '${BEACH_FLOW_CONTEXT}'"
 
-    if [ -n "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}" ]; then
-        info "Beach: Unsetting environment variables according to given whitelist"
-        beach_env_unset_by_whitelist
-    fi
-
+    beach_write_env
     beach_setup_user_profile
 }
 
