@@ -208,6 +208,7 @@ stdout_logfile_maxbytes=0
 redirect_stderr=true
 EOM
             chmod 644 "${SUPERVISOR_BASE_PATH}/etc/conf.d/beach-user-${serviceNumber}.conf"
+            chmod 775 "${servicePathAndFilename}"
 
             info "Beach: Enabled ${servicePathAndFilename} as user-defined service script"
         fi
