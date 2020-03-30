@@ -67,7 +67,6 @@ TCPKeepAlive yes
 
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
-SendEnv LANG LC_*
 
 # We don't want that user environment variables are processed from ~/.ssh/environment
 PermitUserEnvironment no
