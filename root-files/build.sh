@@ -62,7 +62,6 @@ build_sshd() {
 
     # Clean up a few directories / files we don't need:
     rm -rf \
-        /etc/ufw \
         /etc/init.d \
         /etc/rc2.d/S01ssh \
         /etc/rc2.d/S01ssh \
@@ -78,7 +77,7 @@ build_sshd() {
     # Move SSHD files to correct location:
     mv /usr/sbin/sshd ${SSHD_BASE_PATH}/sbin/
 
-    chown -R 1000 \
+    chown -R beach \
         "${SSHD_BASE_PATH}/etc" \
         "${SSHD_BASE_PATH}/tmp"
 }

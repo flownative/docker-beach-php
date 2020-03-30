@@ -9,6 +9,7 @@ LABEL org.label-schema.vendor="Flownative GmbH"
 
 ENV BEACH_APPLICATION_PATH="/application" \
     SUPERVISOR_BASE_PATH="/opt/flownative/supervisor" \
+    BEACH_CRON_BASE_PATH="/opt/flownative/beach-cron" \
     SSHD_BASE_PATH="/opt/flownative/sshd" \
     SSHD_ENABLE="false"
 
