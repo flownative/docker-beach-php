@@ -64,6 +64,14 @@ similar mechanism in Kubernetes or your actual platform.
 | SSHD_HOST_KEYS_PATH                   | string  | /opt/flownative/sshd/etc                                        | Path where to store SSH host keys                     |
 | SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT | string  | http://beach-controlpanel.beach-system.svc.cluster.local/api/v1 | URL of the Beach SSH authorized keys service endpoint |
 
+### Blackfire
+
+| Variable Name                    | Type    | Default   | Description                                       |
+|:---------------------------------|:--------|:----------|:--------------------------------------------------|
+| BEACH_ADDON_BLACKFIRE_ENABLE     | boolean | false     | Enables the Blackfire probe extension             |
+| BEACH_ADDON_BLACKFIRE_AGENT_HOST | string  | localhost | Hostname for connecting to the Blackfire agent    |
+| BEACH_ADDON_BLACKFIRE_AGENT_PORT | integer | 8707      | Port number for connecting to the Blackfire agent |
+
 ### Deprecated
 
 These variables are handled for reasons of backwards-compatibility.

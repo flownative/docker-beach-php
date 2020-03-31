@@ -83,6 +83,27 @@ build_sshd() {
 }
 
 # ---------------------------------------------------------------------------------------
+# build_blackfire() - Install and configure the Blackfire probe and Blackfire agent
+#
+# @global PHP_BASE_PATH
+# @return void
+#
+build_blackfire() {
+    downloadUrl=https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$(php -r "echo PHP_MAJOR_VERSION, PHP_MINOR_VERSION;")
+    info "📦 Downloading Blackfire from $downloadUrl"
+
+    with_backoff "curl -A Docker -sSL ${downloadUrl} -o /tmp/blackfire-probe.tar.gz" "15" || (
+        error "Failed downloading Blackfire probe"
+        exit 1
+    )
+
+    mkdir -p /tmp/blackfire
+    tar xfz /tmp/blackfire-probe.tar.gz -C /tmp/blackfire
+    mv /tmp/blackfire/blackfire-*.so ${PHP_BASE_PATH}/lib/php/extensions/no-debug-non-zts-20190902/blackfire.so
+    rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
+}
+
+# ---------------------------------------------------------------------------------------
 # build_clean() - Clean up obsolete building artifacts and temporary files
 #
 # @global PHP_BASE_PATH
@@ -106,6 +127,7 @@ init)
 build)
     build_tools
     build_sshd
+    build_blackfire
     ;;
 clean)
     packages_remove_docs_and_caches 1>$(debug_device)

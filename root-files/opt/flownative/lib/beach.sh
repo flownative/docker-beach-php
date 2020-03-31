@@ -49,6 +49,9 @@ export BEACH_DATABASE_PASSWORD=${BEACH_DATABASE_PASSWORD:-}
 export BEACH_ENVIRONMENT_VARIABLES_WHITELIST=${BEACH_ENVIRONMENT_VARIABLES_WHITELIST:-}
 export BEACH_CRON_ENABLE=${BEACH_CRON_ENABLE:-true}
 
+export BEACH_ADDON_BLACKFIRE_ENABLE=${BEACH_ADDON_BLACKFIRE_ENABLE:-false}
+export BEACH_ADDON_BLACKFIRE_AGENT_HOST=${BEACH_ADDON_BLACKFIRE_AGENT_HOST:-localhost}
+export BEACH_ADDON_BLACKFIRE_AGENT_PORT=${BEACH_ADDON_BLACKFIRE_AGENT_PORT:-8707}
 EOF
 }
 
@@ -224,6 +227,26 @@ EOM
 }
 
 # ---------------------------------------------------------------------------------------
+# beach_setup_addon_blackfire() - Set up the Blackfire probe
+#
+# @global BEACH_*
+# @global SUPERVISOR_BASE_PATH
+# @return void
+#
+beach_setup_addon_blackfire() {
+    if is_boolean_no "$BEACH_ADDON_BLACKFIRE_ENABLE"; then
+        info "Beach: Blackfire add-on is disabled"
+        return
+    fi
+
+    info "Beach: Enabling Blackfire probe extension"
+    cat > "${PHP_BASE_PATH}/etc/conf.d/php-ext-blackfire.ini" <<- EOM
+extension=blackfire.so
+blackfire.agent_socket=tcp://${BEACH_ADDON_BLACKFIRE_AGENT_HOST}:${BEACH_ADDON_BLACKFIRE_AGENT_PORT}
+EOM
+}
+
+# ---------------------------------------------------------------------------------------
 # beach_initialize() - Set up configuration
 #
 # @global BEACH_* The BEACH_* environment variables
@@ -235,6 +258,7 @@ beach_initialize() {
 
     beach_write_env
     beach_setup_user_profile
+    beach_setup_addon_blackfire
 }
 
 # ---------------------------------------------------------------------------------------
