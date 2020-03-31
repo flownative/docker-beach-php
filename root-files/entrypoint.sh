@@ -42,6 +42,11 @@ if is_boolean_yes "$SSHD_ENABLE"; then
     supervisorctl start sshd 2>&1 | (sed 's/^/Supervisor: /' | output)
 fi
 
+if is_boolean_yes "$BEACH_CRON_ENABLE"; then
+    info "Beach: Enabling Beach simple cron support"
+    supervisorctl start beach-cron 2>&1 | (sed 's/^/Supervisor: /' | output)
+fi
+
 if [[ "$*" = *"run"* ]]; then
     supervisor_pid=$(supervisor_get_pid)
 

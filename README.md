@@ -18,9 +18,19 @@ console output and meaningful messages.
 $ docker run flownative/beach-php
 ```
 
-## Example usage
+## Usage
 
-tbd.
+This image can be used in two scenarios:
+
+- as a container as part of
+  [Local Beach](https://www.flownative.com/localbeach) or other Docker
+  Compose setup
+- as a container as part of [Beach](https://www.flownative.com/beach) in
+  a Kubernetes setup
+
+You may be able to tweak this image to fit into other setups. Please
+make sure you understand the internals of this image before you try to
+do so.
 
 ## Configuration
 
@@ -34,15 +44,16 @@ similar mechanism in Kubernetes or your actual platform.
 
 ### Flow
 
-| Variable Name                         | Type    | Default                   | Description                   |
-|:--------------------------------------|:--------|:--------------------------|:------------------------------|
-| BEACH_WAIT_FOR_SYNC                   | boolean | false                     |                               |
-| BEACH_APPLICATION_USER_SERVICE_ENABLE | boolean | false                     |                               |
-| BEACH_FLOW_BASE_CONTEXT               | string  | Production                |                               |
-| BEACH_FLOW_BASE_CONTEXT               | string  | Production                |                               |
-| BEACH_FLOW_SUB_CONTEXT                | string  | Instance                  |                               |
-| BEACH_FLOW_CONTEXT                    | string  | Production/Beach/Instance | (read-only)                   |
-| BEACH_ENVIRONMENT_VARIABLES_WHITELIST | string  |                           |                               |
+| Variable Name                         | Type    | Default                   | Description |
+|:--------------------------------------|:--------|:--------------------------|:------------|
+| BEACH_WAIT_FOR_SYNC                   | boolean | false                     |             |
+| BEACH_APPLICATION_USER_SERVICE_ENABLE | boolean | false                     |             |
+| BEACH_FLOW_BASE_CONTEXT               | string  | Production                |             |
+| BEACH_FLOW_BASE_CONTEXT               | string  | Production                |             |
+| BEACH_FLOW_SUB_CONTEXT                | string  | Instance                  |             |
+| BEACH_FLOW_CONTEXT                    | string  | Production/Beach/Instance | (read-only) |
+| BEACH_ENVIRONMENT_VARIABLES_WHITELIST | string  |                           |             |
+| BEACH_CRON_ENABLE                     | boolean | true                      |             |
 
 ### SSHD
 
@@ -54,6 +65,10 @@ similar mechanism in Kubernetes or your actual platform.
 | SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT | string  | http://beach-controlpanel.beach-system.svc.cluster.local/api/v1 | URL of the Beach SSH authorized keys service endpoint |
 
 ### Deprecated
+
+These variables are handled for reasons of backwards-compatibility.
+Please avoid using them, as they will be removed once Flownative Beach
+has fully migrated to the new configuration options.
 
 | Variable Name          | Type   | Default | Description            |
 |:-----------------------|:-------|:--------|:-----------------------|
@@ -68,11 +83,48 @@ misconfiguration.
 
 The included tools are:
 
-| Name   | Command  | Description                                   |
-|:-------|:---------|:----------------------------------------------|
-| vim    | vi / vim | Text editor                                   |
-| cURL   | curl     | Data transfer agent for HTTP(S), FTP and more |
-| Netcat | nc       | Universal TCP and UDP tool                    |
+| Name   | Command  | Description                                                  |
+|:-------|:---------|:-------------------------------------------------------------|
+| vim    | vi / vim | Text editor                                                  |
+| cURL   | curl     | Data transfer agent for HTTP(S), FTP and more                |
+| MySQL  | mysql    | MySQL client, including tools like mysqldump and mysqlimport |
+| Netcat | nc       | Universal TCP and UDP tool                                   |
+
+## Cron
+
+This image contains a very simple and naïve implementation for running a
+script on a regular basis. When the feature is enabled using the
+environment variable `BEACH_CRON_ENABLE`, a daemon will check if there's
+a script called `/application/beach-cron-hourly.sh` and if it exists,
+calls the script once every hour.
+
+Since this type of traditional cron-jobs does not fit very well into
+container setups like Kubernetes, this feature is only a temporary
+solution.
+
+## SSHD
+
+This image contains SSHD, the [OpenSSH](https://www.openssh.com/) SSH
+daemon. The configuration of the SSH server is tailored to [Flownative
+Beach](https://www.flownative.com/beach) and won't work with other
+environments out of the box.
+
+SSH support is disabled by default and can be enabled by setting the
+environment variable `SSHD_ENABLE` to `true`.
+
+In order to run SSHD with an unprivileged user, the daemon is configured
+to listen on a non-privileged port (2022).
+
+SSHD is configured to use a custom authorized keys script which
+authenticates connecting users. The script passes the Beach instance
+identifier to a REST service specified in
+`SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT` and receives a list of
+authorized public keys in return. If the public key of the current
+client can be found in that list, access is granted.
+
+Only connections as user "beach" using public key authentication are
+accepted. Connections as "root" or with authentication via password are
+rejected.
 
 ## Security aspects
 
