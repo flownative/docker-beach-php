@@ -99,8 +99,11 @@ build_blackfire() {
 
     mkdir -p /tmp/blackfire
     tar xfz /tmp/blackfire-probe.tar.gz -C /tmp/blackfire
-    mv /tmp/blackfire/blackfire-*.so ${PHP_BASE_PATH}/lib/php/extensions/no-debug-non-zts-20190902/blackfire.so
+    oldDirectory=$(pwd)
+    cd ${PHP_BASE_PATH}/lib/php/extensions/no-debug-non-zts-*
+    mv /tmp/blackfire/blackfire-*.so ./blackfire.so
     rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
+    cd $oldDirectory
 }
 
 # ---------------------------------------------------------------------------------------
