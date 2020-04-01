@@ -54,7 +54,7 @@ ChallengeResponseAuthentication no
 X11Forwarding no
 
 # We need to allow TCP forwarding
-AllowTcpForwarding no
+AllowTcpForwarding yes
 
 # Show a MOTD:
 PrintMotd no
