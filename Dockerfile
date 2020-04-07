@@ -7,7 +7,8 @@ LABEL org.label-schema.name="Beach PHP"
 LABEL org.label-schema.description="Docker image providing PHP for Beach and Local Beach"
 LABEL org.label-schema.vendor="Flownative GmbH"
 
-ENV BEACH_APPLICATION_PATH="/application" \
+ENV BANNER_IMAGE_NAME="Beach PHP" \
+    BEACH_APPLICATION_PATH="/application" \
     SUPERVISOR_BASE_PATH="/opt/flownative/supervisor" \
     BEACH_CRON_BASE_PATH="/opt/flownative/beach-cron" \
     SSHD_BASE_PATH="/opt/flownative/sshd" \

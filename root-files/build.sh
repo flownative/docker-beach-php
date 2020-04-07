@@ -123,7 +123,7 @@ build_clean() {
 
 case $1 in
 init)
-    banner_flownative 'Beach PHP'
+    banner_flownative "${BANNER_IMAGE_NAME}"
     build_create_directories
     build_create_user
     ;;
