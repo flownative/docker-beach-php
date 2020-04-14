@@ -55,7 +55,7 @@ similar mechanism in Kubernetes or your actual platform.
 | BEACH_FLOW_SUB_CONTEXT                | string  | Instance                  |             |
 | BEACH_FLOW_CONTEXT                    | string  | Production/Beach/Instance | (read-only) |
 | BEACH_ENVIRONMENT_VARIABLES_WHITELIST | string  |                           |             |
-| BEACH_CRON_ENABLE                     | boolean | true                      |             |
+| BEACH_CRON_ENABLE                     | boolean | false                     |             |
 
 ### SSHD
 
