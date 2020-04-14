@@ -65,13 +65,6 @@ beach_write_env() {
     local systemVariableNames
     local allowedVariableNames
 
-    if [ -z "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}" ]; then
-        info "Beach: No whitelist defined for environment variables, exporting all variables to user profile ..."
-        env >> /home/beach/.env
-        return
-    fi
-
-    whitelistedVariableNames=$(base64 -d <<<"${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}")
     systemVariableNames=(
         BEACH_INSTANCE_NAME
         BEACH_INSTANCE_IDENTIFIER
@@ -96,9 +89,17 @@ beach_write_env() {
         SSHD_HOST_KEYS_PATH
         SUPERVISOR_BASE_PATH
     )
-    allowedVariableNames=("${whitelistedVariableNames[@]}" "${systemVariableNames[@]}")
 
-    info "Beach: Exporting ${#allowedVariableNames[@]} variables to user profile according to the specified whitelist ..."
+    if [ -n "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}" ]; then
+        whitelistedVariableNames=$(base64 -d <<<"${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}")
+        allowedVariableNames=("${whitelistedVariableNames[@]}" "${systemVariableNames[@]}")
+    else
+        info "Beach: No whitelist defined for environment variables, exporting all variables to user profile ..."
+        allowedVariableNames=()
+        while IFS='' read -r line; do allowedVariableNames+=("$line"); done < <(compgen -e)
+    fi
+
+    info "Beach: Exporting environment variables to user profile ..."
 
     # shellcheck disable=SC2068
     for variableName in ${allowedVariableNames[@]}; do
