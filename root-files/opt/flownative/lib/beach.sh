@@ -64,6 +64,7 @@ EOF
 beach_write_env() {
     local systemVariableNames
     local allowedVariableNames
+    local variableName
 
     systemVariableNames=(
         BEACH_INSTANCE_NAME
