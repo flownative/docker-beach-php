@@ -102,10 +102,12 @@ beach_write_env() {
 
     info "Beach: Exporting environment variables to user profile ..."
 
+    set +o nounset
     # shellcheck disable=SC2068
     for variableName in ${allowedVariableNames[@]}; do
         echo "export ${variableName}='${!variableName//\'/\'\\\'\'}'" >> /home/beach/.env
     done
+    set -o nounset
 }
 
 # ---------------------------------------------------------------------------------------
