@@ -72,7 +72,7 @@ build_sshd() {
     mkdir -p \
         "${SSHD_BASE_PATH}/etc" \
         "${SSHD_BASE_PATH}/sbin" \
-        "${SSHD_BASE_PATH}/tmp" \
+        "${SSHD_BASE_PATH}/tmp"
 
     # Move SSHD files to correct location:
     mv /usr/sbin/sshd ${SSHD_BASE_PATH}/sbin/

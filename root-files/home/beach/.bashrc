@@ -1,3 +1,9 @@
+# If this shell was started by SSHD, the environment variables need to be set:
+if [[ -z "${FLOWNATIVE_LIB_PATH}" ]]; then
+    source /home/beach/.env
+    export BANNER_FLOWNATIVE_SKIP="yes"
+fi
+
 export PATH="$PATH":/usr/local/bin:/usr/bin:$HOME:${SUPERVISOR_BASE_PATH}/bin
 export FLOW_ROOTPATH="${BEACH_APPLICATION_PATH}"
 
