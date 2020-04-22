@@ -74,6 +74,14 @@ similar mechanism in Kubernetes or your actual platform.
 | BEACH_ADDON_BLACKFIRE_AGENT_HOST | string  | localhost | Hostname for connecting to the Blackfire agent    |
 | BEACH_ADDON_BLACKFIRE_AGENT_PORT | integer | 8707      | Port number for connecting to the Blackfire agent |
 
+### Beach
+
+| Variable Name                    | Type    | Default   | Description                                       |
+|:---------------------------------|:--------|:----------|:--------------------------------------------------|
+| BEACH_INSTANCE_IDENTIFIER        | string  |           | The Beach instance identifier                     |
+| BEACH_INSTANCE_NAME              | string  |           | The Beach instance name                           |
+| BEACH_PROJECT_NAME               | string  |           | The Beach project name                            |
+
 ### Deprecated
 
 These variables are handled for reasons of backwards-compatibility.

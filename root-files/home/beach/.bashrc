@@ -25,7 +25,11 @@ eval "$(php_fpm_env)"
 eval "$(sshd_env)"
 
 if [[ -n "${BEACH_INSTANCE_IDENTIFIER}" ]]; then
-    banner_generic "Flownative Beach" "${BEACH_INSTANCE_NAME}" "${BEACH_INSTANCE_IDENTIFIER}"
+    if [[ -n "${BEACH_PROJECT_NAME}" ]]; then
+        banner_generic "Flownative Beach" "${BEACH_PROJECT_NAME} / ${BEACH_INSTANCE_NAME}" "${BEACH_INSTANCE_IDENTIFIER}"
+    else
+        banner_generic "Flownative Beach" "${BEACH_INSTANCE_NAME}" "${BEACH_INSTANCE_IDENTIFIER}"
+    fi
 else
     banner_generic "Flownative Local Beach" "" "${BEACH_INSTANCE_NAME}"
 fi
