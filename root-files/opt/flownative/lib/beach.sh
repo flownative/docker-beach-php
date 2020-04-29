@@ -25,7 +25,7 @@ export BEACH_APPLICATION_PATH=${BEACH_APPLICATION_PATH%/}
 export BEACH_WAIT_FOR_SYNC=${BEACH_WAIT_FOR_SYNC:-false}
 export BEACH_APPLICATION_USER_SERVICE_ENABLE=${BEACH_APPLICATION_USER_SERVICE_ENABLE:-false}
 export BEACH_APPLICATION_USER_SERVICE_USERNAME=${BEACH_APPLICATION_USER_SERVICE_USERNAME:-beach}
-export BEACH_APPLICATION_STARTUP_SCRIPT_USERNAME=${BEACH_APPLICATION_STARTUP_SCRIPT_USERNAME:-beach}
+export BEACH_APPLICATION_STARTUP_SCRIPTS_ENABLE=${BEACH_APPLICATION_STARTUP_SCRIPTS_ENABLE:-true}
 
 export BEACH_INSTANCE_IDENTIFIER=${BEACH_INSTANCE_IDENTIFIER:-}
 export BEACH_INSTANCE_NAME=${BEACH_INSTANCE_NAME:-}
@@ -279,10 +279,15 @@ beach_prepare_flow() {
         return
     fi
 
-    beach_run_doctrine_migrate
-    beach_run_resource_publish
-    beach_run_cache_warmup
-    beach_run_custom_startup
+    if is_boolean_yes "$BEACH_APPLICATION_STARTUP_SCRIPTS_ENABLE"; then
+        info "Beach: Running built-in startup scripts ..."
+        beach_run_doctrine_migrate
+        beach_run_resource_publish
+        beach_run_cache_warmup
+        beach_run_custom_startup
+    else
+        info "Beach: Skipping built-in startup scripts"
+    fi
 
     beach_enable_user_services
 

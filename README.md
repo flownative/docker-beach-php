@@ -46,16 +46,16 @@ similar mechanism in Kubernetes or your actual platform.
 
 ### Flow
 
-| Variable Name                         | Type    | Default                   | Description |
-|:--------------------------------------|:--------|:--------------------------|:------------|
-| BEACH_WAIT_FOR_SYNC                   | boolean | false                     |             |
-| BEACH_APPLICATION_USER_SERVICE_ENABLE | boolean | false                     |             |
-| BEACH_FLOW_BASE_CONTEXT               | string  | Production                |             |
-| BEACH_FLOW_BASE_CONTEXT               | string  | Production                |             |
-| BEACH_FLOW_SUB_CONTEXT                | string  | Instance                  |             |
-| BEACH_FLOW_CONTEXT                    | string  | Production/Beach/Instance | (read-only) |
-| BEACH_ENVIRONMENT_VARIABLES_WHITELIST | string  |                           |             |
-| BEACH_CRON_ENABLE                     | boolean | false                     |             |
+| Variable Name                            | Type    | Default                   | Description                                                                          |
+|:-----------------------------------------|:--------|:--------------------------|:-------------------------------------------------------------------------------------|
+| BEACH_WAIT_FOR_SYNC                      | boolean | false                     |                                                                                      |
+| BEACH_APPLICATION_USER_SERVICE_ENABLE    | boolean | false                     | If user-defined services (beach-service*.sh) should be enabled                       |
+| BEACH_APPLICATION_STARTUP_SCRIPTS_ENABLE | boolean | true                      | If standard startup scripts (doctrine migrate, resource publish etc.) should be run  |
+| BEACH_FLOW_BASE_CONTEXT                  | string  | Production                | Base context, either "Development" or "Production"                                   |
+| BEACH_FLOW_SUB_CONTEXT                   | string  | Instance                  | Sub context                                                                          |
+| BEACH_FLOW_CONTEXT                       | string  | Production/Beach/Instance | (read-only) The actual Flow context; pattern: "{…BASE_CONTEXT}/Beach/{…SUB_CONTEXT}" |
+| BEACH_ENVIRONMENT_VARIABLES_WHITELIST    | string  |                           | If set, only these environment variables are promoted to the "beach" user's shell    |
+| BEACH_CRON_ENABLE                        | boolean | false                     | If user-defined cron-jobs (beach-cron-hourly.sh) should be enabled                   |
 
 ### SSHD
 
