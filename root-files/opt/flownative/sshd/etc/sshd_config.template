@@ -82,6 +82,12 @@ AllowAgentForwarding no
 # Only allow logins for Beach users
 AllowUsers beach
 
+# According to the protocol specification, the SSH server must announce its
+# full version in order to agree on a common version with the requesting client.
+# However, there's also a suffix added which identifies the operating system
+# (e.g. 7.6p1 Ubuntu 4ubuntu0.1), which can be disabled by this option:
+DebianBanner no
+
 # Use our custom script for determining authorized keys for a given user:
 AuthorizedKeysCommand ${SSHD_BASE_PATH}/sbin/authorized-keys.sh %u %f ${SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT}
 
