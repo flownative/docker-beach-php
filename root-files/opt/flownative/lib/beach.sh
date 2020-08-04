@@ -48,6 +48,7 @@ export BEACH_DATABASE_USERNAME=${BEACH_DATABASE_USERNAME:-}
 export BEACH_DATABASE_PASSWORD=${BEACH_DATABASE_PASSWORD:-}
 
 export BEACH_ENVIRONMENT_VARIABLES_WHITELIST=${BEACH_ENVIRONMENT_VARIABLES_WHITELIST:-}
+export BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST=${BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST:-${BEACH_ENVIRONMENT_VARIABLES_WHITELIST:-}}
 export BEACH_CRON_ENABLE=${BEACH_CRON_ENABLE:-false}
 
 export BEACH_ADDON_BLACKFIRE_ENABLE=${BEACH_ADDON_BLACKFIRE_ENABLE:-false}
@@ -59,7 +60,7 @@ EOF
 # ---------------------------------------------------------------------------------------
 # beach_write_env() - Writes environment variables into ~/.env for SSH users
 #
-# @global BEACH_* The BEACH_ evnironment variables
+# @global BEACH_* The BEACH_ environment variables
 # @return void
 #
 beach_write_env() {
@@ -93,11 +94,11 @@ beach_write_env() {
         SUPERVISOR_BASE_PATH
     )
 
-    if [ -n "${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}" ]; then
-        whitelistedVariableNames=$(base64 -d <<<"${BEACH_ENVIRONMENT_VARIABLES_WHITELIST}")
-        allowedVariableNames=("${whitelistedVariableNames[@]}" "${systemVariableNames[@]}")
+    if [ -n "${BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST}" ]; then
+        allowedVariableNames=$(base64 -d <<<"${BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST}")
+        allowedVariableNames=("${allowedVariableNames[@]}" "${systemVariableNames[@]}")
     else
-        info "Beach: No whitelist defined for environment variables, exporting all variables to user profile ..."
+        info "Beach: No list of allowed environment variables defined, exporting all variables to user profile ..."
         allowedVariableNames=()
         while IFS='' read -r line; do allowedVariableNames+=("$line"); done < <(compgen -e)
     fi
