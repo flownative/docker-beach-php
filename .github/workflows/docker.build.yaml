@@ -242,3 +242,17 @@ jobs:
           token: ${{ secrets.GITHUB_BOT_TOKEN }}
           event-type: image-built
           client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.4"}'
+
+  announce:
+    runs-on: ubuntu-latest
+    needs:
+      - build-7_3
+      - build-7_4
+    steps:
+      - name: Dispatch to beach-php-k8s
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          repository: flownative/docker-beach-php-k8s
+          event-type: beach-php-images-built
+          client-payload: '{"image_name": "flownative/docker-php/beach-php"}'
