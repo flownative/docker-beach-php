@@ -6,13 +6,18 @@ set -o nounset
 set -o pipefail
 
 # Load lib
+. "${FLOWNATIVE_LIB_PATH}/syslog-ng.sh"
+. "${FLOWNATIVE_LIB_PATH}/supervisor.sh"
 . "${FLOWNATIVE_LIB_PATH}/banner.sh"
 . "${FLOWNATIVE_LIB_PATH}/validation.sh"
-. "${FLOWNATIVE_LIB_PATH}/supervisor.sh"
 . "${FLOWNATIVE_LIB_PATH}/php-fpm.sh"
 . "${FLOWNATIVE_LIB_PATH}/beach-legacy.sh"
 . "${FLOWNATIVE_LIB_PATH}/beach.sh"
 . "${FLOWNATIVE_LIB_PATH}/sshd.sh"
+
+eval "$(syslog_env)"
+syslog_initialize
+syslog_start
 
 eval "$(supervisor_env)"
 eval "$(beach_legacy_env)"
@@ -35,7 +40,7 @@ php_fpm_initialize
 supervisor_initialize
 supervisor_start
 
-trap 'supervisor_stop' SIGINT SIGTERM
+trap 'supervisor_stop; syslog_stop' SIGINT SIGTERM
 
 if is_boolean_yes "$SSHD_ENABLE"; then
     sshd_initialize
