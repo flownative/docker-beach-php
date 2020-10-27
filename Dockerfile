@@ -18,6 +18,8 @@ USER root
 
 COPY root-files /
 
+COPY --from=blackfire/blackfire:latest /usr/local/bin/blackfire /opt/flownative/php/bin/
+
 RUN export FLOWNATIVE_LOG_PATH_AND_FILENAME=/dev/stdout \
     && /build.sh init \
     && /build.sh build \
