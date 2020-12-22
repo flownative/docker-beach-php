@@ -15,7 +15,7 @@
 # ---------------------------------------------------------------------------------------
 # beach_env() - Load global environment variables for configuring PHP
 #
-# @global BEACH_* The BEACH_ evnironment variables
+# @global BEACH_* The BEACH_ environment variables
 # @return "export" statements which can be passed to eval()
 #
 beach_env() {
