@@ -11,6 +11,7 @@ set -o pipefail
 . "${FLOWNATIVE_LIB_PATH}/banner.sh"
 . "${FLOWNATIVE_LIB_PATH}/validation.sh"
 . "${FLOWNATIVE_LIB_PATH}/php-fpm.sh"
+. "${FLOWNATIVE_LIB_PATH}/metrics.sh"
 . "${FLOWNATIVE_LIB_PATH}/beach-legacy.sh"
 . "${FLOWNATIVE_LIB_PATH}/beach.sh"
 . "${FLOWNATIVE_LIB_PATH}/sshd.sh"
@@ -23,6 +24,7 @@ eval "$(supervisor_env)"
 eval "$(beach_legacy_env)"
 eval "$(beach_env)"
 eval "$(php_fpm_env)"
+eval "$(metrics_env)"
 eval "$(sshd_env)"
 
 banner_flownative "${BANNER_IMAGE_NAME}"
@@ -45,6 +47,10 @@ trap 'supervisor_stop; syslog_stop' SIGINT SIGTERM
 if is_boolean_yes "$SSHD_ENABLE"; then
     sshd_initialize
     supervisorctl start sshd 2>&1 | (sed 's/^/Supervisor: /' | output)
+fi
+
+if is_boolean_yes "$METRICS_PHP_FPM_ENABLE"; then
+    metrics_start
 fi
 
 if is_boolean_yes "$BEACH_CRON_ENABLE"; then

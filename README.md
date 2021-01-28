@@ -66,6 +66,14 @@ similar mechanism in Kubernetes or your actual platform.
 | SSHD_HOST_KEYS_PATH                   | string  | /opt/flownative/sshd/etc                                        | Path where to store SSH host keys                     |
 | SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT | string  | http://beach-controlpanel.beach-system.svc.cluster.local/api/v1 | URL of the Beach SSH authorized keys service endpoint |
 
+### PROMETHEUS METRICS
+
+| Variable Name                  | Type    | Default        | Description                                                        |
+|:-------------------------------|:--------|:---------------|:-------------------------------------------------------------------|
+| METRICS_PHP_FPM_ENABLE         | boolean | false          | If PHP-FPM metrics should be exported                              |
+| METRICS_PHP_FPM_LISTEN_ADDRESS | string  | 127.0.0.1:9002 | Host and port the PHP-FPM exporter listens to for scraping metrics |
+| METRICS_PHP_FPM_TELEMETRY_PATH | string  | /metrics       | Path at which PHP-FPM exporter listens to for scraping metrics     |
+
 ### Blackfire
 
 | Variable Name                    | Type    | Default   | Description                                       |
@@ -101,12 +109,13 @@ misconfiguration.
 
 The included tools are:
 
-| Name   | Command  | Description                                                  |
-|:-------|:---------|:-------------------------------------------------------------|
-| vim    | vi / vim | Text editor                                                  |
-| cURL   | curl     | Data transfer agent for HTTP(S), FTP and more                |
-| MySQL  | mysql    | MySQL client, including tools like mysqldump and mysqlimport |
-| Netcat | nc       | Universal TCP and UDP tool                                   |
+| Name        | Command  | Description                                                  |
+|:------------|:---------|:-------------------------------------------------------------|
+| vim         | vi / vim | Text editor                                                  |
+| cURL        | curl     | Data transfer agent for HTTP(S), FTP and more                |
+| MariaDB     | mysql    | MySQL client, including tools like mysqldump and mysqlimport |
+| Netcat      | nc       | Universal TCP and UDP tool                                   |
+| Ghostscript | gs       | Used for thumbnail rendering in Neos                         |
 
 ## Cron
 
