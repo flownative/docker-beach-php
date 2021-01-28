@@ -68,11 +68,12 @@ similar mechanism in Kubernetes or your actual platform.
 
 ### PROMETHEUS METRICS
 
-| Variable Name                  | Type    | Default        | Description                                                        |
-|:-------------------------------|:--------|:---------------|:-------------------------------------------------------------------|
-| METRICS_PHP_FPM_ENABLE         | boolean | false          | If PHP-FPM metrics should be exported                              |
-| METRICS_PHP_FPM_LISTEN_ADDRESS | string  | 127.0.0.1:9002 | Host and port the PHP-FPM exporter listens to for scraping metrics |
-| METRICS_PHP_FPM_TELEMETRY_PATH | string  | /metrics       | Path at which PHP-FPM exporter listens to for scraping metrics     |
+| Variable Name                  | Type    | Default                             | Description                                                        |
+|:-------------------------------|:--------|:------------------------------------|:-------------------------------------------------------------------|
+| METRICS_PHP_FPM_ENABLE         | boolean | false                               | If PHP-FPM metrics should be exported                              |
+| METRICS_PHP_FPM_SCRAPE_URI     | string  | tcp://127.0.0.1:9000/php-fpm-status | FastCGI address pointing to the PHP-FPM status page                |
+| METRICS_PHP_FPM_LISTEN_ADDRESS | string  | 127.0.0.1:9002                      | Host and port the PHP-FPM exporter listens to for scraping metrics |
+| METRICS_PHP_FPM_TELEMETRY_PATH | string  | /metrics                            | Path at which PHP-FPM exporter listens to for scraping metrics     |
 
 ### Blackfire
 
