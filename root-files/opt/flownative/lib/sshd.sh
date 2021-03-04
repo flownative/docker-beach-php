@@ -61,7 +61,6 @@ sshd_generate_host_keys() {
     fi
 
     chmod 600 "${SSHD_BASE_PATH}"/etc/*_key
-    chmod 644 "${SSHD_BASE_PATH}"/etc/*_key.pub
 
     info "SSHD: Found $(find "${SSHD_BASE_PATH}"/etc/*_key | wc -l) host keys"
 }
