@@ -15,7 +15,7 @@ jobs:
 
           source_image_name: ${{ github.event.client_payload.image_name }}
           source_registry_username: github
-          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
           target_image_name: eu.gcr.io/flownative-beach/beach-php
@@ -31,12 +31,28 @@ jobs:
 
           source_image_name: ${{ github.event.client_payload.image_name }}
           source_registry_username: github
-          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
           target_image_name: eu.gcr.io/flownative-beach-a7c8b2/beach-php
           target_registry_username: '_json_key'
           target_registry_password: ${{ secrets.GOOGLE_REGISTRY_PASSWORD_A7C8B2 }}
+          target_registry_endpoint: https://eu.gcr.io/v2/
+
+      - name: Publish release to gcr.io (beach-ca38f9)
+        uses: flownative/action-docker-publish-semver@v1
+        with:
+          tag_ref: ${{ github.event.client_payload.image_tag }}
+          tag_latest: 'no'
+
+          source_image_name: ${{ github.event.client_payload.image_name }}
+          source_registry_username: github
+          source_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
+          source_registry_endpoint: https://docker.pkg.github.com/v2/
+
+          target_image_name: eu.gcr.io/flownative-beach-ca38f9/beach-php
+          target_registry_username: '_json_key'
+          target_registry_password: ${{ secrets.GOOGLE_REGISTRY_PASSWORD_CA38F9 }}
           target_registry_endpoint: https://eu.gcr.io/v2/
 
   release-dockerio:
@@ -50,7 +66,7 @@ jobs:
 
           source_image_name: ${{ github.event.client_payload.image_name }}
           source_registry_username: github
-          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
           target_image_name: flownative/beach-php

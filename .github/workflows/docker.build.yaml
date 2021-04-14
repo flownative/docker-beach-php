@@ -30,7 +30,7 @@ jobs:
           image: docker.pkg.github.com/flownative/docker-php/php:7.1
           label: org.label-schema.version
           registry_username: github
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           registry_endpoint: https://docker.pkg.github.com/v2/
 
       - name: Build Docker image
@@ -42,7 +42,7 @@ jobs:
           image_tag: ${{ steps.latest_php_version.outputs.value }}
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
 
       - name: Tag semver releases
         uses: flownative/action-docker-publish-semver@v1
@@ -52,18 +52,18 @@ jobs:
 
           source_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           source_registry_username: github
-          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
           target_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           target_registry_username: github
-          target_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          target_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           target_registry_endpoint: https://docker.pkg.github.com/v2/
 
       - name: Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           event-type: image-built
           client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.1"}'
 
@@ -89,7 +89,7 @@ jobs:
           image: docker.pkg.github.com/flownative/docker-php/php:7.2
           label: org.label-schema.version
           registry_username: github
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           registry_endpoint: https://docker.pkg.github.com/v2/
 
       - name: Build Docker image
@@ -101,7 +101,7 @@ jobs:
           image_tag: ${{ steps.latest_php_version.outputs.value }}
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
 
       - name: Tag semver releases
         uses: flownative/action-docker-publish-semver@v1
@@ -111,18 +111,18 @@ jobs:
 
           source_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           source_registry_username: github
-          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
           target_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           target_registry_username: github
-          target_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          target_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           target_registry_endpoint: https://docker.pkg.github.com/v2/
 
       - name: Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           event-type: image-built
           client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.2"}'
 
@@ -148,7 +148,7 @@ jobs:
           image: docker.pkg.github.com/flownative/docker-php/php:7.3
           label: org.label-schema.version
           registry_username: github
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           registry_endpoint: https://docker.pkg.github.com/v2/
 
       - name: Build Docker image
@@ -160,7 +160,7 @@ jobs:
           image_tag: ${{ steps.latest_php_version.outputs.value }}
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
 
       - name: Tag semver releases
         uses: flownative/action-docker-publish-semver@v1
@@ -170,18 +170,18 @@ jobs:
 
           source_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           source_registry_username: github
-          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
           target_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           target_registry_username: github
-          target_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          target_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           target_registry_endpoint: https://docker.pkg.github.com/v2/
 
       - name: Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           event-type: image-built
           client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.3"}'
 
@@ -206,7 +206,7 @@ jobs:
           image: docker.pkg.github.com/flownative/docker-php/php:7.4
           label: org.label-schema.version
           registry_username: github
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           registry_endpoint: https://docker.pkg.github.com/v2/
 
       - name: Build Docker image
@@ -218,7 +218,7 @@ jobs:
           image_tag: ${{ steps.latest_php_version.outputs.value }}
           git_repository_url: https://github.com/${{ github.repository }}
           git_sha: ${{ github.sha }}
-          registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
 
       - name: Tag semver releases
         uses: flownative/action-docker-publish-semver@v1
@@ -228,18 +228,18 @@ jobs:
 
           source_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           source_registry_username: github
-          source_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          source_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           source_registry_endpoint: https://docker.pkg.github.com/v2/
 
           target_image_name: docker.pkg.github.com/flownative/docker-beach-php/beach-php
           target_registry_username: github
-          target_registry_password: ${{ secrets.GITHUB_BOT_TOKEN }}
+          target_registry_password: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           target_registry_endpoint: https://docker.pkg.github.com/v2/
 
       - name: Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           event-type: image-built
           client-payload: '{"image_name": "${{ steps.build_image.outputs.image_name }}", "image_tag": "${{ steps.build_image.outputs.image_tag }}", "php_version_minor": "7.4"}'
 
@@ -252,7 +252,7 @@ jobs:
       - name: Dispatch to beach-php-k8s
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.GITHUB_BOT_TOKEN }}
+          token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           repository: flownative/docker-beach-php-k8s
           event-type: beach-php-images-built
           client-payload: '{"image_name": "flownative/docker-php/beach-php"}'
