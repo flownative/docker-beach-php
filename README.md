@@ -77,11 +77,11 @@ similar mechanism in Kubernetes or your actual platform.
 
 ### Blackfire
 
-| Variable Name                    | Type    | Default   | Description                                       |
-|:---------------------------------|:--------|:----------|:--------------------------------------------------|
-| BEACH_ADDON_BLACKFIRE_ENABLE     | boolean | false     | Enables the Blackfire probe extension             |
-| BEACH_ADDON_BLACKFIRE_AGENT_HOST | string  | localhost | Hostname for connecting to the Blackfire agent    |
-| BEACH_ADDON_BLACKFIRE_AGENT_PORT | integer | 8707      | Port number for connecting to the Blackfire agent |
+| Variable Name                      | Type    | Default   | Description                                       |
+|:-----------------------------------|:--------|:----------|:--------------------------------------------------|
+| BEACH_ADDON_BLACKFIRE_ENABLE       | boolean | false     | Enables the Blackfire probe extension             |
+| BEACH_ADDON_BLACKFIRE_SERVER_ID    | string  |           | Server id to authenticate with Blackfire          |
+| BEACH_ADDON_BLACKFIRE_SERVER_TOKEN | string  |           | Server token to authenticate with Blackfire       |
 
 ### Beach
 

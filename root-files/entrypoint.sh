@@ -49,6 +49,15 @@ if is_boolean_yes "$SSHD_ENABLE"; then
     supervisorctl start sshd 2>&1 | (sed 's/^/Supervisor: /' | output)
 fi
 
+if is_boolean_yes "$BEACH_ADDON_BLACKFIRE_ENABLE"; then
+    if [[ -n "${BEACH_ADDON_BLACKFIRE_SERVER_ID}" && -n "${BEACH_ADDON_BLACKFIRE_SERVER_TOKEN}" ]]; then
+        info "Beach: Enabling Blackfire agent ..."
+        supervisorctl start blackfire 2>&1 | (sed 's/^/Supervisor: /' | output)
+    else
+        error "Beach: Not starting Blackfire agent because server credentials are missing"
+    fi
+fi
+
 if is_boolean_yes "$METRICS_PHP_FPM_ENABLE"; then
     metrics_start
 fi

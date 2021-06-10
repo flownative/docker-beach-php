@@ -89,21 +89,14 @@ build_sshd() {
 # @return void
 #
 build_blackfire() {
-    downloadUrl=https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$(php -r "echo PHP_MAJOR_VERSION, PHP_MINOR_VERSION;")
-    info "📦 Downloading Blackfire from $downloadUrl"
+    ${PHP_BASE_PATH}/bin/blackfire php:install
 
-    with_backoff "curl -A Docker -sSL ${downloadUrl} -o /tmp/blackfire-probe.tar.gz" "15" || (
-        error "Failed downloading Blackfire probe"
-        exit 1
-    )
+    # Remove the automatically created inclusion, because we want to enable
+    # Blackfire dynamically based on BEACH_ADDON_BLACKFIRE_ENABLE
+    rm -f ${PHP_BASE_PATH}/etc/conf.d/*blackfire.ini
 
-    mkdir -p /tmp/blackfire
-    tar xfz /tmp/blackfire-probe.tar.gz -C /tmp/blackfire
-    oldDirectory=$(pwd)
-    cd ${PHP_BASE_PATH}/lib/php/extensions/no-debug-non-zts-*
-    mv /tmp/blackfire/blackfire-*.so ./blackfire.so
-    rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz
-    cd $oldDirectory
+    mkdir -p /etc/blackfire
+    echo "[blackfire]" > /etc/blackfire/agent
 }
 
 # ---------------------------------------------------------------------------------------

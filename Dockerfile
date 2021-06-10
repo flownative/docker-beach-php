@@ -18,7 +18,7 @@ USER root
 
 COPY root-files /
 
-COPY --from=blackfire/blackfire:latest /usr/local/bin/blackfire /opt/flownative/php/bin/
+COPY --from=blackfire/blackfire:2 /usr/local/bin/blackfire /opt/flownative/php/bin/
 
 COPY --from=hipages/php-fpm_exporter:2 /php-fpm_exporter /opt/flownative/php/bin/php-fpm-exporter
 
