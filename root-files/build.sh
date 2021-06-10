@@ -96,7 +96,12 @@ build_blackfire() {
     rm -f ${PHP_BASE_PATH}/etc/conf.d/*blackfire.ini
 
     mkdir -p /etc/blackfire
-    echo "[blackfire]" > /etc/blackfire/agent
+
+    cat > "/etc/blackfire/agent" <<- EOM
+[blackfire]
+EOM
+
+    chmod 777 "/etc/blackfire/agent"
 }
 
 # ---------------------------------------------------------------------------------------
