@@ -51,9 +51,9 @@ export BEACH_ENVIRONMENT_VARIABLES_WHITELIST=${BEACH_ENVIRONMENT_VARIABLES_WHITE
 export BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST=${BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST:-${BEACH_ENVIRONMENT_VARIABLES_WHITELIST:-}}
 export BEACH_CRON_ENABLE=${BEACH_CRON_ENABLE:-false}
 
-export FLOWNATIVE_SITEMAP_CRAWLER_ENABLE=${FLOWNATIVE_SITEMAP_CRAWLER_ENABLE:-false}
-export FLOWNATIVE_SITEMAP_CRAWLER_SITEMAP_URL=${FLOWNATIVE_SITEMAP_CRAWLER_SITEMAP_URL:-http://localhost:8080/sitemap.xml}
-export FLOWNATIVE_SITEMAP_CRAWLER_INTERNAL_BASE_URL=${FLOWNATIVE_SITEMAP_CRAWLER_INTERNAL_BASE_URL:-http://localhost:8080}
+export SITEMAP_CRAWLER_ENABLE=${SITEMAP_CRAWLER_ENABLE:-false}
+export SITEMAP_CRAWLER_SITEMAP_URL=${SITEMAP_CRAWLER_SITEMAP_URL:-http://localhost:8080/sitemap.xml}
+export SITEMAP_CRAWLER_INTERNAL_BASE_URL=${SITEMAP_CRAWLER_INTERNAL_BASE_URL:-http://localhost:8080}
 
 export BEACH_ADDON_BLACKFIRE_ENABLE=${BEACH_ADDON_BLACKFIRE_ENABLE:-false}
 export BEACH_ADDON_BLACKFIRE_SERVER_ID=${BEACH_ADDON_BLACKFIRE_SERVER_ID:-${BLACKFIRE_SERVER_ID:-}}
@@ -204,8 +204,8 @@ beach_run_custom_startup() {
 # ---------------------------------------------------------------------------------------
 # beach_run_sitemap_crawler() - Invoke a crawler which warms up caches for all urls of a sitemap
 #
-# @global FLOWNATIVE_SITEMAP_CRAWLER_SITEMAP_URL
-# @global FLOWNATIVE_SITEMAP_CRAWLER_INTERNAL_BASE_URL
+# @global SITEMAP_CRAWLER_SITEMAP_URL
+# @global SITEMAP_CRAWLER_INTERNAL_BASE_URL
 # @return void
 #
 beach_run_sitemap_crawler() {
@@ -312,7 +312,7 @@ beach_prepare_flow() {
         info "Beach: Skipping built-in startup scripts"
     fi
 
-    if is_boolean_yes "$FLOWNATIVE_SITEMAP_CRAWLER_ENABLE"; then
+    if is_boolean_yes "$SITEMAP_CRAWLER_ENABLE"; then
         info "Beach: Running sitemap crawler ..."
         beach_run_sitemap_crawler
     fi

@@ -17,12 +17,12 @@ if (getenv('FLOWNATIVE_LOG_PATH') === false) {
     exit (1);
 }
 
-$sitemapUrl = getenv('FLOWNATIVE_SITEMAP_CRAWLER_SITEMAP_URL');
+$sitemapUrl = getenv('SITEMAP_CRAWLER_SITEMAP_URL');
 if (empty($sitemapUrl)) {
     $sitemapUrl = 'http://localhost:8080/sitemap.xml';
 }
 
-$internalBaseUrl = getenv('FLOWNATIVE_SITEMAP_CRAWLER_INTERNAL_BASE_URL');
+$internalBaseUrl = getenv('SITEMAP_CRAWLER_INTERNAL_BASE_URL');
 if (empty($internalBaseUrl)) {
     $internalBaseUrl = 'http://localhost:8080';
 }
