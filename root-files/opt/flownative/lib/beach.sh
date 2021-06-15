@@ -51,6 +51,10 @@ export BEACH_ENVIRONMENT_VARIABLES_WHITELIST=${BEACH_ENVIRONMENT_VARIABLES_WHITE
 export BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST=${BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST:-${BEACH_ENVIRONMENT_VARIABLES_WHITELIST:-}}
 export BEACH_CRON_ENABLE=${BEACH_CRON_ENABLE:-false}
 
+export FLOWNATIVE_SITEMAP_CRAWLER_ENABLE=${FLOWNATIVE_SITEMAP_CRAWLER_ENABLE:-false}
+export FLOWNATIVE_SITEMAP_CRAWLER_SITEMAP_URL=${FLOWNATIVE_SITEMAP_CRAWLER_SITEMAP_URL:-http://localhost:8080/sitemap.xml}
+export FLOWNATIVE_SITEMAP_CRAWLER_INTERNAL_BASE_URL=${FLOWNATIVE_SITEMAP_CRAWLER_INTERNAL_BASE_URL:-http://localhost:8080}
+
 export BEACH_ADDON_BLACKFIRE_ENABLE=${BEACH_ADDON_BLACKFIRE_ENABLE:-false}
 export BEACH_ADDON_BLACKFIRE_SERVER_ID=${BEACH_ADDON_BLACKFIRE_SERVER_ID:-${BLACKFIRE_SERVER_ID:-}}
 export BEACH_ADDON_BLACKFIRE_SERVER_TOKEN=${BEACH_ADDON_BLACKFIRE_SERVER_TOKEN:-${BLACKFIRE_SERVER_TOKEN:-}}
@@ -94,6 +98,7 @@ beach_write_env() {
         PHP_MEMORY_LIMIT
         PHP_TMP_PATH
         PHP_VERSION
+        SITEMAP_CRAWLER_BASE_PATH
         SSHD_AUTHORIZED_KEYS_SERVICE_ENDPOINT
         SSHD_BASE_PATH
         SSHD_ENABLE
@@ -197,6 +202,17 @@ beach_run_custom_startup() {
 }
 
 # ---------------------------------------------------------------------------------------
+# beach_run_sitemap_crawler() - Invoke a crawler which warms up caches for all urls of a sitemap
+#
+# @global FLOWNATIVE_SITEMAP_CRAWLER_SITEMAP_URL
+# @global FLOWNATIVE_SITEMAP_CRAWLER_INTERNAL_BASE_URL
+# @return void
+#
+beach_run_sitemap_crawler() {
+    "${SITEMAP_CRAWLER_BASE_PATH}/sitemap-crawler.php"
+}
+
+# ---------------------------------------------------------------------------------------
 # beach_enable_user_services() - Set up user services for Supervisor
 #
 # @global BEACH_*
@@ -294,6 +310,11 @@ beach_prepare_flow() {
         beach_run_custom_startup
     else
         info "Beach: Skipping built-in startup scripts"
+    fi
+
+    if is_boolean_yes "$FLOWNATIVE_SITEMAP_CRAWLER_ENABLE"; then
+        info "Beach: Running sitemap crawler ..."
+        beach_run_sitemap_crawler
     fi
 
     beach_enable_user_services

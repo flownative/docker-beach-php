@@ -91,6 +91,14 @@ similar mechanism in Kubernetes or your actual platform.
 | BEACH_INSTANCE_NAME              | string  |           | The Beach instance name                           |
 | BEACH_PROJECT_NAME               | string  |           | The Beach project name                            |
 
+### Sitemap Crawler
+
+| Variable Name                                | Type    | Default                           | Description                             |
+|:---------------------------------------------|:--------|:----------------------------------|:----------------------------------------|
+| FLOWNATIVE_SITEMAP_CRAWLER_ENABLE            | boolean | false                             | Enables the Sitemap Crawler             |
+| FLOWNATIVE_SITEMAP_CRAWLER_SITEMAP_URL       | string  | http://localhost:8080/sitemap.xml | URL to retrieve the sitemap from        |
+| FLOWNATIVE_SITEMAP_CRAWLER_INTERNAL_BASE_URL | string  | http://localhost:8080             | Internal base URL for crawling the site |
+
 ### Deprecated
 
 These variables are handled for reasons of backwards-compatibility.
