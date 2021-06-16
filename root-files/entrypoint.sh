@@ -35,6 +35,7 @@ if is_boolean_yes "$BEACH_WAIT_FOR_SYNC"; then
 fi
 
 beach_initialize
+beach_prepare_flow
 
 php_fpm_initialize
 
@@ -43,7 +44,7 @@ supervisor_start
 
 trap 'supervisor_stop; syslog_stop' SIGINT SIGTERM
 
-beach_prepare_flow
+beach_finalize_flow
 
 if is_boolean_yes "$SSHD_ENABLE"; then
     sshd_initialize

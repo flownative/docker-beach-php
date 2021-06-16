@@ -312,12 +312,28 @@ beach_prepare_flow() {
         info "Beach: Skipping built-in startup scripts"
     fi
 
+    beach_enable_user_services
+
+    debug "Beach: Writing .warmupdone flag"
+    touch /application/.warmupdone
+}
+
+# ---------------------------------------------------------------------------------------
+# beach_finalize_flow() - Finalize a Flow application before going online
+#
+# @global BEACH_* The BEACH_* environment variables
+# @return void
+#
+beach_finalize_flow() {
+    if [ ! -f "${BEACH_APPLICATION_PATH}"/flow ]; then
+        warn "Beach: No Flow application detected, skipping finialize"
+        return
+    fi
+
     if is_boolean_yes "$SITEMAP_CRAWLER_ENABLE"; then
         info "Beach: Running sitemap crawler ..."
         beach_run_sitemap_crawler
     fi
-
-    beach_enable_user_services
 
     debug "Beach: Writing .warmupdone flag"
     touch /application/.warmupdone
