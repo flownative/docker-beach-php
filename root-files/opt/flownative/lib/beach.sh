@@ -313,9 +313,6 @@ beach_prepare_flow() {
     fi
 
     beach_enable_user_services
-
-    debug "Beach: Writing .warmupdone flag"
-    touch /application/.warmupdone
 }
 
 # ---------------------------------------------------------------------------------------
