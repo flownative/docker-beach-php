@@ -40,9 +40,9 @@ jobs:
         with:
           image: europe-docker.pkg.dev/flownative/docker/php:${{ matrix.php }}
           label: org.opencontainers.image.version
-          registry: europe-docker.pkg.dev/flownative/docker
-          username: '_json_key'
-          password: ${{ secrets.GOOGLE_ARTIFACTS_PASSWORD_DOCKER }}
+          registry_endpoint: https://europe-docker.pkg.dev
+          registry_username: '_json_key'
+          registry_password: ${{ secrets.GOOGLE_ARTIFACTS_PASSWORD_DOCKER }}
 
       - name: Docker meta
         id: meta
