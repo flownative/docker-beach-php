@@ -64,7 +64,9 @@ if [[ "$*" = *"run"* ]]; then
     supervisor_pid=$(supervisor_get_pid)
 
     sleep 1
+    set +o errexit
     supervisorctl status 2>&1 | (sed 's/^/Supervisor: /' | output)
+    set -o errexit
     info "Entrypoint: Start up complete"
     # We can't use "wait" because supervisord is not a direct child of this shell:
     while [ -e "/proc/${supervisor_pid}" ]; do sleep 1.1; done
