@@ -108,3 +108,10 @@ jobs:
           repository: flownative/docker-beach-php-k8s
           event-type: beach-php-images-built
           client-payload: '{"image_name": "flownative/docker-php/beach-php"}'
+      - name: Dispatch to versions.flownative.io
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
+          repository: flownative/versions.flownative.io
+          event-type: beach-php-images-built
+          client-payload: '{"image_name": "flownative/docker-php/beach-php"}'
