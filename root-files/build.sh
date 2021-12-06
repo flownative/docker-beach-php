@@ -52,6 +52,15 @@ build_tools() {
 }
 
 # ---------------------------------------------------------------------------------------
+# build_image_optimizers() - Install tools to be used by Beach users via SSH and/or PHP
+#
+# @return void
+#
+build_image_optimizers() {
+    packages_install optipng pngcrush pngquant gifsicle libjpeg-turbo-progs jpegoptim
+}
+
+# ---------------------------------------------------------------------------------------
 # build_sshd() - Install and configure the SSH daemon
 #
 # @global SSHD_BASE_PATH
@@ -121,6 +130,7 @@ init)
     ;;
 build)
     build_tools
+    build_image_optimizers
     build_sshd
     build_blackfire
     ;;
