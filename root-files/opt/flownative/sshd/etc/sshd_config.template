@@ -12,8 +12,8 @@ PidFile ${SSHD_BASE_PATH}/tmp/sshd.pid
 Protocol 2
 
 # HostKeys for protocol version 2
-HostKey ${SSHD_BASE_PATH}/etc/ssh_host_rsa_key
-HostKey ${SSHD_BASE_PATH}/etc/ssh_host_dsa_key
+#HostKey ${SSHD_BASE_PATH}/etc/ssh_host_rsa_key
+#HostKey ${SSHD_BASE_PATH}/etc/ssh_host_dsa_key
 HostKey ${SSHD_BASE_PATH}/etc/ssh_host_ecdsa_key
 HostKey ${SSHD_BASE_PATH}/etc/ssh_host_ed25519_key
 
