@@ -16,16 +16,15 @@ Protocol 2
 # HostKeys for protocol version 2
 HostKey ${SSHD_BASE_PATH}/etc/ssh_host_rsa_key
 HostKey ${SSHD_BASE_PATH}/etc/ssh_host_dsa_key
-#HostKey ${SSHD_BASE_PATH}/etc/ssh_host_ecdsa_key
 HostKey ${SSHD_BASE_PATH}/etc/ssh_host_ed25519_key
 
 # Specify the available Key Exchange algorithms
 # (list available KEX algorithms with ssh -Q kex)
-KexAlgorithms -ecdh-sha2-nistp*
+KexAlgorithms diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,curve25519-sha256,curve25519-sha256@libssh.org
 
 # Specify the available Host Key Algorithms
 # (list available KEX algorithms with ssh -Q key)
-HostKeyAlgorithms -ssh-rsa
+HostKeyAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ecdsa-sha2-nistp256@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-dss-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-512
 
 # Specifies the available MAC (message authentication code) algorithms.
 # (list available KEX algorithms with ssh -Q mac)
