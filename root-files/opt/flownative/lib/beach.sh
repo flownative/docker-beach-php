@@ -140,7 +140,10 @@ default-character-set = utf8
 host                  = ${BEACH_DATABASE_HOST}
 user                  = ${BEACH_DATABASE_USERNAME}
 password              = ${BEACH_DATABASE_PASSWORD}
+[mysql]
 database              = ${BEACH_DATABASE_NAME}
+[mysqldump]
+no-tablespaces
 EOM
 
     chown beach:beach /home/beach/.my.cnf
