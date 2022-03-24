@@ -261,10 +261,9 @@ EOM
 }
 
 # ---------------------------------------------------------------------------------------
-# beach_setup_addon_blackfire() - Set up the Blackfire probe
+# beach_setup_igbinary() - Set up the igbinary extension
 #
-# @global BEACH_*
-# @global SUPERVISOR_BASE_PATH
+# @global PHP_*
 # @return void
 #
 beach_setup_igbinary() {
@@ -282,7 +281,7 @@ beach_setup_igbinary() {
 # beach_setup_addon_blackfire() - Set up the Blackfire probe
 #
 # @global BEACH_*
-# @global SUPERVISOR_BASE_PATH
+# @global PHP_BASE_PATH
 # @return void
 #
 beach_setup_addon_blackfire() {
