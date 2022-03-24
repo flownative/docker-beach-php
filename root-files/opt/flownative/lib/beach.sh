@@ -267,6 +267,24 @@ EOM
 # @global SUPERVISOR_BASE_PATH
 # @return void
 #
+beach_setup_igbinary() {
+    if is_boolean_yes "${PHP_IGBINARY_ENABLE}"; then
+        if [ -f "${PHP_CONF_PATH}/conf.d/php-ext-igbinary.ini.inactive" ]; then
+            info "Beach: igbinary is enabled"
+            mv -f "${PHP_CONF_PATH}/conf.d/php-ext-igbinary.ini.inactive" "${PHP_CONF_PATH}/conf.d/php-ext-igbinary.ini"
+        fi
+    else
+        info "Beach: igbinary is disabled"
+    fi
+}
+
+# ---------------------------------------------------------------------------------------
+# beach_setup_addon_blackfire() - Set up the Blackfire probe
+#
+# @global BEACH_*
+# @global SUPERVISOR_BASE_PATH
+# @return void
+#
 beach_setup_addon_blackfire() {
     if is_boolean_no "$BEACH_ADDON_BLACKFIRE_ENABLE"; then
         info "Beach: Blackfire add-on is disabled"
@@ -291,6 +309,7 @@ beach_initialize() {
 
     beach_write_env
     beach_setup_user_profile
+    beach_setup_igbinary
     beach_setup_addon_blackfire
 }
 
