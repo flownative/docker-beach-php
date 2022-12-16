@@ -7,8 +7,8 @@
  * (c) Robert Lemke, Flownative GmbH - www.flownative.com
  */
 
-if (PHP_MAJOR_VERSION >= 8) {
-    echo "This script is not compatible with PHP 8 or higher yet\n";
+if (PHP_MAJOR_VERSION >= 9) {
+    echo "This script is not compatible with PHP 9 or higher yet\n";
     exit (1);
 }
 
@@ -78,6 +78,7 @@ final class SitemapCrawler
             $headers = ['Host: ' . $parsedFirstUrl['host'], 'X-Forwarded-Proto: ' . ($parsedUrl['scheme'] ?? 'https')];
             curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($curlHandle, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; FlownativeSitemapCrawler; +https://www.flownative.com)');
+            /** @noinspection CurlSslServerSpoofingInspection */
             curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
             $status = curl_exec($curlHandle);
@@ -168,8 +169,8 @@ final class SitemapCrawler
         $sitemapXml = new SimpleXMLElement($rawSitemapXml, LIBXML_NOBLANKS);
         if ($sitemapXml->getName() === 'urlset') {
             foreach ($sitemapXml->url as $urlXml) {
-                $url = reset($urlXml->loc);
-                if (!in_array($url, $this->urls)) {
+                $url = (string)$urlXml->loc;
+                if (!in_array($url, $this->urls, true)) {
                     $this->urls[] = $url;
                 }
             }
