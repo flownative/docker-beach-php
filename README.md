@@ -127,6 +127,18 @@ The included tools are:
 | Netcat      | nc       | Universal TCP and UDP tool                                   |
 | Ghostscript | gs       | Used for thumbnail rendering in Neos                         |
 
+### Image optimization tools
+
+In order to support image optimization for websites, the following tools
+are available:
+
+| Format | Commands                                                                                     |
+|:-------|:---------------------------------------------------------------------------------------------|
+| GIF    | gifsicle, gifdiff, gifview                                                                   |
+| PNG    | optipng, pngcrush, pngquant                                                                  |
+| JPEG   | jpegoptim, cjpeg, djpeg, exifautotran, jpegexiforient, jpegtran, rdjpgcom, tjbench, wrjpgcom |
+| WebP   | cwebp, dwebp, gif2webp, img2webp, vwebp, webpinfo, webpmux                                   |
+
 ## Cron
 
 This image contains a very simple and naïve implementation for running a
