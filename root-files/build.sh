@@ -57,7 +57,7 @@ build_tools() {
 # @return void
 #
 build_image_optimizers() {
-    packages_install optipng pngcrush pngquant gifsicle libjpeg-turbo-progs jpegoptim
+    packages_install optipng pngcrush pngquant gifsicle libjpeg-turbo-progs jpegoptim webp
 }
 
 # ---------------------------------------------------------------------------------------

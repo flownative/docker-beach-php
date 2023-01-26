@@ -137,6 +137,7 @@ are available:
 | GIF    | gifsicle, gifdiff, gifview                                                                   |
 | PNG    | optipng, pngcrush, pngquant                                                                  |
 | JPEG   | jpegoptim, cjpeg, djpeg, exifautotran, jpegexiforient, jpegtran, rdjpgcom, tjbench, wrjpgcom |
+| WebP   | cwebp, dwebp, gif2webp, img2webp, vwebp, webpinfo, webpmux                                   |
 
 ## Cron
 
