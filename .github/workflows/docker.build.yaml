@@ -17,7 +17,7 @@ jobs:
         php: [ "7.4", "8.0", "8.1", "8.2" ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: 'main'
           fetch-depth: 100
@@ -29,7 +29,7 @@ jobs:
       - run: |
           sudo chmod -R ugo+rwX . && shopt -s dotglob && rm -rf *
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ steps.latest_version.outputs.tag }}
           fetch-depth: 100
@@ -46,7 +46,7 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           flavor: |
             latest=false
@@ -66,12 +66,12 @@ jobs:
 
       - name: Set up QEMU
         id: qemu
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
 
       -
         name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -80,14 +80,14 @@ jobs:
           password: ${{ secrets.DOCKER_IO_REGISTRY_PASSWORD }}
 
       - name: Login to Google Artifacts Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: europe-docker.pkg.dev/flownative/docker
           username: '_json_key'
           password: ${{ secrets.GOOGLE_ARTIFACTS_PASSWORD_DOCKER }}
 
       - name: Build Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -102,14 +102,14 @@ jobs:
     needs: build
     steps:
       - name: Dispatch to beach-php-k8s
-        uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           repository: flownative/docker-beach-php-k8s
           event-type: beach-php-images-built
           client-payload: '{"image_name": "flownative/docker-php/beach-php"}'
       - name: Dispatch to versions.flownative.io
-        uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           repository: flownative/versions.flownative.io
