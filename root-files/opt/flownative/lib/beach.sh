@@ -234,8 +234,9 @@ beach_enable_user_services() {
     for servicePathAndFilename in ${servicePathsAndFilenames}
     do
         if [ -f "${servicePathAndFilename}" ]; then
-            cat > "${SUPERVISOR_BASE_PATH}/etc/conf.d/beach-user-${serviceNumber}.conf" <<- EOM
-[program:beach-user-${serviceNumber}]
+            serviceFilenameWithoutSuffix=$(basename ${servicePathAndFilename} .sh)
+            cat > "${SUPERVISOR_BASE_PATH}/etc/conf.d/${serviceFilenameWithoutSuffix}.conf" <<- EOM
+[program:${serviceFilenameWithoutSuffix}]
 process_name=%(program_name)s
 command=${servicePathAndFilename}
 autostart=true
@@ -245,7 +246,7 @@ stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 redirect_stderr=true
 EOM
-            chmod 644 "${SUPERVISOR_BASE_PATH}/etc/conf.d/beach-user-${serviceNumber}.conf"
+            chmod 644 "${SUPERVISOR_BASE_PATH}/etc/conf.d/${serviceFilenameWithoutSuffix}.conf"
             chmod 775 "${servicePathAndFilename}"
 
             info "Beach: Enabled ${servicePathAndFilename} as user-defined service script"
