@@ -48,7 +48,7 @@ build_create_user() {
 # @return void
 #
 build_tools() {
-    packages_install netcat vim less curl locales locales-all mariadb-client ghostscript
+    packages_install netcat-traditional vim less curl locales locales-all mariadb-client ghostscript
 }
 
 # ---------------------------------------------------------------------------------------
