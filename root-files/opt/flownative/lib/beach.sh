@@ -213,7 +213,9 @@ beach_run_custom_startup() {
 # @return void
 #
 beach_run_sitemap_crawler() {
-    "${SITEMAP_CRAWLER_BASE_PATH}/sitemap-crawler.php"
+    # Run the sitemap-crawler in a background process and make sure that it does not run
+    # longer than 10 minutes:
+    timeout 600 "${SITEMAP_CRAWLER_BASE_PATH}/sitemap-crawler.php" &
 }
 
 # ---------------------------------------------------------------------------------------
