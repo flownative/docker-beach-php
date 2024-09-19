@@ -24,7 +24,7 @@ jobs:
 
       - name: Determine latest released version
         id: latest_version
-        uses: flownative/action-git-latest-release@master
+        uses: flownative/action-git-latest-release@v1
 
       - run: |
           sudo chmod -R ugo+rwX . && shopt -s dotglob && rm -rf *
