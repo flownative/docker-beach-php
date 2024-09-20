@@ -187,7 +187,7 @@ you can take advantage of the non-root approach by disallowing privilege
 escalation:
 
 ```yaml
-$ docker run flownative/beach-php:7.4 --security-opt=no-new-privileges
+$ docker run flownative/beach-php:8.3 --security-opt=no-new-privileges
 ```
 
 ## Building this image
@@ -197,6 +197,6 @@ version of `flownative/php`, which this image is derived from:
 
 ```bash
 docker build \
-    --build-arg PHP_BASE_IMAGE=flownative/php:7.4.3 \
-    -t flownative/beach-php:7.4.3 .
+    --build-arg PHP_BASE_IMAGE=flownative/php:8.3.11 \
+    -t flownative/beach-php:8.3.11 .
 ```
