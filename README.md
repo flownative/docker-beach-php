@@ -48,7 +48,6 @@ similar mechanism in Kubernetes or your actual platform.
 
 | Variable Name                                   | Type    | Default                   | Description                                                                          |
 |:------------------------------------------------|:--------|:--------------------------|:-------------------------------------------------------------------------------------|
-| BEACH_WAIT_FOR_SYNC                             | boolean | false                     |                                                                                      |
 | BEACH_APPLICATION_USER_SERVICE_ENABLE           | boolean | false                     | If user-defined services (beach-service*.sh) should be enabled                       |
 | BEACH_APPLICATION_STARTUP_SCRIPTS_ENABLE        | boolean | true                      | If standard startup scripts (doctrine migrate, resource publish etc.) should be run  |
 | BEACH_APPLICATION_CUSTOM_STARTUP_SCRIPTS_ENABLE | boolean | true                      | If custom startup scripts (beach-startup.sh) should be run                           |
