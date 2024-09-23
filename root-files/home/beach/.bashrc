@@ -1,6 +1,5 @@
-# If this shell was started by SSHD, the environment variables need to be set:
-if [[ -z "${FLOWNATIVE_LIB_PATH}" ]]; then
-    source /home/beach/.env
+# If not running interactively, skip the banner
+if [[ -z "$PS1" ]]; then
     export BANNER_FLOWNATIVE_SKIP="yes"
 fi
 
