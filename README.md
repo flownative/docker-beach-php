@@ -53,7 +53,8 @@ similar mechanism in Kubernetes or your actual platform.
 | BEACH_APPLICATION_CUSTOM_STARTUP_SCRIPTS_ENABLE | boolean | true                      | If custom startup scripts (beach-startup.sh) should be run                           |
 | BEACH_FLOW_BASE_CONTEXT                         | string  | Production                | Base context, either "Development" or "Production"                                   |
 | BEACH_FLOW_SUB_CONTEXT                          | string  | Instance                  | Sub context                                                                          |
-| BEACH_FLOW_CONTEXT                              | string  | Production/Beach/Instance | (read-only) The actual Flow context; pattern: "{…BASE_CONTEXT}/Beach/{…SUB_CONTEXT}" |
+| BEACH_FLOW_CONTEXT                              | string  | Production/Beach/Instance | (read-only) The built Flow context; pattern: "{…BASE_CONTEXT}/Beach/{…SUB_CONTEXT}"  |
+| FLOW_CONTEXT                                    | string  |                           | The actual Flow context; default is BEACH_FLOW_CONTEXT                               |
 | BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST          | string  |                           | If set, only these environment variables are promoted to the "beach" user's shell    |
 | BEACH_CRON_ENABLE                               | boolean | false                     | If user-defined cron-jobs (beach-cron-hourly.sh) should be enabled                   |
 
