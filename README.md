@@ -121,11 +121,13 @@ The included tools are:
 
 | Name        | Command  | Description                                                  |
 |:------------|:---------|:-------------------------------------------------------------|
-| vim         | vi / vim | Text editor                                                  |
 | cURL        | curl     | Data transfer agent for HTTP(S), FTP and more                |
-| MariaDB     | mysql    | MySQL client, including tools like mysqldump and mysqlimport |
-| Netcat      | nc       | Universal TCP and UDP tool                                   |
 | Ghostscript | gs       | Used for thumbnail rendering in Neos                         |
+| htop        | htop     | A text-mode interactive process viewer                       |
+| MariaDB     | mysql    | MySQL client, including tools like mysqldump and mysqlimport |
+| nano        | nano     | Text editor                                                  |
+| Netcat      | nc       | Universal TCP and UDP tool                                   |
+| vim         | vi / vim | Text editor                                                  |
 
 ### Image optimization tools
 
