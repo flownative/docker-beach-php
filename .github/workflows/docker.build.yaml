@@ -36,7 +36,7 @@ jobs:
 
       - name: Determine latest built PHP ${{ matrix.php }} version
         id: latest_php_version
-        uses: flownative/action-docker-get-label@master
+        uses: flownative/action-docker-get-label@v1
         with:
           image: europe-docker.pkg.dev/flownative/docker/php:${{ matrix.php }}
           label: org.opencontainers.image.version
@@ -87,7 +87,7 @@ jobs:
           password: ${{ secrets.GOOGLE_ARTIFACTS_PASSWORD_DOCKER }}
 
       - name: Build Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
@@ -117,7 +117,7 @@ jobs:
           client-payload: '{"image_name": "flownative/docker-php/beach-php"}'
 
       - name: Send mail for Opsgenie heartbeat
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v4
         with:
           connection_url: ${{secrets.OPSGENIE_HEARTBEAT_MAIL_CREDENTIALS}}
           subject: Github Actions heartbeat ping
