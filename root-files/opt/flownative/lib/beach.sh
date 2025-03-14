@@ -242,6 +242,7 @@ process_name=%(program_name)s
 command=${servicePathAndFilename}
 autostart=true
 autorestart=true
+startretries=120
 numprocs=1
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
