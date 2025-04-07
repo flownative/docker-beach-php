@@ -364,5 +364,5 @@ beach_finalize_flow() {
     fi
 
     debug "Beach: Writing .warmupdone flag"
-    touch /application/.warmupdone
+    touch ${BEACH_APPLICATION_PATH}/.warmupdone
 }
