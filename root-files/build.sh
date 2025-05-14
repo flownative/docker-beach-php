@@ -48,7 +48,18 @@ build_create_user() {
 # @return void
 #
 build_tools() {
-    packages_install netcat-traditional vim less curl locales locales-all mariadb-client ghostscript gpg gpg-agent unzip nano htop
+    packages_install netcat-traditional vim less curl locales locales-all ghostscript gpg gpg-agent unzip nano htop
+}
+
+# ---------------------------------------------------------------------------------------
+# build_mysql_client() - Install the MySQL client package
+#
+# @return void
+#
+build_mysql_client() {
+    curl -fsSL https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 | gpg --dearmor > /usr/share/keyrings/mysql.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/mysql.gpg] http://repo.mysql.com/apt/debian $(lsb_release -cs) mysql-8.0" >> /etc/apt/sources.list.d/mysql.list
+    packages_install mysql-client
 }
 
 # ---------------------------------------------------------------------------------------
@@ -130,6 +141,7 @@ init)
     ;;
 build)
     build_tools
+    build_mysql_client
     build_image_optimizers
     build_sshd
     build_blackfire
