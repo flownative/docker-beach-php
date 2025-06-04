@@ -183,6 +183,8 @@ beach_run_resource_publish() {
 # @return void
 #
 beach_run_cache_warmup() {
+    info "Beach: Setting up caches"
+    "${BEACH_APPLICATION_PATH}/flow" cache:setupall 2>&1 | (sed 's/^/Beach: (flow) /' | output)
     info "Beach: Warming up caches"
     "${BEACH_APPLICATION_PATH}/flow" cache:warmup 2>&1 | (sed 's/^/Beach: (flow) /' | output)
 }
