@@ -9,12 +9,12 @@
 
 if (PHP_MAJOR_VERSION >= 9) {
     echo "This script is not compatible with PHP 9 or higher yet\n";
-    exit (1);
+    exit(1);
 }
 
 if (getenv('FLOWNATIVE_LOG_PATH') === false) {
     echo "Missing environment variable FLOWNATIVE_LOG_PATH\n";
-    exit (1);
+    exit(1);
 }
 
 $internalBaseUrl = getenv('SITEMAP_CRAWLER_INTERNAL_BASE_URL');
@@ -53,7 +53,7 @@ final class SitemapCrawler
             $this->parseSitemap($sitemapUrl);
         } catch (\Throwable $throwable) {
             $this->log($throwable->getMessage());
-            exit (1);
+            exit(1);
         }
     }
 
@@ -63,7 +63,16 @@ final class SitemapCrawler
     public function crawl(): void
     {
         $firstUrl = reset($this->urls);
+        if ($firstUrl === false) {
+            $this->log('No first URL to parse.');
+            exit(0);
+        }
+
         $parsedFirstUrl = parse_url($firstUrl);
+        if ($parsedFirstUrl === false) {
+            $this->log('Could not parse first URL: ' . $firstUrl);
+            exit(1);
+        }
         $internalFirstUrl = $this->internalBaseUrl . $parsedFirstUrl['path'] . (isset($parsedFirstUrl['query']) ? '?' . $parsedFirstUrl['query'] : '');
 
         $this->log(sprintf('Checking connectivity by retrieving %s, simulating host %s', $internalFirstUrl, $parsedFirstUrl['host']));
@@ -110,6 +119,10 @@ final class SitemapCrawler
                 $curlHandles = [];
                 foreach ($chunk as $i => $url) {
                     $parsedUrl = parse_url($url);
+                    if ($parsedUrl === false) {
+                        $this->log('Could not parse URL: ' . $url);
+                        continue;
+                    }
                     $url = $this->internalBaseUrl . $parsedUrl['path'] . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '');
 
                     $curlHandles[$i] = curl_init($url);
@@ -141,7 +154,7 @@ final class SitemapCrawler
             }
         } catch (\Throwable $throwable) {
             $this->log($throwable->getMessage());
-            exit (1);
+            exit(1);
         }
     }
 
