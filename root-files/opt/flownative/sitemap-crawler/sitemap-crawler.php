@@ -63,6 +63,11 @@ final class SitemapCrawler
     public function crawl(): void
     {
         $firstUrl = reset($this->urls);
+        if ($firstUrl === false) {
+            $this->log('No first URL to parse.');
+            exit(0);
+        }
+
         $parsedFirstUrl = parse_url($firstUrl);
         $internalFirstUrl = $this->internalBaseUrl . $parsedFirstUrl['path'] . (isset($parsedFirstUrl['query']) ? '?' . $parsedFirstUrl['query'] : '');
 
