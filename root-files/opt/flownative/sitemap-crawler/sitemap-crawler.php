@@ -69,6 +69,10 @@ final class SitemapCrawler
         }
 
         $parsedFirstUrl = parse_url($firstUrl);
+        if ($parsedFirstUrl === false) {
+            $this->log('Could not parse first URL: ' . $firstUrl);
+            exit(1);
+        }
         $internalFirstUrl = $this->internalBaseUrl . $parsedFirstUrl['path'] . (isset($parsedFirstUrl['query']) ? '?' . $parsedFirstUrl['query'] : '');
 
         $this->log(sprintf('Checking connectivity by retrieving %s, simulating host %s', $internalFirstUrl, $parsedFirstUrl['host']));
@@ -115,6 +119,10 @@ final class SitemapCrawler
                 $curlHandles = [];
                 foreach ($chunk as $i => $url) {
                     $parsedUrl = parse_url($url);
+                    if ($parsedUrl === false) {
+                        $this->log('Could not parse URL: ' . $url);
+                        continue;
+                    }
                     $url = $this->internalBaseUrl . $parsedUrl['path'] . (isset($parsedUrl['query']) ? '?' . $parsedUrl['query'] : '');
 
                     $curlHandles[$i] = curl_init($url);
