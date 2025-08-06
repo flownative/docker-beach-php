@@ -9,12 +9,12 @@
 
 if (PHP_MAJOR_VERSION >= 9) {
     echo "This script is not compatible with PHP 9 or higher yet\n";
-    exit (1);
+    exit(1);
 }
 
 if (getenv('FLOWNATIVE_LOG_PATH') === false) {
     echo "Missing environment variable FLOWNATIVE_LOG_PATH\n";
-    exit (1);
+    exit(1);
 }
 
 $internalBaseUrl = getenv('SITEMAP_CRAWLER_INTERNAL_BASE_URL');
@@ -53,7 +53,7 @@ final class SitemapCrawler
             $this->parseSitemap($sitemapUrl);
         } catch (\Throwable $throwable) {
             $this->log($throwable->getMessage());
-            exit (1);
+            exit(1);
         }
     }
 
@@ -141,7 +141,7 @@ final class SitemapCrawler
             }
         } catch (\Throwable $throwable) {
             $this->log($throwable->getMessage());
-            exit (1);
+            exit(1);
         }
     }
 
