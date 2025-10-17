@@ -52,6 +52,7 @@ export BEACH_ENVIRONMENT_VARIABLES_ALLOW_LIST=${BEACH_ENVIRONMENT_VARIABLES_ALLO
 export BEACH_CRON_ENABLE=${BEACH_CRON_ENABLE:-false}
 
 export SITEMAP_CRAWLER_ENABLE=${SITEMAP_CRAWLER_ENABLE:-false}
+export SITEMAP_CRAWLER_TIMEOUT=${SITEMAP_CRAWLER_TIMEOUT:-10m}
 export SITEMAP_CRAWLER_SITEMAP_URL=${SITEMAP_CRAWLER_SITEMAP_URL:-http://localhost:8080/sitemap.xml}
 export SITEMAP_CRAWLER_INTERNAL_BASE_URL=${SITEMAP_CRAWLER_INTERNAL_BASE_URL:-http://localhost:8080}
 
@@ -227,14 +228,14 @@ beach_run_specified_hook() {
 # ---------------------------------------------------------------------------------------
 # beach_run_sitemap_crawler() - Invoke a crawler which warms up caches for all urls of a sitemap
 #
-# @global SITEMAP_CRAWLER_SITEMAP_URL
-# @global SITEMAP_CRAWLER_INTERNAL_BASE_URL
+# @global SITEMAP_CRAWLER_TIMEOUT
+# @global SITEMAP_CRAWLER_BASE_PATH
 # @return void
 #
 beach_run_sitemap_crawler() {
     # Run the sitemap-crawler in a background process and make sure that it does not run
-    # longer than 10 minutes:
-    timeout 600 "${SITEMAP_CRAWLER_BASE_PATH}/sitemap-crawler.php" &
+    # longer than the timeout:
+    timeout -k 10 ${SITEMAP_CRAWLER_TIMEOUT} "${SITEMAP_CRAWLER_BASE_PATH}/sitemap-crawler.php" &
 }
 
 # ---------------------------------------------------------------------------------------

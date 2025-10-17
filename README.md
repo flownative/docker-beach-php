@@ -97,6 +97,7 @@ similar mechanism in Kubernetes or your actual platform.
 | Variable Name                     | Type    | Default                           | Description                                                                      |
 |:----------------------------------|:--------|:----------------------------------|:---------------------------------------------------------------------------------|
 | SITEMAP_CRAWLER_ENABLE            | boolean | false                             | Enables the Sitemap Crawler                                                      |
+| SITEMAP_CRAWLER_TIMEOUT           | string  | 10m                               | Timeout for the crawler in seconds, or use suffix m (minutes), h (hours)         |
 | SITEMAP_CRAWLER_SITEMAP_URL       | string  | http://localhost:8080/sitemap.xml | URL to retrieve the sitemap from; can be a comma separated list of multiple URLs |
 | SITEMAP_CRAWLER_INTERNAL_BASE_URL | string  | http://localhost:8080             | Internal base URL for crawling the site                                          |
 
