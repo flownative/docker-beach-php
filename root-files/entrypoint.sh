@@ -37,7 +37,7 @@ php_fpm_initialize
 supervisor_initialize
 supervisor_start
 
-trap 'supervisor_stop; syslog_stop' SIGINT SIGTERM
+trap 'supervisor_stop; syslog_stop' SIGINT SIGTERM SIGQUIT
 
 beach_finalize_flow
 
