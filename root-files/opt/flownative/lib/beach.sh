@@ -356,7 +356,7 @@ beach_prepare_flow() {
 #
 beach_finalize_flow() {
     if [ ! -f "${BEACH_APPLICATION_PATH}"/flow ]; then
-        warn "Beach: No Flow application detected, skipping finialize"
+        warn "Beach: No Flow application detected, skipping finalize"
         return
     fi
 
@@ -364,7 +364,4 @@ beach_finalize_flow() {
         info "Beach: Running sitemap crawler ..."
         beach_run_sitemap_crawler
     fi
-
-    debug "Beach: Writing .warmupdone flag"
-    touch /application/.warmupdone
 }
