@@ -360,7 +360,7 @@ beach_prepare_flow() {
 
     if is_boolean_yes "$BEACH_APPLICATION_CUSTOM_STARTUP_SCRIPTS_ENABLE"; then
         info "Beach: Running custom startup scripts ..."
-        beach_run_custom_startup 
+        beach_run_custom_startup
     else
         info "Beach: Skipping custom startup scripts"
     fi
