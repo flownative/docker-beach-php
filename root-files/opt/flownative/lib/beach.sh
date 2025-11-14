@@ -206,6 +206,24 @@ beach_run_custom_startup() {
     "${BEACH_APPLICATION_PATH}/beach-startup.sh" 2>&1 | (sed 's/^/Beach: (flow) /' | output)
 }
 
+beach_run_specified_hook() {
+    if [ -n "$1" ]; then
+        if is_boolean_yes "$BEACH_APPLICATION_CUSTOM_STARTUP_SCRIPTS_ENABLE"; then
+            if [ ! -f "${BEACH_APPLICATION_PATH}/$1.sh" ]; then
+                info "Beach: No $1.sh found, skipping hook"
+                return
+            fi
+            info "Beach: Running '$1' hook ($1.sh) ..."
+            chmod +x "${BEACH_APPLICATION_PATH}/$1.sh"
+            "${BEACH_APPLICATION_PATH}/$1.sh" 2>&1 | (sed 's/^/Beach: (flow) /' | output)
+        else
+            info "Beach: Skipping '$1' hook because custom startup scripts are disabled"
+        fi
+    else
+        warn "No hook name given to run hook function, this should not happen" 
+    fi
+}
+
 # ---------------------------------------------------------------------------------------
 # beach_run_sitemap_crawler() - Invoke a crawler which warms up caches for all urls of a sitemap
 #
@@ -315,6 +333,8 @@ beach_initialize() {
     beach_setup_user_profile
     beach_setup_igbinary
     beach_setup_addon_blackfire
+
+    beach_run_specified_hook "beach-hook-initialize"
 }
 
 # ---------------------------------------------------------------------------------------
@@ -344,6 +364,7 @@ beach_prepare_flow() {
     else
         info "Beach: Skipping custom startup scripts"
     fi
+    beach_run_specified_hook "beach-hook-warmup"
 
     beach_enable_user_services
 }
@@ -364,7 +385,12 @@ beach_finalize_flow() {
         info "Beach: Running sitemap crawler ..."
         beach_run_sitemap_crawler
     fi
+}
 
+beach_startup_complete() {
+    beach_run_specified_hook "beach-hook-ready"
     debug "Beach: Writing .warmupdone flag"
     touch /application/.warmupdone
+    info ".warmupdone written, this pod will now become ready"
+    beach_run_specified_hook "beach-hook-live"
 }
