@@ -14,10 +14,10 @@ jobs:
 
     strategy:
       matrix:
-        php: [ "8.1", "8.2", "8.3", "8.4" ]
+        php: [ "8.1", "8.2", "8.3", "8.4", "8.5" ]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: 'main'
           fetch-depth: 100
@@ -29,7 +29,7 @@ jobs:
       - run: |
           sudo chmod -R ugo+rwX . && shopt -s dotglob && rm -rf *
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ steps.latest_version.outputs.tag }}
           fetch-depth: 100
@@ -102,14 +102,14 @@ jobs:
     needs: build
     steps:
       - name: Dispatch to beach-php-k8s
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           repository: flownative/docker-beach-php-k8s
           event-type: beach-php-images-built
           client-payload: '{"image_name": "flownative/docker-php/beach-php"}'
       - name: Dispatch to versions.flownative.io
-        uses: peter-evans/repository-dispatch@v3
+        uses: peter-evans/repository-dispatch@v4
         with:
           token: ${{ secrets.FLOWNATIVE_BOT_TOKEN }}
           repository: flownative/versions.flownative.io
@@ -117,7 +117,7 @@ jobs:
           client-payload: '{"image_name": "flownative/docker-php/beach-php"}'
 
       - name: Send mail for Opsgenie heartbeat
-        uses: dawidd6/action-send-mail@v4
+        uses: dawidd6/action-send-mail@v6
         with:
           connection_url: ${{secrets.OPSGENIE_HEARTBEAT_MAIL_CREDENTIALS}}
           subject: Github Actions heartbeat ping
