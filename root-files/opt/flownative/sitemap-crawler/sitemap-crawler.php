@@ -75,7 +75,7 @@ final class SitemapCrawler
         }
         $internalFirstUrl = $this->internalBaseUrl . $parsedFirstUrl['path'] . (isset($parsedFirstUrl['query']) ? '?' . $parsedFirstUrl['query'] : '');
 
-        $this->log(sprintf('Checking connectivity by retrieving %s, simulating host %s', $internalFirstUrl, $parsedFirstUrl['host']));
+        $this->log(sprintf('Checking connectivity by retrieving %s, simulating host %s, protocol %s', $internalFirstUrl, $parsedFirstUrl['host'], ($parsedFirstUrl['scheme'] ?? 'https')));
 
         $retries = 0;
         $connectivityTestSucceeded = false;
@@ -84,7 +84,7 @@ final class SitemapCrawler
             sleep (2^$retries);
 
             $curlHandle = curl_init($internalFirstUrl);
-            $headers = ['Host: ' . $parsedFirstUrl['host'], 'X-Forwarded-Proto: ' . ($parsedUrl['scheme'] ?? 'https')];
+            $headers = ['Host: ' . $parsedFirstUrl['host'], 'X-Forwarded-Proto: ' . ($parsedFirstUrl['scheme'] ?? 'https')];
             curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($curlHandle, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; FlownativeSitemapCrawler; +https://www.flownative.com)');
             /** @noinspection CurlSslServerSpoofingInspection */
@@ -164,18 +164,42 @@ final class SitemapCrawler
      */
     private function parseSitemap(string $sitemapUrl): void
     {
-        $streamContext = stream_context_create(
-            [
-                'ssl' => [
-                    'verify_peer' => false,
-                    'verify_peer_name' => false
-                ]
-            ]
-        );
+        $parsedSitemapUrl = parse_url($sitemapUrl);
+        if ($parsedSitemapUrl === false) {
+            $this->log('Could not parse sitemap URL: ' . $parsedSitemapUrl);
+            return;
+        }
+        $internalSitemapUrl = $this->internalBaseUrl . $parsedSitemapUrl['path'] . (isset($parsedSitemapUrl['query']) ? '?' . $parsedSitemapUrl['query'] : '');
 
-        $this->log("Loading sitemap from $sitemapUrl ...");
+        $this->log(sprintf('Fetching sitemap by retrieving %s, simulating host %s, protocol %s', $internalSitemapUrl, $parsedSitemapUrl['host'], ($parsedSitemapUrl['scheme'] ?? 'https')));
 
-        $rawSitemapXml = file_get_contents($sitemapUrl, false, $streamContext);
+        $retries = 0;
+        $rawSitemapXml = false;
+        while ($retries < 10) {
+            $retries++;
+            sleep (2^$retries);
+
+            $curlHandle = curl_init($internalSitemapUrl);
+            $headers = ['Host: ' . $parsedSitemapUrl['host'], 'X-Forwarded-Proto: ' . ($parsedSitemapUrl['scheme'] ?? 'https')];
+            curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curlHandle, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; FlownativeSitemapCrawler; +https://www.flownative.com)');
+            curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+            $rawSitemapXml = curl_exec($curlHandle);
+            if ($rawSitemapXml === false) {
+                $this->log(sprintf('Request failed'));
+                continue;
+            }
+
+            $responseCode = curl_getinfo( $curlHandle,CURLINFO_RESPONSE_CODE);
+            if ($responseCode === 200) {
+                $this->log(sprintf('Request succeeded'));
+                break;
+            }
+
+            $this->log(sprintf('Returned response code %s', $responseCode));
+        }
+        
         if ($rawSitemapXml === false) {
             return;
         }
