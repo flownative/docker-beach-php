@@ -75,7 +75,7 @@ final class SitemapCrawler
         }
         $internalFirstUrl = $this->internalBaseUrl . $parsedFirstUrl['path'] . (isset($parsedFirstUrl['query']) ? '?' . $parsedFirstUrl['query'] : '');
 
-        $this->log(sprintf('Checking connectivity by retrieving %s, simulating host %s', $internalFirstUrl, $parsedFirstUrl['host']));
+        $this->log(sprintf('Checking connectivity by retrieving %s, simulating host %s, protocol %s', $internalFirstUrl, $parsedFirstUrl['host'], ($parsedFirstUrl['scheme'] ?? 'https')));
 
         $retries = 0;
         $connectivityTestSucceeded = false;
@@ -171,7 +171,7 @@ final class SitemapCrawler
         }
         $internalSitemapUrl = $this->internalBaseUrl . $parsedSitemapUrl['path'] . (isset($parsedSitemapUrl['query']) ? '?' . $parsedSitemapUrl['query'] : '');
 
-        $this->log(sprintf('Fetching sitemap by retrieving %s, simulating host %s', $internalSitemapUrl, $parsedSitemapUrl['host']));
+        $this->log(sprintf('Fetching sitemap by retrieving %s, simulating host %s, protocol %s', $internalSitemapUrl, $parsedSitemapUrl['host'], ($parsedSitemapUrl['scheme'] ?? 'https')));
 
         $retries = 0;
         $rawSitemapXml = false;
