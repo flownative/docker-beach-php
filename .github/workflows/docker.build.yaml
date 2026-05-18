@@ -38,11 +38,11 @@ jobs:
         id: latest_php_version
         uses: flownative/action-docker-get-label@v1
         with:
-          image: europe-docker.pkg.dev/flownative/docker/php:${{ matrix.php }}
+          image: harbor.flownative.io/docker/php:${{ matrix.php }}
           label: org.opencontainers.image.version
-          registry_endpoint: https://europe-docker.pkg.dev
-          registry_username: '_json_key'
-          registry_password: ${{ secrets.GOOGLE_ARTIFACTS_PASSWORD_DOCKER }}
+          registry_endpoint: https://harbor.flownative.io
+          registry_username: ${{ secrets.HARBOR_DOCKER_USERNAME }}
+          registry_password: ${{ secrets.HARBOR_DOCKER_PASSWORD }}
 
       - name: Docker meta
         id: meta
@@ -52,7 +52,7 @@ jobs:
             latest=false
           images: |
             flownative/beach-php
-            europe-docker.pkg.dev/flownative/docker/beach-php
+            harbor.flownative.io/docker/beach-php
           labels: |
             org.opencontainers.image.title=Beach PHP
             org.opencontainers.image.description=Docker image providing PHP for Beach and Local Beach
@@ -79,12 +79,12 @@ jobs:
           username: ${{ secrets.DOCKER_IO_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_IO_REGISTRY_PASSWORD }}
 
-      - name: Login to Google Artifacts Registry
+      - name: Login to Harbor
         uses: docker/login-action@v4
         with:
-          registry: europe-docker.pkg.dev/flownative/docker
-          username: '_json_key'
-          password: ${{ secrets.GOOGLE_ARTIFACTS_PASSWORD_DOCKER }}
+          registry: harbor.flownative.io
+          username: ${{ secrets.HARBOR_DOCKER_USERNAME }}
+          password: ${{ secrets.HARBOR_DOCKER_PASSWORD }}
 
       - name: Build Docker image
         uses: docker/build-push-action@v7
@@ -93,7 +93,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
-            PHP_BASE_IMAGE=europe-docker.pkg.dev/flownative/docker/php:${{ steps.latest_php_version.outputs.value }}
+            PHP_BASE_IMAGE=harbor.flownative.io/docker/php:${{ steps.latest_php_version.outputs.value }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
