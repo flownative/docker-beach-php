@@ -376,8 +376,11 @@ beach_prepare_flow() {
 # @return void
 #
 beach_finalize_flow() {
+    # warm potential caches before the readiness probe hits this endpoint
+    curl http://127.0.0.1:8080/ >/dev/null 2>&1
+
     if [ ! -f "${BEACH_APPLICATION_PATH}"/flow ]; then
-        warn "Beach: No Flow application detected, skipping finialize"
+        warn "Beach: No Flow application detected, skipping finalize"
         return
     fi
 
