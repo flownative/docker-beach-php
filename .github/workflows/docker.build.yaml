@@ -124,3 +124,21 @@ jobs:
           to: docker-build-beach-php@flownative.heartbeat.eu.opsgenie.net
           from: Github Actions <noreply@flownative.com>
           body: Build job of ${{github.repository}} completed successfully!
+
+      - name: Push heartbeat metric to Grafana Cloud
+        if: success()
+        env:
+          RW_URL: ${{ secrets.GRAFANA_METRICS_RW_URL }}
+          INSTANCE_ID: ${{ secrets.GRAFANA_METRICS_INSTANCE_ID }}
+          TOKEN: ${{ secrets.GRAFANA_METRICS_PUSH_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Derive the Influx line-protocol push endpoint from the Prometheus
+          # remote-write endpoint (same account, different host/path).
+          INFLUX_URL="$(printf '%s' "$RW_URL" | sed -e 's#prometheus-#influx-#' -e 's#/api/prom/push#/api/v1/push/influx/write#')"
+          NOW="$(date +%s)"
+          curl -sf --retry 3 --retry-all-errors \
+            -u "${INSTANCE_ID}:${TOKEN}" \
+            -H 'Content-Type: text/plain' \
+            "${INFLUX_URL}" \
+            --data-binary "flownative_ci_last_success_timestamp,job=docker-build,image=beach-php seconds=${NOW}"
