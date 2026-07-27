@@ -20,15 +20,23 @@ HostKey ${SSHD_BASE_PATH}/etc/ssh_host_ed25519_key
 
 # Specify the available Key Exchange algorithms
 # (list available KEX algorithms with ssh -Q kex)
-KexAlgorithms diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,curve25519-sha256,curve25519-sha256@libssh.org
+# Debian 12 has OpenSSH 9.2, so we can use sntrup761x25519-sha512@openssh.com
+# Note: kex-strict-s-v00@openssh.com is automatically advertised by OpenSSH 9.2+ and should not be explicitly configured
+KexAlgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha256
+
+# Specify the available Ciphers
+# (list available ciphers with ssh -Q cipher)
+# ChaCha20-Poly1305 removed to fully mitigate Terrapin (CVE-2023-48795) with unpatched clients
+Ciphers aes256-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-gcm@openssh.com,aes128-ctr
 
 # Specify the available Host Key Algorithms
 # (list available KEX algorithms with ssh -Q key)
-HostKeyAlgorithms ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ecdsa-sha2-nistp256@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-dss-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-512
+# Order matters for client preference / ssh-audit profile
+HostKeyAlgorithms ssh-ed25519,rsa-sha2-512,rsa-sha2-256,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,sk-ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com
 
 # Specifies the available MAC (message authentication code) algorithms.
 # (list available KEX algorithms with ssh -Q mac)
-MACs umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com
+MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,umac-128-etm@openssh.com
 
 # Logging
 #SyslogFacility AUTH
