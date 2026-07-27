@@ -16,6 +16,11 @@ set -o pipefail
 . "${FLOWNATIVE_LIB_PATH}/beach.sh"
 . "${FLOWNATIVE_LIB_PATH}/sshd.sh"
 
+# Loading env variables supplied during build.
+if [ -f /application/.beach-build-result.env ]; then
+    source /application/.beach-build-result.env
+fi
+
 eval "$(syslog_env)"
 syslog_initialize
 syslog_start
