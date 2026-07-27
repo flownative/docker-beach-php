@@ -2,6 +2,9 @@
 if [[ -z "${FLOWNATIVE_LIB_PATH}" ]]; then
     source /home/beach/.env
 fi
+if [ -f /application/.beach-build-result.env ]; then
+    source /application/.beach-build-result.env
+fi
 
 # If not running interactively, skip the banner
 if [[ -z "$PS1" ]]; then
