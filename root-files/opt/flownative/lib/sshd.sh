@@ -41,11 +41,9 @@ sshd_generate_host_keys() {
         mkdir -p "${SSHD_HOST_KEYS_PATH}"
 
         ssh-keygen -f "${SSHD_HOST_KEYS_PATH}/ssh_host_rsa_key" -N '' -t rsa 2>&1 1>/dev/null | (sed 's/^/SSHD: /' | output)
-        ssh-keygen -f "${SSHD_HOST_KEYS_PATH}/ssh_host_dsa_key" -N '' -t dsa 2>&1 1>/dev/null | (sed 's/^/SSHD: /' | output)
         ssh-keygen -f "${SSHD_HOST_KEYS_PATH}/ssh_host_ed25519_key" -N '' -t ed25519 2>&1 1>/dev/null | (sed 's/^/SSHD: /' | output)
 
         if [ "${SSHD_HOST_KEYS_PATH}" != "${SSHD_BASE_PATH}/etc" ]; then
-            rm -f "${SSHD_HOST_KEYS_PATH}/ssh_host_dsa_key.pub"
             rm -f "${SSHD_HOST_KEYS_PATH}/ssh_host_ed25519_key.pub"
             rm -f "${SSHD_HOST_KEYS_PATH}/ssh_host_rsa_key.pub"
         fi
@@ -53,7 +51,6 @@ sshd_generate_host_keys() {
         info "SSHD: Copying host keys to ${SSHD_BASE_PATH}/etc ..."
 
         cp -f "${SSHD_HOST_KEYS_PATH}/ssh_host_rsa_key" "${SSHD_BASE_PATH}/etc/ssh_host_rsa_key"
-        cp -f "${SSHD_HOST_KEYS_PATH}/ssh_host_dsa_key" "${SSHD_BASE_PATH}/etc/ssh_host_dsa_key"
         cp -f "${SSHD_HOST_KEYS_PATH}/ssh_host_ed25519_key" "${SSHD_BASE_PATH}/etc/ssh_host_ed25519_key"
     fi
 

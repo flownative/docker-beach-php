@@ -1,6 +1,6 @@
 # Customized sshd_config for the Flownative Beach SSH Remote
 #
-# https://manpages.debian.org/bullseye/openssh-server/sshd_config.5.en.html
+# https://manpages.debian.org/trixie/openssh-server/sshd_config.5.en.html
 
 # Listen to a non-privileged port
 Port 2022
@@ -11,18 +11,16 @@ ListenAddress 0.0.0.0
 
 PidFile ${SSHD_BASE_PATH}/tmp/sshd.pid
 
-Protocol 2
-
-# HostKeys for protocol version 2
+# Host keys (DSA is not supported anymore since OpenSSH 10)
 HostKey ${SSHD_BASE_PATH}/etc/ssh_host_rsa_key
-HostKey ${SSHD_BASE_PATH}/etc/ssh_host_dsa_key
 HostKey ${SSHD_BASE_PATH}/etc/ssh_host_ed25519_key
 
 # Specify the available Key Exchange algorithms
 # (list available KEX algorithms with ssh -Q kex)
-# Debian 12 has OpenSSH 9.2, so we can use sntrup761x25519-sha512@openssh.com
+# Debian 13 has OpenSSH 10.0, which offers the post-quantum mlkem768x25519-sha256 (its default)
+# next to sntrup761x25519-sha512@openssh.com
 # Note: kex-strict-s-v00@openssh.com is automatically advertised by OpenSSH 9.2+ and should not be explicitly configured
-KexAlgorithms sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha256
+KexAlgorithms mlkem768x25519-sha256,sntrup761x25519-sha512@openssh.com,curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha256
 
 # Specify the available Ciphers
 # (list available ciphers with ssh -Q cipher)

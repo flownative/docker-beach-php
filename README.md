@@ -184,6 +184,10 @@ unprivileged user generally improves the security of an image, but may
 have a few side-effects, especially when you try to debug something by
 logging in to the container using `docker exec`.
 
+All setuid and setgid bits are removed from the binaries in this image
+(and pinned with `dpkg-statoverride`), so no process can escalate its
+privileges, even without `no-new-privileges`.
+
 When you are running this image with Docker or in a Kubernetes context,
 you can take advantage of the non-root approach by disallowing privilege
 escalation:

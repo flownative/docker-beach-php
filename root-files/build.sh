@@ -48,7 +48,7 @@ build_create_user() {
 # @return void
 #
 build_tools() {
-    packages_install netcat-traditional vim less curl locales locales-all mariadb-client ghostscript gpg gpg-agent unzip nano htop bat
+    packages_install netcat-traditional vim less curl locales locales-all mariadb-client ghostscript gpg gpg-agent unzip nano htop bat hostname ncurses-bin
 }
 
 # ---------------------------------------------------------------------------------------
@@ -67,7 +67,10 @@ build_image_optimizers() {
 # @return void
 #
 build_sshd() {
-    packages_install openssh-server curl
+    # openssh-server needs a sysusers implementation; without the standalone
+    # package, apt would pick the full systemd suite to satisfy that dependency
+    # (and with it mount and its setuid binaries):
+    packages_install openssh-server systemd-standalone-sysusers curl
 
     # Clean up a few directories / files we don't need:
     rm -rf \
@@ -108,6 +111,22 @@ build_blackfire() {
 }
 
 # ---------------------------------------------------------------------------------------
+# build_strip_setuid() - Remove setuid/setgid bits from all binaries
+#
+# Nothing running in this container may escalate privileges. The base image
+# already stripped its own binaries; the packages installed here bring new ones
+# (ssh-agent and ssh-keysign, at least). The statoverride makes sure that
+# package upgrades do not restore the bits.
+#
+# @return void
+#
+build_strip_setuid() {
+    for f in $(find / -xdev -perm /6000 -type f); do
+        dpkg-statoverride --update --add root root 0755 "$f" 1>$(debug_device)
+    done
+}
+
+# ---------------------------------------------------------------------------------------
 # build_clean() - Clean up obsolete building artifacts and temporary files
 #
 # @global PHP_BASE_PATH
@@ -133,6 +152,7 @@ build)
     build_image_optimizers
     build_sshd
     build_blackfire
+    build_strip_setuid
     ;;
 clean)
     packages_remove_docs_and_caches 1>$(debug_device)
