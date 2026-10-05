@@ -136,9 +136,10 @@ are available:
 
 | Format | Commands                                                                                     |
 |:-------|:---------------------------------------------------------------------------------------------|
+| AVIF   | avifenc, avifdec                                                                             |
 | GIF    | gifsicle, gifdiff, gifview                                                                   |
-| PNG    | optipng, pngcrush, pngquant                                                                  |
 | JPEG   | jpegoptim, cjpeg, djpeg, exifautotran, jpegexiforient, jpegtran, rdjpgcom, tjbench, wrjpgcom |
+| PNG    | optipng, pngcrush, pngquant                                                                  |
 | WebP   | cwebp, dwebp, gif2webp, img2webp, vwebp, webpinfo, webpmux                                   |
 
 ## Cron
