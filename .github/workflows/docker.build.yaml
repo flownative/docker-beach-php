@@ -17,7 +17,7 @@ jobs:
         php: [ "8.1", "8.2", "8.3", "8.4", "8.5" ]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: 'main'
           fetch-depth: 100
@@ -29,7 +29,7 @@ jobs:
       - run: |
           sudo chmod -R ugo+rwX . && shopt -s dotglob && rm -rf *
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ steps.latest_version.outputs.tag }}
           fetch-depth: 100
