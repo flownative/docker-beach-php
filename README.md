@@ -207,3 +207,34 @@ docker build \
     --build-arg PHP_BASE_IMAGE=flownative/php:8.3.11 \
     -t flownative/beach-php:8.3.11 .
 ```
+
+## Testing this image
+
+The workflow `.github/workflows/docker.test.yaml` builds the image for
+every supported PHP version on each push and pull request and runs
+`tests/image-formats.php` inside it. The script checks that GD, Imagick
+and vips can read, manipulate and write JPEG, PNG, GIF, WebP, AVIF and
+HEIC images, can read SVG, TIFF and the first page of a PDF, keep
+transparency when writing PNG, GIF, WebP, AVIF and HEIC, and keep the
+frames of an animated GIF when writing GIF and WebP. A library without
+any API for a format is reported as skipped. Any other failure, or a
+format which no library can read or write, fails the run. The results
+appear in the job summary and the generated images are uploaded as a
+build artifact.
+
+The script and its fixtures are a copy of the ones in
+[docker-php](https://github.com/flownative/docker-php). Unlike there,
+Imagick is expected to read PDF, because this image installs Ghostscript.
+
+To run the test against a local image:
+
+```bash
+docker run --rm \
+    --entrypoint php \
+    --volume "$(pwd)/tests:/tests:ro" \
+    flownative/beach-php:8.5 \
+    /tests/image-formats.php
+```
+
+Pass `--output-dir=/some/path` (a writable volume) to keep the generated
+images and a Markdown summary of the results.
