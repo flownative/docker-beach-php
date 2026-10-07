@@ -135,13 +135,15 @@ beach_setup_user_profile() {
     info "Beach: Setting up user profile for user beach ..."
     cat >/home/beach/.my.cnf <<-EOM
 [client]
-port                  = 3306
-default-character-set = utf8
-host                  = ${BEACH_DATABASE_HOST}
-user                  = ${BEACH_DATABASE_USERNAME}
-password              = ${BEACH_DATABASE_PASSWORD}
+port                   = 3306
+default-character-set  = utf8
+host                   = ${BEACH_DATABASE_HOST}
+user                   = ${BEACH_DATABASE_USERNAME}
+password               = ${BEACH_DATABASE_PASSWORD}
+ssl-verify-server-cert = off
+
 [mysql]
-database              = ${BEACH_DATABASE_NAME}
+database               = ${BEACH_DATABASE_NAME}
 [mysqldump]
 no-tablespaces
 EOM
@@ -220,7 +222,7 @@ beach_run_specified_hook() {
             info "Beach: Skipping '$1' hook because custom startup scripts are disabled"
         fi
     else
-        warn "No hook name given to run hook function, this should not happen" 
+        warn "No hook name given to run hook function, this should not happen"
     fi
 }
 
