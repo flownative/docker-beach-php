@@ -49,6 +49,7 @@ similar mechanism in Kubernetes or your actual platform.
 | Variable Name                                   | Type    | Default                   | Description                                                                          |
 |:------------------------------------------------|:--------|:--------------------------|:-------------------------------------------------------------------------------------|
 | BEACH_APPLICATION_USER_SERVICE_ENABLE           | boolean | false                     | If user-defined services (beach-service*.sh) should be enabled                       |
+| BEACH_APPLICATION_USER_SERVICE_STOP_WAIT_SECONDS| integer | 10                        | Seconds a user-defined service gets to exit after SIGTERM before it is killed        |
 | BEACH_APPLICATION_STARTUP_SCRIPTS_ENABLE        | boolean | true                      | If standard startup scripts (doctrine migrate, resource publish etc.) should be run  |
 | BEACH_APPLICATION_CUSTOM_STARTUP_SCRIPTS_ENABLE | boolean | true                      | If custom startup scripts (beach-startup.sh) should be run                           |
 | BEACH_FLOW_BASE_CONTEXT                         | string  | Production                | Base context, either "Development" or "Production"                                   |
