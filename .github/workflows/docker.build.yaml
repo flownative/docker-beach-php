@@ -17,7 +17,7 @@ env:
 jobs:
   # The images are always built from the latest release.
   prepare:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       tag: ${{ steps.latest_version.outputs.tag }}
     steps:
@@ -133,7 +133,7 @@ jobs:
   # the names of the digest artifacts, so they are listed only once above.
   merge:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: Download digests
         uses: actions/download-artifact@v8
@@ -190,7 +190,7 @@ jobs:
           done
 
   announce:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     needs: merge
     steps:
       - name: Dispatch to beach-php-k8s
