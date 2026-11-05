@@ -209,6 +209,32 @@ docker build \
     -t flownative/beach-php:8.3.11 .
 ```
 
+### Building without GitHub Actions
+
+If GitHub Actions is not available, `bin/build-and-push.sh` builds the
+images on a workstation the way the build workflow does: from the latest
+release tag, for `linux/amd64` and `linux/arm64`, with the same tags and
+labels. The PHP branches come from `.github/workflows/docker.build.yaml`
+on `main`, and each image is based on the newest
+`harbor.flownative.io/docker/php` image of its branch, so rebuild
+[docker-php](https://github.com/flownative/docker-php) first if needed.
+
+```bash
+docker login
+docker login harbor.flownative.io
+
+bin/build-and-push.sh                   # show what would be built
+bin/build-and-push.sh --push            # build and push all PHP branches
+bin/build-and-push.sh --push --php 8.4  # only one PHP branch
+```
+
+`--build` builds without pushing, `--ref <tag>` builds another tag, and
+`--no-cache` builds from scratch. See `bin/build-and-push.sh --help`.
+
+The script triggers neither `docker-beach-php-k8s` nor
+`versions.flownative.io`. Run the script of the same name in
+`docker-beach-php-k8s` once the images are pushed.
+
 ## Testing this image
 
 The workflow `.github/workflows/docker.test.yaml` builds the image for
