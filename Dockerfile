@@ -11,7 +11,7 @@ ARG PHP_BASE_IMAGE
 # The stage runs on the build platform and cross-compiles, so no emulation is
 # involved.
 
-FROM --platform=$BUILDPLATFORM golang:1-alpine AS php-fpm-exporter-builder
+FROM --platform=$BUILDPLATFORM harbor.flownative.io/docker.io/library/golang:1-alpine AS php-fpm-exporter-builder
 
 ARG PHP_FPM_EXPORTER_VERSION=0ef3d973d5046059993d90dc32c86f36eab0929f
 ARG TARGETOS
@@ -41,7 +41,7 @@ USER root
 
 COPY root-files /
 
-COPY --from=blackfire/blackfire:2 /usr/local/bin/blackfire /opt/flownative/php/bin/
+COPY --from=harbor.flownative.io/docker.io/blackfire/blackfire:2 /usr/local/bin/blackfire /opt/flownative/php/bin/
 
 COPY --from=php-fpm-exporter-builder /out/php-fpm_exporter /opt/flownative/php/bin/php-fpm-exporter
 
