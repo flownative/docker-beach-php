@@ -13,6 +13,9 @@ BASE_IMAGE="harbor.flownative.io/docker/php"
 PLATFORMS="linux/amd64,linux/arm64"
 SOURCE_URL="https://github.com/flownative/docker-beach-php"
 WORKFLOW_FILE=".github/workflows/docker.build.yaml"
+# Like on GitHub, the matrix comes from the workflow on main, while the
+# code is the one of the latest release tag.
+WORKFLOW_REF="origin/main"
 NEXT_STEPS="Images derived from these need to be rebuilt next:
   docker-beach-php-k8s
 Run bin/build-and-push.sh --push there.
@@ -101,12 +104,15 @@ trap cleanup EXIT
 git -C "${repository_root}" worktree add --quiet --detach "${worktree}" "${ref}"
 revision="$(git -C "${worktree}" rev-parse HEAD)"
 created="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+workflow="${work_directory}/workflow.yaml"
+git -C "${repository_root}" show "${WORKFLOW_REF}:${WORKFLOW_FILE}" > "${workflow}" \
+    || fail "Could not read ${WORKFLOW_FILE} from ${WORKFLOW_REF}"
 
 # --- Versions -----------------------------------------------------------------
 
 # The matrix line looks like: php: [ "8.2", "8.3", "8.4", "8.5" ]
-matrix="$(sed -n 's/^[[:space:]]*php:[[:space:]]*\[\(.*\)\].*$/\1/p' "${worktree}/${WORKFLOW_FILE}" | head -n 1 | tr -d '"'"'" | tr ',' ' ' | tr -s ' ' | sed 's/^ //; s/ $//')"
-[ -n "${matrix}" ] || fail "No PHP branches found in ${WORKFLOW_FILE} of ${ref}"
+matrix="$(sed -n 's/^[[:space:]]*php:[[:space:]]*\[\(.*\)\].*$/\1/p' "${workflow}" | head -n 1 | tr -d '"'"'" | tr ',' ' ' | tr -s ' ' | sed 's/^ //; s/ $//')"
+[ -n "${matrix}" ] || fail "No PHP branches found in ${WORKFLOW_FILE} of ${WORKFLOW_REF}"
 
 branches=""
 for branch in ${matrix}; do
@@ -116,7 +122,7 @@ for branch in ${matrix}; do
         branches="${branches} ${branch}"
     fi
 done
-[ -n "${branches}" ] || fail "PHP ${php_filter} is not built by ${ref} (available: ${matrix})"
+[ -n "${branches}" ] || fail "PHP ${php_filter} is not built according to ${WORKFLOW_REF} (available: ${matrix})"
 
 # Like flownative/action-docker-get-label: the PHP version is the one of the
 # newest PHP image of that branch.
@@ -145,6 +151,7 @@ tags_for() {
 # --- Plan ---------------------------------------------------------------------
 
 info "Source:    ${ref} (${revision})"
+info "Matrix:    ${WORKFLOW_FILE} on ${WORKFLOW_REF}"
 info "Platforms: ${PLATFORMS}"
 info "Mode:      ${mode}"
 info "Cache:     ${use_cache}"

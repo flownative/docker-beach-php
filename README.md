@@ -215,7 +215,7 @@ If GitHub Actions is not available, `bin/build-and-push.sh` builds the
 images on a workstation the way the build workflow does: from the latest
 release tag, for `linux/amd64` and `linux/arm64`, with the same tags and
 labels. The PHP branches come from `.github/workflows/docker.build.yaml`
-of that tag, and each image is based on the newest
+on `main`, and each image is based on the newest
 `harbor.flownative.io/docker/php` image of its branch, so rebuild
 [docker-php](https://github.com/flownative/docker-php) first if needed.
 
