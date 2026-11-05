@@ -163,6 +163,22 @@ jobs:
         working-directory: ${{ runner.temp }}/digests
         run: |
           set -euo pipefail
+
+          # Docker Hub answers bursts of requests with 429 Too Many Requests,
+          # so every call to it is retried with a growing delay.
+          retry() {
+            local attempt=1 delay=30
+            until "$@"; do
+              if [ "${attempt}" -ge 5 ]; then
+                return 1
+              fi
+              echo "::warning::Attempt ${attempt} failed, retrying in ${delay} seconds"
+              sleep "${delay}"
+              attempt=$((attempt + 1))
+              delay=$((delay * 2))
+            done
+          }
+
           versions="$(find . -mindepth 1 -maxdepth 1 -type d -name 'digest-*' | sed -n 's|^\./digest-\([0-9.]*\)-[a-z0-9]*$|\1|p' | sort -u)"
           [ -n "${versions}" ] || { echo "::error::No digests found"; exit 1; }
           for version in ${versions}; do
@@ -180,11 +196,14 @@ jobs:
                 sources+=("${image}@sha256:${digest}")
               done
               echo "::group::${image}:${version}"
-              docker buildx imagetools create \
+              retry docker buildx imagetools create \
                 --tag "${image}:${version%.*}" \
                 --tag "${image}:${version}" \
                 "${sources[@]}"
-              docker buildx imagetools inspect "${image}:${version}"
+              # Only Harbor is inspected, to spare Docker Hub the requests.
+              case "${image}" in
+                harbor.flownative.io/*) retry docker buildx imagetools inspect "${image}:${version}" ;;
+              esac
               echo "::endgroup::"
             done
           done
